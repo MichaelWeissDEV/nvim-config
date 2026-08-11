@@ -1,0 +1,2 @@
+name	url	branch	sha	prefix	load_type
+plenary.nvim	https://github.com/nvim-lua/plenary.nvim.git	master	74b06c6c75e4eeb3108ec01852001636d85a932b	pack/vendor/start/plenary.nvim	start
