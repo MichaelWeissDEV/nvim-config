@@ -10,6 +10,7 @@ friendly-snippets	https://github.com/rafamadriz/friendly-snippets.git	main	6cd72
 gitsigns.nvim	https://github.com/lewis6991/gitsigns.nvim.git	main	5be654f2232c10ddcad19c1607a67b6b4b78fc29	pack/vendor/start/gitsigns.nvim	start
 lualine.nvim	https://github.com/nvim-lualine/lualine.nvim.git	master	221ce6b2d999187044529f49da6554a92f740a96	pack/vendor/start/lualine.nvim	start
 mason.nvim	https://github.com/mason-org/mason.nvim.git	main	2a6940af80375532e5e9e7c1f2fc6319a1b7a69d	pack/vendor/start/mason.nvim	start
+nvim-autopairs	https://github.com/windwp/nvim-autopairs.git	master	7b9923abad60b903ece7c52940e1321d39eccc79	pack/vendor/start/nvim-autopairs	start
 nvim-cmp	https://github.com/hrsh7th/nvim-cmp.git	main	2ffe79f1f021def8dd1fcd81deb16f1bb0d989f3	pack/vendor/start/nvim-cmp	start
 nvim-lint	https://github.com/mfussenegger/nvim-lint.git	master	a219b2c9e5b4765e5c845aba119dad55806fcaf1	pack/vendor/start/nvim-lint	start
 nvim-treesitter	https://github.com/nvim-treesitter/nvim-treesitter.git	main	c9f9ed6c1892f629ea399f4ee7905f2686fa13f2	pack/vendor/start/nvim-treesitter	start
