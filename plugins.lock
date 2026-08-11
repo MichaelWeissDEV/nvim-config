@@ -2,6 +2,7 @@ name	url	branch	sha	prefix	load_type
 catppuccin	https://github.com/catppuccin/nvim.git	main	edefef779ab08ce1a4a404713e3012b0d202bd35	pack/vendor/start/catppuccin	start
 cmp-buffer	https://github.com/hrsh7th/cmp-buffer.git	main	b74fab3656eea9de20a9b8116afa3cfc4ec09657	pack/vendor/start/cmp-buffer	start
 cmp-nvim-lsp	https://github.com/hrsh7th/cmp-nvim-lsp.git	main	cbc7b02bb99fae35cb42f514762b89b5126651ef	pack/vendor/start/cmp-nvim-lsp	start
+cmp-path	https://github.com/hrsh7th/cmp-path.git	main	c642487086dbd9a93160e1679a1327be111cbc25	pack/vendor/start/cmp-path	start
 nvim-cmp	https://github.com/hrsh7th/nvim-cmp.git	main	2ffe79f1f021def8dd1fcd81deb16f1bb0d989f3	pack/vendor/start/nvim-cmp	start
 nvim-treesitter	https://github.com/nvim-treesitter/nvim-treesitter.git	main	c9f9ed6c1892f629ea399f4ee7905f2686fa13f2	pack/vendor/start/nvim-treesitter	start
 nvim-web-devicons	https://github.com/nvim-tree/nvim-web-devicons.git	master	2ae6958df7ced50baac5035cec0c15799eedfbf7	pack/vendor/start/nvim-web-devicons	start
