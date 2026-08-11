@@ -12,5 +12,7 @@ require("config.commands") -- :NvimConfigHealth / :NvimCommands / :NvimKeymaps /
 require("tools") -- :ToolsStatus / :ToolsInstall / :ToolsUpdate
 require("plugins") -- core plugin configuration + optional-plugin triggers
 require("lsp") -- native LSP config, gated per-language by tools.registry
-require("dap") -- DAP core (adapters + UI load lazily on first debug action)
+require("debugger") -- DAP core (adapters + UI load lazily on first debug action); named
+-- "debugger", not "dap", because the vendored nvim-dap plugin itself is require("dap") --
+-- reusing that name would let whichever module loads first shadow the other in package.loaded.
 require("languages") -- FileType-driven per-language activation

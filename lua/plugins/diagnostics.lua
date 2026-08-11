@@ -6,6 +6,7 @@ local lazyload = require("config.lazyload")
 local cmdreg = require("util.command_registry")
 
 local function setup()
+  lazyload.packadd("trouble.nvim")
   require("trouble").setup({})
 end
 

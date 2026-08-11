@@ -21,9 +21,9 @@ return {
   -- so it never fires on every keypress independently of the LSP's own debounce.
   debugger = {
     tool = "codelldb",
-    adapter = require("dap.adapters.codelldb").adapter,
+    adapter = require("debugger.adapters.codelldb").adapter,
     configurations = function()
-      return { require("dap.adapters.codelldb").configuration("Debug Cargo binary") }
+      return { require("debugger.adapters.codelldb").configuration("Debug Cargo binary") }
     end,
   },
   keymaps = function(bufnr)

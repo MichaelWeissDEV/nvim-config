@@ -4,6 +4,7 @@ local lazyload = require("config.lazyload")
 local cmdreg = require("util.command_registry")
 
 local function setup()
+  lazyload.packadd("oil.nvim")
   require("oil").setup({
     default_file_explorer = true,
     view_options = { show_hidden = true },

@@ -9,9 +9,9 @@ return {
   linters = { "clang_tidy" },
   debugger = {
     tool = "codelldb",
-    adapter = require("dap.adapters.codelldb").adapter,
+    adapter = require("debugger.adapters.codelldb").adapter,
     configurations = function()
-      return { require("dap.adapters.codelldb").configuration() }
+      return { require("debugger.adapters.codelldb").configuration() }
     end,
   },
   notes = "Falls back to gdb if codelldb is unavailable; see :DebuggerStatus.",

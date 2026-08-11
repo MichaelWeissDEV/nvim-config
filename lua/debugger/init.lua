@@ -36,7 +36,7 @@ local function ensure_ui()
 end
 
 local function start_or_continue()
-  local registry = require("dap.registry")
+  local registry = require("debugger.registry")
   local ft = vim.bo.filetype
   if not registry.ensure_for_filetype(ft) then
     return
@@ -138,7 +138,7 @@ cmdreg.command({
   example = ":DebuggerStatus",
   fn = function()
     local lines = { "# Debugger Status", "" }
-    for _, row in ipairs(require("dap.registry").all()) do
+    for _, row in ipairs(require("debugger.registry").all()) do
       table.insert(lines, string.format("- [%s] %-14s -> %s", row.installed and "OK" or "MISSING", row.language, row.tool))
     end
     scratch.open("nvim-config://debugger-status", lines)
