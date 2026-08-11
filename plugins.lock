@@ -1,2 +1,3 @@
 name	url	branch	sha	prefix	load_type
+nvim-web-devicons	https://github.com/nvim-tree/nvim-web-devicons.git	master	2ae6958df7ced50baac5035cec0c15799eedfbf7	pack/vendor/start/nvim-web-devicons	start
 plenary.nvim	https://github.com/nvim-lua/plenary.nvim.git	master	74b06c6c75e4eeb3108ec01852001636d85a932b	pack/vendor/start/plenary.nvim	start
