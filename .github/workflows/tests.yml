@@ -1,0 +1,43 @@
+name: Tests
+
+on:
+    push:
+        branches:
+            - "main"
+    pull_request:
+
+jobs:
+    tests:
+        strategy:
+            fail-fast: false
+            matrix:
+                nvim_version:
+                    - v0.10.0
+                    - v0.10.1
+                    - v0.10.2
+                    - v0.10.3
+                    - v0.10.4
+                    - v0.11.0
+                    - v0.11.1
+                    - v0.11.2
+                    - v0.11.3
+                    - v0.11.4
+                    - v0.11.5
+                    - v0.11.6
+                    - v0.11.7
+                    - v0.12.0
+                    - v0.12.1
+                    - v0.12.2
+                    - v0.12.3
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v6
+            - uses: rhysd/action-setup-vim@v1
+              with:
+                  neovim: true
+                  version: ${{ matrix.nvim_version }}
+            - name: Run tests
+              run: |
+                set -e
+                make test
+                nvim -u NONE -E -R --headless +'helptags doc' +q
