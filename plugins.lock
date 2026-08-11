@@ -6,6 +6,7 @@ cmp-nvim-lsp	https://github.com/hrsh7th/cmp-nvim-lsp.git	main	cbc7b02bb99fae35cb
 cmp-path	https://github.com/hrsh7th/cmp-path.git	main	c642487086dbd9a93160e1679a1327be111cbc25	pack/vendor/start/cmp-path	start
 cmp_luasnip	https://github.com/saadparwaiz1/cmp_luasnip.git	master	98d9cb5c2c38532bd9bdb481067b20fea8f32e90	pack/vendor/start/cmp_luasnip	start
 friendly-snippets	https://github.com/rafamadriz/friendly-snippets.git	main	6cd7280adead7f586db6fccbd15d2cac7e2188b9	pack/vendor/start/friendly-snippets	start
+gitsigns.nvim	https://github.com/lewis6991/gitsigns.nvim.git	main	5be654f2232c10ddcad19c1607a67b6b4b78fc29	pack/vendor/start/gitsigns.nvim	start
 nvim-cmp	https://github.com/hrsh7th/nvim-cmp.git	main	2ffe79f1f021def8dd1fcd81deb16f1bb0d989f3	pack/vendor/start/nvim-cmp	start
 nvim-treesitter	https://github.com/nvim-treesitter/nvim-treesitter.git	main	c9f9ed6c1892f629ea399f4ee7905f2686fa13f2	pack/vendor/start/nvim-treesitter	start
 nvim-web-devicons	https://github.com/nvim-tree/nvim-web-devicons.git	master	2ae6958df7ced50baac5035cec0c15799eedfbf7	pack/vendor/start/nvim-web-devicons	start
