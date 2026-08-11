@@ -60,6 +60,17 @@ add({
   profiles = { "python" },
 })
 add({
+  id = "ty",
+  name = "ty",
+  category = "lsp",
+  exe = "ty",
+  mason = "ty",
+  profiles = { "python" },
+  note = "Astral's fast Rust-based type checker/LSP; still pre-1.0 and evolving quickly. "
+    .. "Runs alongside basedpyright as a second LSP client for python (see languages/python.lua's "
+    .. "extra_lsp), not as a replacement -- disable it by removing that entry if it's too noisy.",
+})
+add({
   id = "debugpy",
   name = "debugpy",
   category = "debugger",

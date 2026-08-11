@@ -24,36 +24,54 @@ local M = {}
 --- @return table<string, {filetypes: table<string,boolean>, root_markers: table<string,boolean>, settings: table, extra: table, tool: table}>
 local function collect()
   local by_tool = {}
-  for _, lang in ipairs(languages.all()) do
-    if lang.lsp then
-      local tool = tools.get(lang.lsp.tool)
-      if not tool then
-        require("util.notify").config_error(
-          "languages." .. lang.id,
-          "lsp.tool '" .. lang.lsp.tool .. "' has no entry in tools.registry"
-        )
-      elseif detection.installed(tool) then
-        local entry = by_tool[lang.lsp.tool]
-        if not entry then
-          entry = { filetypes = {}, root_markers = {}, settings = {}, extra = {}, tool = tool }
-          by_tool[lang.lsp.tool] = entry
-        end
-        for _, ft in ipairs(lang.filetypes) do
-          entry.filetypes[ft] = true
-        end
-        for _, marker in ipairs(lang.root_markers or { ".git" }) do
-          entry.root_markers[marker] = true
-        end
-        if lang.lsp.settings then
-          entry.settings = vim.tbl_deep_extend("force", entry.settings, lang.lsp.settings)
-        end
-        if lang.lsp.extra then
-          entry.extra = vim.tbl_deep_extend("force", entry.extra, lang.lsp.extra)
-        end
-      end
+
+  local function add(lang, lsp_spec)
+    local tool = tools.get(lsp_spec.tool)
+    if not tool then
+      require("util.notify").config_error(
+        "languages." .. lang.id,
+        "lsp.tool '" .. lsp_spec.tool .. "' has no entry in tools.registry"
+      )
+      return
+    end
+    if not detection.installed(tool) then
       -- tool not installed: silently skip. This is the "no error when an
       -- optional dependency is missing" requirement -- visible only via
       -- :ToolsStatus / :checkhealth nvim-config.
+      return
+    end
+    local entry = by_tool[lsp_spec.tool]
+    if not entry then
+      entry = { filetypes = {}, root_markers = {}, settings = {}, extra = {}, tool = tool }
+      by_tool[lsp_spec.tool] = entry
+    end
+    for _, ft in ipairs(lang.filetypes) do
+      entry.filetypes[ft] = true
+    end
+    for _, marker in ipairs(lang.root_markers or { ".git" }) do
+      entry.root_markers[marker] = true
+    end
+    if lsp_spec.settings then
+      entry.settings = vim.tbl_deep_extend("force", entry.settings, lsp_spec.settings)
+    end
+    if lsp_spec.extra then
+      entry.extra = vim.tbl_deep_extend("force", entry.extra, lsp_spec.extra)
+    end
+  end
+
+  for _, lang in ipairs(languages.all()) do
+    if lang.lsp then
+      add(lang, lang.lsp)
+    end
+    -- extra_lsp: additional LSP clients attached alongside the primary one
+    -- for the same filetypes (e.g. Python's "ty" running next to
+    -- basedpyright) -- Neovim natively supports multiple attached clients
+    -- per buffer, so this needs no special dispatch beyond also enabling
+    -- the second server.
+    if lang.extra_lsp then
+      for _, lsp_spec in ipairs(lang.extra_lsp) do
+        add(lang, lsp_spec)
+      end
     end
   end
   return by_tool

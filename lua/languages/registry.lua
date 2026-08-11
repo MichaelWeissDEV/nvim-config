@@ -14,6 +14,14 @@
 --   treesitter    string[]?             nvim-treesitter parser names
 --   root_markers  string[]?             files/dirs that mark a project root
 --   lsp           { tool: string, settings: table?, extra: table? }?
+--   extra_lsp     { tool: string, settings: table?, extra: table? }[]?
+--                 additional LSP clients attached alongside `lsp` for the same
+--                 filetypes/root_markers (Neovim allows multiple clients per
+--                 buffer natively). Use sparingly -- two servers both producing
+--                 diagnostics/completions for the same buffer can be noisy;
+--                 this exists for cases like Python's "ty" (a fast supplementary
+--                 type checker most people run next to, not instead of, their
+--                 main LSP), not as the default way to add a language server.
 --   formatters    string[]?             tool ids from tools.registry, in order
 --   linters       string[]?             tool ids from tools.registry
 --   debugger      { tool: string, adapter: fun():table, configurations: fun():table[] }?
@@ -83,6 +91,11 @@ local function validate(id, spec)
   assert(type(spec.filetypes) == "table" and #spec.filetypes > 0, id .. ": filetypes required")
   if spec.lsp then
     assert(spec.lsp.tool, id .. ": lsp.tool required when lsp is set")
+  end
+  if spec.extra_lsp then
+    for i, lsp_spec in ipairs(spec.extra_lsp) do
+      assert(lsp_spec.tool, id .. ": extra_lsp[" .. i .. "].tool required")
+    end
   end
   if spec.debugger then
     assert(spec.debugger.tool, id .. ": debugger.tool required when debugger is set")

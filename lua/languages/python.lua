@@ -19,6 +19,15 @@ return {
       basedpyright = { analysis = { autoSearchPaths = true, useLibraryCodeForTypes = true } },
     },
   },
+  -- ty runs alongside basedpyright, not instead of it (extra_lsp, see
+  -- languages/registry.lua's schema comment): it's Astral's fast
+  -- Rust-based type checker/LSP, still pre-1.0, and its diagnostics
+  -- complement rather than replace basedpyright's completions/hover/
+  -- rename. Both attach automatically once installed (`ty` has its own
+  -- `note` in tools.registry pointing back here).
+  extra_lsp = {
+    { tool = "ty", extra = { cmd = { "ty", "server" } } },
+  },
   formatters = { "ruff_format" },
   linters = { "ruff" },
   debugger = {
