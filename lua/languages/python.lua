@@ -8,6 +8,10 @@ return {
   root_markers = { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", "Pipfile", ".git" },
   lsp = {
     tool = "basedpyright",
+    -- basedpyright-langserver refuses to start without an explicit
+    -- transport flag ("Connection input stream is not set") -- confirmed
+    -- by actually running it, not assumed.
+    extra = { cmd = { "basedpyright-langserver", "--stdio" } },
     -- .venv/venv/Poetry/uv are picked up by basedpyright's own venv
     -- discovery (pyproject.toml / pyrightconfig.json); we don't hardcode an
     -- interpreter path.

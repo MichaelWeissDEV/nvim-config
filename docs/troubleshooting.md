@@ -96,7 +96,14 @@ Straight from `lua/config/health.lua`'s own advice text:
 - **any tool under Language Servers/Formatters/Linters/Debuggers marked
   "not installed"** — run `:ToolsInstall <profile>` for the profile shown
   in the hint (or the manual command in its note, for tools with no Mason
-  package — see {doc}`tools`).
+  package — see {doc}`tools`). **Restart Neovim afterward before
+  re-checking.** `tools.detection.installed()` goes through
+  `util.executable.exists()`, which caches "not found" per binary name for
+  the rest of the session and is never invalidated by `:ToolsInstall`/
+  `:ToolsUpdate` (see the caveat in {doc}`linting`) — re-running
+  `:NvimConfigHealth` in the same session will keep reporting a
+  just-installed tool as missing, which looks like the install failed when
+  it didn't.
 
 ## Diagnosing "a language server won't attach"
 

@@ -4,7 +4,7 @@ return {
   extensions = { ".js", ".jsx", ".mjs", ".cjs" },
   treesitter = { "javascript" },
   root_markers = { "package.json", "tsconfig.json", "jsconfig.json", ".git" },
-  lsp = { tool = "vtsls" },
+  lsp = { tool = "vtsls", extra = { cmd = { "vtsls", "--stdio" } } },
   formatters = { "prettier" },
   linters = { "eslint" },
   debugger = {

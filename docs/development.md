@@ -41,8 +41,14 @@ Steps:
    file. If the tool doesn't exist yet there, add it first (see below).
 3. `languages.registry`'s `validate()` asserts `filetypes` is non-empty,
    and that `lsp.tool`/`debugger.tool` are set if those tables exist at
-   all — a spec that fails validation surfaces as a `config_error`
-   notification, not a silent skip.
+   all. Two different failure modes if you get this wrong: a broken
+   `require("languages.<id>")` (syntax error, bad `local` reference) is
+   caught by `pcall` in `load_all()` and reported as a `config_error`
+   notification, same as any other config error. A `validate()` assertion
+   failure is **not** inside that `pcall` — it propagates as a raw Lua
+   error out of `load_all()`, which is louder (a traceback, not a
+   dedup'd/graceful notification) and worth knowing about before you rely
+   on the gentler `config_error` path from step 2.
 4. Run `./scripts/docs-build.sh` to regenerate `LANGUAGES.md` and the
    Sphinx docs.
 

@@ -4,7 +4,9 @@ return {
   extensions = { ".sh", ".bash" },
   treesitter = { "bash" },
   root_markers = { ".git" },
-  lsp = { tool = "bashls" },
+  -- bash-language-server's CLI requires the "start" subcommand (it prints
+  -- usage and exits without it, defaulting to stdio only once started).
+  lsp = { tool = "bashls", extra = { cmd = { "bash-language-server", "start" } } },
   formatters = { "shfmt" },
   linters = { "shellcheck" },
   debugger = {

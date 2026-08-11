@@ -23,10 +23,22 @@ way:
 Unlike formatting's `formatters_by_ft` (built once and used as-is),
 linting re-checks each linter's installed status **on every trigger** via
 `installed_engine_names()`, which is called from a `BufWritePost` /
-`InsertLeave` / `BufEnter` autocommand. This means installing a linter
-mid-session with `:ToolsInstall` (or `:ToolsUpdate`) makes it start firing
-without restarting Neovim — formatting doesn't have this property, because
-its filter runs once and its result table is fixed for the session.
+`InsertLeave` / `BufEnter` autocommand — formatting doesn't have this
+property, because its filter runs once and its result table is fixed for
+the session.
+
+One caveat worth knowing: `detection.installed()` ultimately calls
+`util.executable.exists()`, which caches its result per binary name for
+the rest of the session (see the comment in `lua/util/executable.lua`).
+`M.reset()` exists to clear that cache and is documented as being for
+`:ToolsInstall`/`:ToolsUpdate` to call after installing new binaries — but
+nothing in `lua/tools/install.lua` actually calls it.
+In practice this means: installing a linter via `:ToolsInstall` mid-session
+makes it start firing on the next trigger only if that binary's name was
+never checked (and cached as missing) earlier in the same session. If you
+already saw it reported missing (e.g. via `:LinterStatus` or an earlier
+edit in that filetype), the cached `false` sticks until Neovim restarts,
+regardless of how often `linters_by_ft` itself is re-evaluated.
 
 ## `:LinterStatus`
 

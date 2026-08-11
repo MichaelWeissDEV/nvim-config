@@ -4,7 +4,7 @@ return {
   extensions = { ".md", ".markdown" },
   treesitter = { "markdown", "markdown_inline" },
   root_markers = { ".git" },
-  lsp = { tool = "marksman" },
+  lsp = { tool = "marksman", extra = { cmd = { "marksman", "server" } } },
   formatters = { "prettier" },
   linters = { "markdownlint" },
 }

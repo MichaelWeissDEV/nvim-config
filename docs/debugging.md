@@ -25,11 +25,14 @@ Three separate load points, each later than the last:
    `<leader>d*` keymap is pressed — `lua/debugger/init.lua`'s `ensure_core()`
    calls `lazyload.packadd("nvim-dap")`. Setting a breakpoint alone is
    enough to trigger this.
-2. **nvim-dap-ui and nvim-nio** load only once a debug session is actually
-   *started* — `<leader>dc` (Start/Continue), via `ensure_ui()` — not on a
-   mere breakpoint. `ensure_ui()` also wires `dapui.open()`/`close()` to
-   nvim-dap's `event_initialized`/`event_terminated`/`event_exited`
-   listeners, and only does this setup once (`dapui_ready` flag).
+2. **nvim-dap-ui and nvim-nio** load only when the UI is actually needed —
+   either `<leader>dc` (Start/Continue) or `<leader>du` (Toggle debug UI)
+   call `ensure_ui()` — never on a mere breakpoint. `ensure_ui()` wires
+   `dapui.open()`/`close()` to nvim-dap's
+   `event_initialized`/`event_terminated`/`event_exited` listeners and
+   only does this setup once (`dapui_ready` flag), so pressing `<leader>du`
+   before ever starting a session still loads nvim-dap-ui/nvim-nio on its
+   own, without a session running.
 3. **Per-language adapter/configuration registration** happens the first
    time `debugger.registry.ensure_for_filetype()` runs for a given
    filetype (also triggered by `<leader>dc`), not at startup — nvim-dap has

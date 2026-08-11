@@ -4,7 +4,7 @@ return {
   extensions = { ".yaml", ".yml" },
   treesitter = { "yaml" },
   root_markers = { ".git" },
-  lsp = { tool = "yamlls" },
+  lsp = { tool = "yamlls", extra = { cmd = { "yaml-language-server", "--stdio" } } },
   formatters = { "prettier" },
   linters = { "yamllint" },
 }

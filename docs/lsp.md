@@ -22,7 +22,7 @@ root marker is found nearby.
 language in `languages.registry.all()` that declares an `lsp` field,
 groups entries **by tool id** (so `c` and `cpp` sharing `clangd` produce
 one `vim.lsp.config("clangd", ...)` call with the union of both
-filetypes' filetypes/root_markers), and skips any tool whose binary isn't
+languages' filetypes/root_markers), and skips any tool whose binary isn't
 found by `tools.detection.installed()` — silently, no startup warning. Only
 then is `vim.lsp.config()` called and `vim.lsp.enable()` invoked for that
 server. This means: install `rust-analyzer` mid-session and it still won't

@@ -4,7 +4,7 @@ return {
   extensions = { ".yml", ".yaml" },
   treesitter = { "yaml" },
   root_markers = { "ansible.cfg", "site.yml", ".git" },
-  lsp = { tool = "ansible_ls" },
+  lsp = { tool = "ansible_ls", extra = { cmd = { "ansible-language-server", "--stdio" } } },
   linters = { "ansible_lint" },
   notes = "Ansible detection is heuristic: the filetype `yaml.ansible` must be set by a "
     .. "separate ftdetect pattern (e.g. playbooks/roles paths); plain `yaml` buffers "

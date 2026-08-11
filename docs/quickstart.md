@@ -25,14 +25,17 @@ don't need to memorize anything up front. The full list is
 - `<leader>ff` — find files by name.
 - `<leader>fg` — live grep across the project.
 
-Both work without `ripgrep`/`fd` installed (with a slower fallback) and
-work better with them — see {doc}`telescope`.
+Both work without `ripgrep`/`fd` installed: `find_files` falls back to
+Neovim's own globbing, and `live_grep` falls back to a single prompted
+`grep_string` search instead of live incremental grep — see
+{doc}`telescope` for the exact fallback behavior.
 
 ## Once a language server is attached
 
 Open a file in a language you have tooling for (e.g. `.rs` with
-`rust-analyzer` installed). A few seconds after the buffer opens, an LSP
-client attaches and these become live in that buffer:
+`rust-analyzer` installed), inside a project with the right root marker
+present (e.g. a `Cargo.toml` above the file). Once the LSP client attaches,
+these become live in that buffer:
 
 - `gd` — go to definition
 - `K` — hover documentation

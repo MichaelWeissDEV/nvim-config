@@ -4,7 +4,9 @@ return {
   extensions = { ".cs" },
   treesitter = { "c_sharp" },
   root_markers = { ".sln", ".csproj", ".git" },
-  lsp = { tool = "omnisharp" },
+  -- OmniSharp needs an explicit flag to speak the LSP protocol over stdio
+  -- (its default is its own older HTTP/stdio protocol).
+  lsp = { tool = "omnisharp", extra = { cmd = { "OmniSharp", "--languageserver" } } },
   formatters = { "dotnet_format" },
   debugger = {
     tool = "netcoredbg",

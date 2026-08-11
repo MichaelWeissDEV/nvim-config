@@ -3,10 +3,11 @@
 ## `main` branch, not `master`
 
 `scripts/plugins.tsv` vendors nvim-treesitter from its `main` branch. This
-matters: nvim-treesitter's own upstream README states the `main` branch
-requires Neovim 0.12+ (the `master` branch is the legacy, Neovim
-0.9-compatible line) — consistent with this config's own recommendation to
-run 0.12+ (see {doc}`installation`).
+matters: nvim-treesitter's own upstream README states `main` requires
+"Neovim 0.12.0 or later (nightly)", and that the `master` branch is kept
+around, locked, only for backward compatibility with Nvim 0.11 — consistent
+with this config's own recommendation to run 0.12+ (see
+{doc}`installation`).
 
 ## Always loaded, no parsers bundled
 
