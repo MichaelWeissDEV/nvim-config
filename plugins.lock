@@ -12,3 +12,4 @@ nvim-cmp	https://github.com/hrsh7th/nvim-cmp.git	main	2ffe79f1f021def8dd1fcd81de
 nvim-treesitter	https://github.com/nvim-treesitter/nvim-treesitter.git	main	c9f9ed6c1892f629ea399f4ee7905f2686fa13f2	pack/vendor/start/nvim-treesitter	start
 nvim-web-devicons	https://github.com/nvim-tree/nvim-web-devicons.git	master	2ae6958df7ced50baac5035cec0c15799eedfbf7	pack/vendor/start/nvim-web-devicons	start
 plenary.nvim	https://github.com/nvim-lua/plenary.nvim.git	master	74b06c6c75e4eeb3108ec01852001636d85a932b	pack/vendor/start/plenary.nvim	start
+which-key.nvim	https://github.com/folke/which-key.nvim.git	main	3aab2147e74890957785941f0c1ad87d0a44c15a	pack/vendor/start/which-key.nvim	start
