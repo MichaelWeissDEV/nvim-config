@@ -10,6 +10,27 @@ vim.filetype.add({
   pattern = { ["%.env%.[%w_.-]+"] = "dotenv" },
 })
 
+-- Same idea for Ansible: languages/ansible.lua targets "yaml.ansible", but
+-- nothing sets that filetype without a heuristic. Common Ansible project
+-- shapes (playbooks/roles directories, or a top-level site.yml/playbook.yml)
+-- get it; a lone task file with no such path context still falls through to
+-- plain "yaml" (languages/yaml.lua), which is the honest fallback -- there's
+-- no way to detect "this YAML is Ansible" from content alone in general.
+vim.filetype.add({
+  pattern = {
+    [".*/roles/.*/tasks/.*%.ya?ml"] = "yaml.ansible",
+    [".*/roles/.*/handlers/.*%.ya?ml"] = "yaml.ansible",
+    [".*/roles/.*/meta/.*%.ya?ml"] = "yaml.ansible",
+    [".*/playbooks?/.*%.ya?ml"] = "yaml.ansible",
+  },
+  filename = {
+    ["site.yml"] = "yaml.ansible",
+    ["site.yaml"] = "yaml.ansible",
+    ["playbook.yml"] = "yaml.ansible",
+    ["playbook.yaml"] = "yaml.ansible",
+  },
+})
+
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = augroup("highlight_yank", { clear = true }),
   callback = function()
