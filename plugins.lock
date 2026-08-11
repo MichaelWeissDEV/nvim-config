@@ -18,6 +18,7 @@ nvim-treesitter	https://github.com/nvim-treesitter/nvim-treesitter.git	main	c9f9
 nvim-web-devicons	https://github.com/nvim-tree/nvim-web-devicons.git	master	2ae6958df7ced50baac5035cec0c15799eedfbf7	pack/vendor/start/nvim-web-devicons	start
 oil.nvim	https://github.com/stevearc/oil.nvim.git	master	b73018b75affd13fa38e2fc94ef753b465f770d7	pack/vendor/opt/oil.nvim	opt
 plenary.nvim	https://github.com/nvim-lua/plenary.nvim.git	master	74b06c6c75e4eeb3108ec01852001636d85a932b	pack/vendor/start/plenary.nvim	start
+render-markdown.nvim	https://github.com/MeanderingProgrammer/render-markdown.nvim.git	main	4663eb3ecd538bd5062628fb6d95bbe6bdca78f6	pack/vendor/opt/render-markdown.nvim	opt
 telescope.nvim	https://github.com/nvim-telescope/telescope.nvim.git	master	427b576c16792edad01a92b89721d923c19ad60f	pack/vendor/opt/telescope.nvim	opt
 trouble.nvim	https://github.com/folke/trouble.nvim.git	main	bd67efe408d4816e25e8491cc5ad4088e708a69a	pack/vendor/opt/trouble.nvim	opt
 which-key.nvim	https://github.com/folke/which-key.nvim.git	main	3aab2147e74890957785941f0c1ad87d0a44c15a	pack/vendor/start/which-key.nvim	start
