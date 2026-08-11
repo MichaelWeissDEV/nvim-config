@@ -42,5 +42,7 @@ git subtree add --prefix="$prefix" "$url" "$branch" --squash -m "vendor($plugin_
 
 sha="$(git ls-remote "$url" "refs/heads/$branch" | cut -f1)"
 "$repo_root/scripts/plugin-status.sh" --record "$plugin_name" "$url" "$branch" "$prefix" "$load_type" "$sha"
+git add plugins.lock
+git commit -q -m "plugins.lock: record $plugin_name @ ${sha:0:12}"
 
 echo "==> Done. Recorded in plugins.lock."
