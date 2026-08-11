@@ -59,6 +59,49 @@ local function complete_profiles()
   return vim.list_extend(vim.deepcopy(registry.profiles), { "all" })
 end
 
+--- Install/update `mason_packages` via mason-registry directly (not the
+--- `:MasonInstall` command) so we get a real per-package completion
+--- callback -- needed to reset util.executable's cache once installs
+--- finish, otherwise a tool installed this session keeps reporting as
+--- "not installed" to LSP/formatter/linter/debugger detection until
+--- Neovim restarts (see docs/troubleshooting.md).
+--- @param mason_packages string[]
+--- @param force boolean? when true, reinstall/upgrade even if already installed (used by :ToolsUpdate)
+local function install_packages(mason_packages, force)
+  if #mason_packages == 0 then
+    return
+  end
+  local mr = require("mason-registry")
+  mr.refresh(function()
+    local pending = #mason_packages
+    local function done_one()
+      pending = pending - 1
+      if pending == 0 then
+        vim.schedule(function()
+          require("util.executable").reset()
+          vim.notify(
+            (force and "Tools updated: " or "Tools installed: ")
+              .. table.concat(mason_packages, ", ")
+              .. "\nRun :NvimConfigHealth to confirm.",
+            vim.log.levels.INFO,
+            { title = "nvim-config: " .. (force and "ToolsUpdate" or "ToolsInstall") }
+          )
+        end)
+      end
+    end
+    for _, name in ipairs(mason_packages) do
+      local has, pkg = pcall(mr.get_package, name)
+      if not has then
+        done_one()
+      elseif pkg:is_installed() and not force then
+        done_one()
+      else
+        pkg:install():once("closed", done_one)
+      end
+    end
+  end)
+end
+
 cmdreg.command({
   name = "ToolsInstall",
   desc = "Install every Mason-installable tool for a profile (core, systems, python, web, jvm, dotnet, functional, devops, docs, scripting, all)",
@@ -85,9 +128,7 @@ cmdreg.command({
       return
     end
     local mason_packages, manual = resolve(profile)
-    if #mason_packages > 0 then
-      vim.cmd("MasonInstall " .. table.concat(mason_packages, " "))
-    end
+    install_packages(mason_packages)
     report_manual(manual)
   end,
 })
@@ -111,9 +152,7 @@ cmdreg.command({
       return
     end
     local mason_packages = resolve(profile)
-    if #mason_packages > 0 then
-      vim.cmd("MasonInstall " .. table.concat(mason_packages, " ")) -- MasonInstall also upgrades already-installed pkgs
-    end
+    install_packages(mason_packages, true)
   end,
 })
 

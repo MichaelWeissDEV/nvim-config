@@ -30,15 +30,14 @@ the session.
 One caveat worth knowing: `detection.installed()` ultimately calls
 `util.executable.exists()`, which caches its result per binary name for
 the rest of the session (see the comment in `lua/util/executable.lua`).
-`M.reset()` exists to clear that cache and is documented as being for
-`:ToolsInstall`/`:ToolsUpdate` to call after installing new binaries — but
-nothing in `lua/tools/install.lua` actually calls it.
-In practice this means: installing a linter via `:ToolsInstall` mid-session
-makes it start firing on the next trigger only if that binary's name was
-never checked (and cached as missing) earlier in the same session. If you
-already saw it reported missing (e.g. via `:LinterStatus` or an earlier
-edit in that filetype), the cached `false` sticks until Neovim restarts,
-regardless of how often `linters_by_ft` itself is re-evaluated.
+`:ToolsInstall`/`:ToolsUpdate` (`lua/tools/install.lua`) call `M.reset()`
+once every requested package has finished installing, via a real
+mason-registry completion callback (not the fire-and-forget `:MasonInstall`
+command) — so a linter installed mid-session starts firing on the very
+next trigger, even if it was already checked and cached as missing earlier
+in the same session. Verified end-to-end: install a previously-uninstalled
+tool via `:ToolsInstall <profile>` and `util.executable.exists()` flips
+from `false` to `true` without restarting Neovim.
 
 ## `:LinterStatus`
 

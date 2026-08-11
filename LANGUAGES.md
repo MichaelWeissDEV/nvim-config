@@ -211,6 +211,7 @@
 - **Formatters:** prettier
 - **Linters:** eslint
 - **Debugger:** _none_
+- **Notes:** Modern Volar-based vue-language-server setups often also need an `initializationOptions.typescript.tsdk` path to a TypeScript install; not wired here and unverified on real hardware -- see :LspStatus if it fails to attach on a real Vue project.
 
 ## svelte
 
