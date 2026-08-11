@@ -32,8 +32,8 @@ run_test() {
   fi
 }
 
-echo "== headless startup (exit code) =="
-run_test "exitcode" nvim -u init.lua --headless "+qa"
+echo "== clean-state startup (fresh XDG dirs: no prior Mason/Tree-sitter/Neovim data, repo present) =="
+run_test "cleanstate" nvim -u init.lua --headless "+qa"
 
 echo "== test_startup.lua =="
 run_test "startup" nvim -u init.lua --headless -l tests/test_startup.lua
@@ -64,8 +64,47 @@ else
 fi
 
 echo
-echo "== Clean-state test (no prior Mason/Tree-sitter/Neovim data, existing repo) =="
-run_test "cleanstate" nvim -u init.lua --headless "+qa"
+echo "== populated-state startup (existing Mason/Tree-sitter data present, not a fresh clone) =="
+# Distinct from the clean-state check above: reuse a real, already-populated
+# XDG data dir if this machine has one (e.g. from a prior ./scripts/bootstrap.sh
+# run) to prove startup is equally quiet with real accumulated tool/parser
+# data present, not just on an empty directory. Falls back to a synthetic
+# populated-looking dir (empty mason/lazy-parser directories in the expected
+# shape) so this test stays meaningful and self-contained on a fresh clone
+# that has never run bootstrap.sh.
+populated_data=""
+for candidate in "$HOME/Library/Application Support/nvim" "$HOME/.local/share/nvim" "${XDG_DATA_HOME:-}/nvim"; do
+  if [ -n "$candidate" ] && [ -d "$candidate/mason" ]; then
+    populated_data="$candidate"
+    break
+  fi
+done
+if [ -n "$populated_data" ]; then
+  echo "   (using real populated dir: $populated_data)"
+  state="$work/populated-state"
+  cache="$work/populated-cache"
+  mkdir -p "$state" "$cache"
+  if env XDG_DATA_HOME="$(dirname "$populated_data")" XDG_STATE_HOME="$state" XDG_CACHE_HOME="$cache" \
+    nvim -u init.lua --headless -l tests/test_startup.lua; then
+    pass=$((pass + 1))
+  else
+    fail=$((fail + 1))
+    echo "---- (populated-state, real dir) failed ----"
+  fi
+else
+  echo "   (no real populated dir found on this machine; using a synthetic one)"
+  data="$work/populated-data"
+  state="$work/populated-state"
+  cache="$work/populated-cache"
+  mkdir -p "$data/nvim/mason/bin" "$data/nvim/mason/packages" "$data/nvim/site/parser" "$state" "$cache"
+  if env XDG_DATA_HOME="$data" XDG_STATE_HOME="$state" XDG_CACHE_HOME="$cache" \
+    nvim -u init.lua --headless -l tests/test_startup.lua; then
+    pass=$((pass + 1))
+  else
+    fail=$((fail + 1))
+    echo "---- (populated-state, synthetic dir) failed ----"
+  fi
+fi
 
 echo
 echo "=================================="
