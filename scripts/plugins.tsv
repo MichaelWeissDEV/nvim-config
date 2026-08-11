@@ -23,7 +23,7 @@ oil.nvim	https://github.com/stevearc/oil.nvim.git	master	pack/vendor/opt/oil.nvi
 trouble.nvim	https://github.com/folke/trouble.nvim.git	main	pack/vendor/opt/trouble.nvim	opt	first <leader>xx keypress or :Trouble
 render-markdown.nvim	https://github.com/MeanderingProgrammer/render-markdown.nvim.git	main	pack/vendor/opt/render-markdown.nvim	opt	FileType markdown
 vimtex	https://github.com/lervag/vimtex.git	master	pack/vendor/opt/vimtex	opt	FileType tex,plaintex,bib
-rainbow_csv	https://github.com/mechatroner/rainbow_csv.git	main	pack/vendor/opt/rainbow_csv	opt	FileType csv,tsv
+rainbow_csv	https://github.com/mechatroner/rainbow_csv.git	master	pack/vendor/opt/rainbow_csv	opt	FileType csv,tsv
 nvim-dap	https://github.com/mfussenegger/nvim-dap.git	master	pack/vendor/opt/nvim-dap	opt	first debug keymap (<leader>d*)
 nvim-dap-ui	https://github.com/rcarriga/nvim-dap-ui.git	master	pack/vendor/opt/nvim-dap-ui	opt	first debug session actually started
 nvim-nio	https://github.com/nvim-neotest/nvim-nio.git	master	pack/vendor/opt/nvim-nio	opt	dependency of nvim-dap-ui, same trigger
