@@ -1,0 +1,29 @@
+name	url	branch	prefix	load_type	trigger
+plenary.nvim	https://github.com/nvim-lua/plenary.nvim.git	master	pack/vendor/start/plenary.nvim	start	always (library dependency)
+nvim-web-devicons	https://github.com/nvim-tree/nvim-web-devicons.git	master	pack/vendor/start/nvim-web-devicons	start	always
+catppuccin	https://github.com/catppuccin/nvim.git	main	pack/vendor/start/catppuccin	start	always (colorscheme)
+nvim-treesitter	https://github.com/nvim-treesitter/nvim-treesitter.git	main	pack/vendor/start/nvim-treesitter	start	always (does not support lazy-loading)
+nvim-cmp	https://github.com/hrsh7th/nvim-cmp.git	main	pack/vendor/start/nvim-cmp	start	always (insert-mode completion)
+cmp-nvim-lsp	https://github.com/hrsh7th/cmp-nvim-lsp.git	main	pack/vendor/start/cmp-nvim-lsp	start	always
+cmp-buffer	https://github.com/hrsh7th/cmp-buffer.git	main	pack/vendor/start/cmp-buffer	start	always
+cmp-path	https://github.com/hrsh7th/cmp-path.git	main	pack/vendor/start/cmp-path	start	always
+LuaSnip	https://github.com/L3MON4D3/LuaSnip.git	master	pack/vendor/start/LuaSnip	start	always (snippet engine)
+cmp_luasnip	https://github.com/saadparwaiz1/cmp_luasnip.git	master	pack/vendor/start/cmp_luasnip	start	always
+friendly-snippets	https://github.com/rafamadriz/friendly-snippets.git	main	pack/vendor/start/friendly-snippets	start	always (snippet data, lazy_load()'d)
+gitsigns.nvim	https://github.com/lewis6991/gitsigns.nvim.git	main	pack/vendor/start/gitsigns.nvim	start	always
+lualine.nvim	https://github.com/nvim-lualine/lualine.nvim.git	master	pack/vendor/start/lualine.nvim	start	always (statusline)
+which-key.nvim	https://github.com/folke/which-key.nvim.git	main	pack/vendor/start/which-key.nvim	start	always (leader popup)
+mason.nvim	https://github.com/mason-org/mason.nvim.git	main	pack/vendor/start/mason.nvim	start	always (commands only; no auto-refresh)
+conform.nvim	https://github.com/stevearc/conform.nvim.git	master	pack/vendor/start/conform.nvim	start	always
+nvim-lint	https://github.com/mfussenegger/nvim-lint.git	master	pack/vendor/start/nvim-lint	start	always
+nvim-autopairs	https://github.com/windwp/nvim-autopairs.git	master	pack/vendor/start/nvim-autopairs	start	always
+nvim-surround	https://github.com/kylechui/nvim-surround.git	main	pack/vendor/start/nvim-surround	start	always
+telescope.nvim	https://github.com/nvim-telescope/telescope.nvim.git	master	pack/vendor/opt/telescope.nvim	opt	first <leader>f* keypress or :Telescope
+oil.nvim	https://github.com/stevearc/oil.nvim.git	master	pack/vendor/opt/oil.nvim	opt	first <leader>e keypress or :Oil
+trouble.nvim	https://github.com/folke/trouble.nvim.git	main	pack/vendor/opt/trouble.nvim	opt	first <leader>xx keypress or :Trouble
+render-markdown.nvim	https://github.com/MeanderingProgrammer/render-markdown.nvim.git	main	pack/vendor/opt/render-markdown.nvim	opt	FileType markdown
+vimtex	https://github.com/lervag/vimtex.git	master	pack/vendor/opt/vimtex	opt	FileType tex,plaintex,bib
+rainbow_csv	https://github.com/mechatroner/rainbow_csv.git	main	pack/vendor/opt/rainbow_csv	opt	FileType csv,tsv
+nvim-dap	https://github.com/mfussenegger/nvim-dap.git	master	pack/vendor/opt/nvim-dap	opt	first debug keymap (<leader>d*)
+nvim-dap-ui	https://github.com/rcarriga/nvim-dap-ui.git	master	pack/vendor/opt/nvim-dap-ui	opt	first debug session actually started
+nvim-nio	https://github.com/nvim-neotest/nvim-nio.git	master	pack/vendor/opt/nvim-nio	opt	dependency of nvim-dap-ui, same trigger
