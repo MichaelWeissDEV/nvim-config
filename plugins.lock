@@ -13,6 +13,7 @@ mason.nvim	https://github.com/mason-org/mason.nvim.git	main	2a6940af80375532e5e9
 nvim-autopairs	https://github.com/windwp/nvim-autopairs.git	master	7b9923abad60b903ece7c52940e1321d39eccc79	pack/vendor/start/nvim-autopairs	start
 nvim-cmp	https://github.com/hrsh7th/nvim-cmp.git	main	2ffe79f1f021def8dd1fcd81deb16f1bb0d989f3	pack/vendor/start/nvim-cmp	start
 nvim-dap	https://github.com/mfussenegger/nvim-dap.git	master	9e848e09a697ee95302a3ef2dd43fd6eb709e570	pack/vendor/opt/nvim-dap	opt
+nvim-dap-ui	https://github.com/rcarriga/nvim-dap-ui.git	master	cc9dd33aade7f20bae414d0cba163bc60d4d4b43	pack/vendor/opt/nvim-dap-ui	opt
 nvim-lint	https://github.com/mfussenegger/nvim-lint.git	master	a219b2c9e5b4765e5c845aba119dad55806fcaf1	pack/vendor/start/nvim-lint	start
 nvim-surround	https://github.com/kylechui/nvim-surround.git	main	8b47db616ef658b8fc27e61db2896aa2f40134de	pack/vendor/start/nvim-surround	start
 nvim-treesitter	https://github.com/nvim-treesitter/nvim-treesitter.git	main	c9f9ed6c1892f629ea399f4ee7905f2686fa13f2	pack/vendor/start/nvim-treesitter	start
