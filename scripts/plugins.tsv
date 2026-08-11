@@ -19,7 +19,8 @@ nvim-lint	https://github.com/mfussenegger/nvim-lint.git	master	pack/vendor/start
 nvim-autopairs	https://github.com/windwp/nvim-autopairs.git	master	pack/vendor/start/nvim-autopairs	start	always
 nvim-surround	https://github.com/kylechui/nvim-surround.git	main	pack/vendor/start/nvim-surround	start	always
 telescope.nvim	https://github.com/nvim-telescope/telescope.nvim.git	master	pack/vendor/opt/telescope.nvim	opt	first <leader>f* keypress or :Telescope
-oil.nvim	https://github.com/stevearc/oil.nvim.git	master	pack/vendor/opt/oil.nvim	opt	first <leader>e keypress or :Oil
+nvim-tree.lua	https://github.com/nvim-tree/nvim-tree.lua.git	master	pack/vendor/opt/nvim-tree.lua	opt	first <leader>e keypress or :NvimTreeToggle
+oil.nvim	https://github.com/stevearc/oil.nvim.git	master	pack/vendor/opt/oil.nvim	opt	first <leader>o keypress, "-", or :Oil
 trouble.nvim	https://github.com/folke/trouble.nvim.git	main	pack/vendor/opt/trouble.nvim	opt	first <leader>xx keypress or :Trouble
 render-markdown.nvim	https://github.com/MeanderingProgrammer/render-markdown.nvim.git	main	pack/vendor/opt/render-markdown.nvim	opt	FileType markdown
 vimtex	https://github.com/lervag/vimtex.git	master	pack/vendor/opt/vimtex	opt	FileType tex,plaintex,bib
