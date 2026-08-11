@@ -1,0 +1,381 @@
+*nvim-config.txt*  A hand-written, fully offline-capable Neovim configuration
+
+                                                                 *nvim-config*
+
+Author: generated from this repository's registries -- see :NvimDocs for the
+full local Sphinx documentation, and README.md for a human-written overview.
+
+==============================================================================
+CONTENTS                                                        *nvim-config-contents*
+
+  1. Overview .......................... |nvim-config-overview|
+  2. Commands .......................... |nvim-config-commands|
+  3. Keymaps ........................... |nvim-config-keymaps|
+  4. Languages .......................... |nvim-config-languages|
+  5. Tools .............................. |nvim-config-tools|
+
+==============================================================================
+1. OVERVIEW                                                        *nvim-config-overview*
+
+A from-scratch, fully documented Neovim configuration. No plugin manager
+downloads anything at startup; all plugins are vendored in pack/vendor/ via
+git subtree. See |nvim-config-offline| in the Sphinx docs (./scripts/docs-build.sh)
+for the full offline-usage explanation, and :NvimConfigHealth for a live report
+of what's installed on this machine.
+
+==============================================================================
+2. COMMANDS                                                        *nvim-config-commands*
+
+:DebuggerStatus                                              *nvim-config-cmd-debuggerstatus*
+    Show which languages have a debugger configured and whether its adapter binary is installed
+
+:LinterStatus                                                *nvim-config-cmd-linterstatus*
+    Show which linter(s) are configured/available for the current buffer, and all linters by filetype
+
+:NvimConfigHealth                                            *nvim-config-cmd-nvimconfighealth*
+    Run the structured health report for this config (alias for :checkhealth nvim-config)
+
+:NvimCommands                                                *nvim-config-cmd-nvimcommands*
+    List every command this config defines, grouped by category
+
+:NvimDocs                                                    *nvim-config-cmd-nvimdocs*
+    Open local documentation: built Sphinx HTML if available, else :help nvim-config
+
+:NvimKeymaps                                                 *nvim-config-cmd-nvimkeymaps*
+    List every keymap this config defines, grouped by group
+
+:Format                                                      *nvim-config-cmd-format*
+    Format the current buffer
+
+:FormatDisable                                               *nvim-config-cmd-formatdisable*
+    Disable format-on-save globally
+
+:FormatEnable                                                *nvim-config-cmd-formatenable*
+    Enable format-on-save globally
+
+:FormatToggle                                                *nvim-config-cmd-formattoggle*
+    Toggle format-on-save (buffer-local; add ! for global)
+
+:FormatterStatus                                             *nvim-config-cmd-formatterstatus*
+    Show which formatter(s) are configured/available for the current buffer, and all formatters by filetype
+
+:Gitsigns                                                    *nvim-config-cmd-gitsigns*
+    Gitsigns subcommands (staging, blame, hunks)
+
+:LspStatus                                                   *nvim-config-cmd-lspstatus*
+    Show configured LSP servers (installed) and clients attached to the current buffer
+
+:Oil                                                         *nvim-config-cmd-oil*
+    Open Oil file explorer
+
+:TSInstall <language>                                                   *nvim-config-cmd-tsinstall*
+    Install a Tree-sitter parser (network; explicit action only)
+
+:TSUpdate                                                    *nvim-config-cmd-tsupdate*
+    Update installed Tree-sitter parsers (network; explicit action only)
+
+:Telescope <picker>                                                   *nvim-config-cmd-telescope*
+    Open a Telescope picker by name
+
+:Trouble                                                     *nvim-config-cmd-trouble*
+    Open Trouble (diagnostics/quickfix/loclist list)
+
+:Mason                                                       *nvim-config-cmd-mason*
+    Open the Mason installer UI
+
+:MasonInstall <package>...                                                *nvim-config-cmd-masoninstall*
+    Install a specific Mason package (network; explicit action only)
+
+:MasonUpdate                                                 *nvim-config-cmd-masonupdate*
+    Refresh the Mason registry (network; explicit action only)
+
+:ToolsInstall <profile>                                                *nvim-config-cmd-toolsinstall*
+    Install every Mason-installable tool for a profile (core, systems, python, web, jvm, dotnet, functional, devops, docs, scripting, all)
+
+:ToolsStatus                                                 *nvim-config-cmd-toolsstatus*
+    Show installed/missing status for every LSP/formatter/linter/debugger this config knows about
+
+:ToolsUpdate <profile>                                                 *nvim-config-cmd-toolsupdate*
+    Update every Mason-installed tool for a profile (or 'all')
+
+:RelativeNumbersToggle                                       *nvim-config-cmd-relativenumberstoggle*
+    Toggle relative/absolute line numbers in the current window
+
+==============================================================================
+3. KEYMAPS                                                         *nvim-config-keymaps*
+
+Buffer ~
+
+    n      <S-h>              Previous buffer
+    n      <S-l>              Next buffer
+    n      <leader>bd         Delete buffer
+    n      <leader>bo         Close other buffers
+Debug ~
+
+    n      <leader>dB         Conditional breakpoint
+    n      <leader>dO         Step out
+    n      <leader>db         Toggle breakpoint
+    n      <leader>dc         Start / Continue
+    n      <leader>di         Step into
+    n      <leader>dl         Run last configuration
+    n      <leader>do         Step over
+    n      <leader>dr         Toggle REPL
+    n      <leader>dt         Terminate session
+    n      <leader>du         Toggle debug UI
+Diagnostics ~
+
+    n      <leader>xl         Line diagnostics (float)
+    n      <leader>xq         Diagnostics to quickfix
+    n      <leader>xx         Toggle diagnostics list (Trouble)
+    n      [d                 Previous diagnostic
+    n      ]d                 Next diagnostic
+Find ~
+
+    n      <leader>e          Open file explorer (Oil)
+    n      <leader>fG         Git files
+    n      <leader>fb         Find buffers
+    n      <leader>fc         Commands (all of Neovim's)
+    n      <leader>fd         Diagnostics
+    n      <leader>ff         Find files
+    n      <leader>fg         Live grep
+    n      <leader>fh         Help tags
+    n      <leader>fk         Keymaps (all of Neovim's)
+    n      <leader>fr         Recent files
+    n      <leader>fs         Document symbols
+Format ~
+
+    n,v    <leader>lf         Format buffer
+General ~
+
+    v      <                  Indent left, keep selection
+    n      <C-d>              Half-page down, centered
+    n      <C-u>              Half-page up, centered
+    n      <Esc>              Clear search highlight
+    n      <leader>Y          Yank line to system clipboard
+    n,v    <leader>y          Yank to system clipboard
+    v      >                  Indent right, keep selection
+Help ~
+
+    n      <leader>hc         List commands
+    n      <leader>hd         Open documentation
+    n      <leader>hh         Run health check
+    n      <leader>hk         List keymaps
+UI ~
+
+    n      <leader>uN         Toggle line numbers on/off
+    n      <leader>ul         Toggle whitespace display
+    n      <leader>un         Toggle relative/absolute line numbers
+    n      <leader>uw         Toggle line wrap
+Window ~
+
+    n      <C-h>              Go to left window
+    n      <C-j>              Go to lower window
+    n      <C-k>              Go to upper window
+    n      <C-l>              Go to right window
+    n      <leader>wc         Close window
+    n      <leader>we         Equalize window sizes
+    n      <leader>ws         Split window horizontally
+    n      <leader>wv         Split window vertically
+
+==============================================================================
+4. LANGUAGES                                                       *nvim-config-languages*
+
+lua                                                        *nvim-config-lang-lua*
+    Filetypes: lua
+    LSP: lua_ls
+
+python                                                     *nvim-config-lang-python*
+    Filetypes: python
+    LSP: basedpyright
+
+ruby                                                       *nvim-config-lang-ruby*
+    Filetypes: ruby
+    LSP: ruby_lsp
+
+go                                                         *nvim-config-lang-go*
+    Filetypes: go, gomod, gowork, gosum
+    LSP: gopls
+
+rust                                                       *nvim-config-lang-rust*
+    Filetypes: rust
+    LSP: rust_analyzer
+
+c                                                          *nvim-config-lang-c*
+    Filetypes: c
+    LSP: clangd
+
+cpp                                                        *nvim-config-lang-cpp*
+    Filetypes: cpp, objcpp
+    LSP: clangd
+
+java                                                       *nvim-config-lang-java*
+    Filetypes: java
+    LSP: jdtls
+
+kotlin                                                     *nvim-config-lang-kotlin*
+    Filetypes: kotlin
+    LSP: kotlin_language_server
+
+bash                                                       *nvim-config-lang-bash*
+    Filetypes: bash, sh
+    LSP: bashls
+
+fish                                                       *nvim-config-lang-fish*
+    Filetypes: fish
+    LSP: none
+
+powershell                                                 *nvim-config-lang-powershell*
+    Filetypes: ps1
+    LSP: powershell_es
+
+asm                                                        *nvim-config-lang-asm*
+    Filetypes: asm, nasm, masm
+    LSP: asm_lsp
+
+javascript                                                 *nvim-config-lang-javascript*
+    Filetypes: javascript, javascriptreact
+    LSP: vtsls
+
+typescript                                                 *nvim-config-lang-typescript*
+    Filetypes: typescript, typescriptreact
+    LSP: vtsls
+
+html                                                       *nvim-config-lang-html*
+    Filetypes: html
+    LSP: html_lsp
+
+css                                                        *nvim-config-lang-css*
+    Filetypes: css, scss, sass, less
+    LSP: css_lsp
+
+vue                                                        *nvim-config-lang-vue*
+    Filetypes: vue
+    LSP: vue_ls
+
+svelte                                                     *nvim-config-lang-svelte*
+    Filetypes: svelte
+    LSP: svelte_ls
+
+json                                                       *nvim-config-lang-json*
+    Filetypes: json, jsonc
+    LSP: jsonls
+
+yaml                                                       *nvim-config-lang-yaml*
+    Filetypes: yaml
+    LSP: yamlls
+
+toml                                                       *nvim-config-lang-toml*
+    Filetypes: toml
+    LSP: taplo
+
+xml                                                        *nvim-config-lang-xml*
+    Filetypes: xml
+    LSP: lemminx
+
+sql                                                        *nvim-config-lang-sql*
+    Filetypes: sql
+    LSP: sqls
+
+csv                                                        *nvim-config-lang-csv*
+    Filetypes: csv, tsv
+    LSP: none
+
+dotenv                                                     *nvim-config-lang-dotenv*
+    Filetypes: dotenv
+    LSP: none
+
+ini                                                        *nvim-config-lang-ini*
+    Filetypes: dosini
+    LSP: none
+
+dockerfile                                                 *nvim-config-lang-dockerfile*
+    Filetypes: dockerfile
+    LSP: dockerls
+
+terraform                                                  *nvim-config-lang-terraform*
+    Filetypes: terraform, terraform-vars
+    LSP: terraformls
+
+nix                                                        *nvim-config-lang-nix*
+    Filetypes: nix
+    LSP: nixd
+
+ansible                                                    *nvim-config-lang-ansible*
+    Filetypes: yaml.ansible
+    LSP: ansible_ls
+
+markdown                                                   *nvim-config-lang-markdown*
+    Filetypes: markdown
+    LSP: marksman
+
+rst                                                        *nvim-config-lang-rst*
+    Filetypes: rst
+    LSP: esbonio
+
+latex                                                      *nvim-config-lang-latex*
+    Filetypes: tex, plaintex, bib
+    LSP: texlab
+
+asciidoc                                                   *nvim-config-lang-asciidoc*
+    Filetypes: asciidoc
+    LSP: none
+
+csharp                                                     *nvim-config-lang-csharp*
+    Filetypes: cs
+    LSP: omnisharp
+
+fsharp                                                     *nvim-config-lang-fsharp*
+    Filetypes: fsharp
+    LSP: fsautocomplete
+
+haskell                                                    *nvim-config-lang-haskell*
+    Filetypes: haskell
+    LSP: haskell_language_server
+
+ocaml                                                      *nvim-config-lang-ocaml*
+    Filetypes: ocaml
+    LSP: ocamllsp
+
+elixir                                                     *nvim-config-lang-elixir*
+    Filetypes: elixir, eex, heex
+    LSP: elixir_ls
+
+erlang                                                     *nvim-config-lang-erlang*
+    Filetypes: erlang
+    LSP: erlang_ls
+
+php                                                        *nvim-config-lang-php*
+    Filetypes: php
+    LSP: intelephense
+
+perl                                                       *nvim-config-lang-perl*
+    Filetypes: perl
+    LSP: perl_navigator
+
+zig                                                        *nvim-config-lang-zig*
+    Filetypes: zig
+    LSP: zls
+
+cmake                                                      *nvim-config-lang-cmake*
+    Filetypes: cmake
+    LSP: cmake_lsp
+
+make                                                       *nvim-config-lang-make*
+    Filetypes: make
+    LSP: none
+
+graphql                                                    *nvim-config-lang-graphql*
+    Filetypes: graphql
+    LSP: graphql_lsp
+
+proto                                                      *nvim-config-lang-proto*
+    Filetypes: proto
+    LSP: buf
+
+==============================================================================
+5. TOOLS                                                           *nvim-config-tools*
+
+See TOOLS.md or :ToolsStatus for the full, current table (kept out of this
+file to avoid a fourth copy of the same data).
+
+vim:tw=78:ts=8:noet:ft=help:norl:
