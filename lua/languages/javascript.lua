@@ -23,4 +23,7 @@ return {
       }
     end,
   },
+  notes = "Config type is 'js_debug_adapter', not vscode-js-debug's usual 'pwa-node': "
+    .. "dap/registry.lua registers dap.adapters keyed by debugger.tool, and nvim-dap "
+    .. "resolves dap.adapters[config.type] at run time, so the two must match exactly.",
 }

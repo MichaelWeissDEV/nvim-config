@@ -33,6 +33,16 @@ function M.ensure_for_filetype(filetype)
     return false
   end
 
+  local configurations = lang.debugger.configurations()
+  if #configurations == 0 then
+    notify.once(
+      "debug:not-implemented:" .. filetype,
+      string.format("Debugging for '%s' is not implemented yet (see notes in languages/%s.lua).", filetype, lang.id),
+      vim.log.levels.WARN
+    )
+    return false
+  end
+
   local dap = require("dap")
 
   if not registered_adapters[lang.debugger.tool] then
@@ -41,7 +51,7 @@ function M.ensure_for_filetype(filetype)
   end
 
   if not registered_filetypes[filetype] then
-    dap.configurations[filetype] = lang.debugger.configurations()
+    dap.configurations[filetype] = configurations
     registered_filetypes[filetype] = true
   end
 

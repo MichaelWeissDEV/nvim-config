@@ -25,7 +25,7 @@ return {
     configurations = function()
       return {
         {
-          type = "python",
+          type = "debugpy",
           request = "launch",
           name = "Launch file",
           program = "${file}",

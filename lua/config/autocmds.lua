@@ -2,6 +2,14 @@ local augroup = vim.api.nvim_create_augroup
 
 require("config.large_files").setup()
 
+-- Neovim's builtin ftdetect maps .env files to filetype "sh"; our language
+-- registry (lua/languages/dotenv.lua) targets "dotenv" so dotenv-linter
+-- actually activates instead of silently never matching.
+vim.filetype.add({
+  filename = { [".env"] = "dotenv" },
+  pattern = { ["%.env%.[%w_.-]+"] = "dotenv" },
+})
+
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = augroup("highlight_yank", { clear = true }),
   callback = function()
