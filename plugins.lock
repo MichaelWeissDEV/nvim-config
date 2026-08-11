@@ -5,6 +5,7 @@ cmp-buffer	https://github.com/hrsh7th/cmp-buffer.git	main	b74fab3656eea9de20a9b8
 cmp-nvim-lsp	https://github.com/hrsh7th/cmp-nvim-lsp.git	main	cbc7b02bb99fae35cb42f514762b89b5126651ef	pack/vendor/start/cmp-nvim-lsp	start
 cmp-path	https://github.com/hrsh7th/cmp-path.git	main	c642487086dbd9a93160e1679a1327be111cbc25	pack/vendor/start/cmp-path	start
 cmp_luasnip	https://github.com/saadparwaiz1/cmp_luasnip.git	master	98d9cb5c2c38532bd9bdb481067b20fea8f32e90	pack/vendor/start/cmp_luasnip	start
+conform.nvim	https://github.com/stevearc/conform.nvim.git	master	016802de402556da54c36bd7359b441266b01cdd	pack/vendor/start/conform.nvim	start
 friendly-snippets	https://github.com/rafamadriz/friendly-snippets.git	main	6cd7280adead7f586db6fccbd15d2cac7e2188b9	pack/vendor/start/friendly-snippets	start
 gitsigns.nvim	https://github.com/lewis6991/gitsigns.nvim.git	main	5be654f2232c10ddcad19c1607a67b6b4b78fc29	pack/vendor/start/gitsigns.nvim	start
 lualine.nvim	https://github.com/nvim-lualine/lualine.nvim.git	master	221ce6b2d999187044529f49da6554a92f740a96	pack/vendor/start/lualine.nvim	start
