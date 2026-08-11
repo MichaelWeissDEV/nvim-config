@@ -16,8 +16,8 @@ LunarVim or SpaceVim anywhere in this repository.
   warning, error, or repeated notification — see `:NvimConfigHealth` /
   `:ToolsStatus` instead. Real configuration bugs stay loud.
 - **Demand-driven.** Language servers only start for filetypes whose
-  binary is installed; most plugins (Telescope, Oil, Trouble, the
-  debugger UI, markdown/LaTeX/CSV support) load on first actual use, not
+  binary is installed; most plugins (Telescope, nvim-tree, Oil, Trouble,
+  the debugger UI, markdown/LaTeX/CSV support) load on first actual use, not
   at startup. A plain `nvim` loads zero optional plugins.
 - **One source of truth per concept.** A central language registry
   (`lua/languages/*.lua`) and tool registry (`lua/tools/registry.lua`)
@@ -64,7 +64,7 @@ git clone <this-repo-url> ~/git/nvim-config
 
 - `<space>` (leader) opens which-key's group popup.
 - `<leader>ff` / `<leader>fg` — find files / live grep (Telescope, loads on first use).
-- `<leader>e` — file explorer (Oil, loads on first use).
+- `<leader>e` — file explorer sidebar (nvim-tree, loads on first use); `<leader>o` / `-` for Oil's buffer-as-directory editing instead.
 - `gd`, `K`, `<leader>lr`, `<leader>la` — LSP go-to-definition, hover, rename, code action (once a server has attached).
 - `<leader>lf` — format the current buffer.
 - `<leader>db` / `<leader>dc` — toggle breakpoint / start-or-continue debugging.
@@ -95,7 +95,8 @@ network — see [Offline Usage](#offline-usage).
 | Key | Action |
 |---|---|
 | `<leader>ff` / `<leader>fg` / `<leader>fb` | Find files / live grep / buffers |
-| `<leader>e` | File explorer (Oil) |
+| `<leader>e` | File explorer sidebar (nvim-tree) |
+| `<leader>o` / `-` | File explorer as a buffer (Oil) |
 | `gd` / `gr` / `K` | LSP definition / references / hover |
 | `<leader>lr` / `<leader>la` | LSP rename / code action |
 | `<leader>lf` | Format buffer |

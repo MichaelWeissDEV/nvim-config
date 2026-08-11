@@ -25,7 +25,8 @@
 | `n` | `<leader>xx` | Toggle diagnostics list (Trouble) | Diagnostics | Global |
 | `n` | `[d` | Previous diagnostic | Diagnostics | Global |
 | `n` | `]d` | Next diagnostic | Diagnostics | Global |
-| `n` | `<leader>e` | Open file explorer (Oil) | Find | Global |
+| `n` | `-` | Open parent directory (Oil) | Find | Global |
+| `n` | `<leader>e` | Toggle file explorer (nvim-tree) | Find | Global |
 | `n` | `<leader>fG` | Git files | Find | Global |
 | `n` | `<leader>fb` | Find buffers | Find | Global |
 | `n` | `<leader>fc` | Commands (all of Neovim's) | Find | Global |
@@ -36,6 +37,7 @@
 | `n` | `<leader>fk` | Keymaps (all of Neovim's) | Find | Global |
 | `n` | `<leader>fr` | Recent files | Find | Global |
 | `n` | `<leader>fs` | Document symbols | Find | Global |
+| `n` | `<leader>o` | Open file explorer (Oil) | Find | Global |
 | `n,v` | `<leader>lf` | Format buffer | Format | Global |
 | `v` | `<` | Indent left, keep selection | General | Global |
 | `n` | `<C-d>` | Half-page down, centered | General | Global |

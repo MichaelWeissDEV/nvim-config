@@ -120,6 +120,22 @@ Show configured LSP servers (installed) and clients attached to the current buff
 
 ## Plugins
 
+### `:NvimTreeFindFile`
+
+Open nvim-tree and reveal the current buffer's file
+
+```vim
+:NvimTreeFindFile
+```
+
+### `:NvimTreeToggle`
+
+Toggle the nvim-tree sidebar
+
+```vim
+:NvimTreeToggle
+```
+
 ### `:Oil`
 
 Open Oil file explorer

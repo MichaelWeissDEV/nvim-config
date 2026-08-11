@@ -17,6 +17,7 @@ require("plugins.whichkey")
 require("plugins.editing")
 
 require("plugins.telescope")
+require("plugins.tree")
 require("plugins.files")
 require("plugins.diagnostics")
 require("plugins.markdown")

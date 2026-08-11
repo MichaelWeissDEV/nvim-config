@@ -12,6 +12,7 @@ lib.run("startup: quiet + no opt plugins loaded", function()
 
   lib.assert_true(package.loaded["telescope"] == nil, "telescope loaded at plain startup")
   lib.assert_true(package.loaded["oil"] == nil, "oil loaded at plain startup")
+  lib.assert_true(package.loaded["nvim-tree"] == nil, "nvim-tree loaded at plain startup")
   lib.assert_true(package.loaded["trouble"] == nil, "trouble loaded at plain startup")
   lib.assert_true(package.loaded["dap"] == nil, "nvim-dap loaded at plain startup")
   lib.assert_true(package.loaded["dapui"] == nil, "nvim-dap-ui loaded at plain startup")

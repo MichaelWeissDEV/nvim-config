@@ -65,6 +65,12 @@ of what's installed on this machine.
 :LspStatus                                                   *nvim-config-cmd-lspstatus*
     Show configured LSP servers (installed) and clients attached to the current buffer
 
+:NvimTreeFindFile                                            *nvim-config-cmd-nvimtreefindfile*
+    Open nvim-tree and reveal the current buffer's file
+
+:NvimTreeToggle                                              *nvim-config-cmd-nvimtreetoggle*
+    Toggle the nvim-tree sidebar
+
 :Oil                                                         *nvim-config-cmd-oil*
     Open Oil file explorer
 
@@ -131,7 +137,8 @@ Diagnostics ~
     n      ]d                 Next diagnostic
 Find ~
 
-    n      <leader>e          Open file explorer (Oil)
+    n      -                  Open parent directory (Oil)
+    n      <leader>e          Toggle file explorer (nvim-tree)
     n      <leader>fG         Git files
     n      <leader>fb         Find buffers
     n      <leader>fc         Commands (all of Neovim's)
@@ -142,6 +149,7 @@ Find ~
     n      <leader>fk         Keymaps (all of Neovim's)
     n      <leader>fr         Recent files
     n      <leader>fs         Document symbols
+    n      <leader>o          Open file explorer (Oil)
 Format ~
 
     n,v    <leader>lf         Format buffer

@@ -55,4 +55,12 @@ opt.updatetime = 250
 opt.timeoutlen = 400
 opt.redrawtime = 1500
 
+-- Netrw is replaced by nvim-tree.lua (sidebar, <leader>e) and oil.nvim
+-- (buffer-as-directory, <leader>o) -- disabled unconditionally, at startup,
+-- not just when one of those plugins happens to load, so `nvim <a-directory>`
+-- never briefly shows netrw's raw listing before a lazy-loaded plugin catches
+-- up (see the VimEnter handling in plugins/tree.lua for that exact case).
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- Windows-specific shell handling lives in config/platform.lua.

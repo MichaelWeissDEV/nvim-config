@@ -30,6 +30,7 @@ local START = {
 
 local OPT = {
   "telescope.nvim",
+  "nvim-tree.lua",
   "oil.nvim",
   "trouble.nvim",
   "render-markdown.nvim",

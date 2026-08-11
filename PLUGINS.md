@@ -33,7 +33,8 @@ All plugins are vendored in-repo via `git subtree` (see `scripts/plugins.tsv` / 
 | Plugin | Upstream | Trigger |
 |---|---|---|
 | telescope.nvim | https://github.com/nvim-telescope/telescope.nvim | first <leader>f* keypress or :Telescope |
-| oil.nvim | https://github.com/stevearc/oil.nvim | first <leader>e keypress or :Oil |
+| nvim-tree.lua | https://github.com/nvim-tree/nvim-tree.lua | first <leader>e keypress or :NvimTreeToggle |
+| oil.nvim | https://github.com/stevearc/oil.nvim | first <leader>o keypress, "-", or :Oil |
 | trouble.nvim | https://github.com/folke/trouble.nvim | first <leader>xx keypress or :Trouble |
 | render-markdown.nvim | https://github.com/MeanderingProgrammer/render-markdown.nvim | FileType markdown |
 | vimtex | https://github.com/lervag/vimtex | FileType tex,plaintex,bib |
