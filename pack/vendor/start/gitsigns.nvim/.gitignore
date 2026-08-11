@@ -1,0 +1,6 @@
+doc/tags
+
+deps
+emydoc/
+.nvimlog
+scratch/
