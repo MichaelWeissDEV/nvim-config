@@ -17,6 +17,7 @@ nvim-dap-ui	https://github.com/rcarriga/nvim-dap-ui.git	master	cc9dd33aade7f20ba
 nvim-lint	https://github.com/mfussenegger/nvim-lint.git	master	a219b2c9e5b4765e5c845aba119dad55806fcaf1	pack/vendor/start/nvim-lint	start
 nvim-nio	https://github.com/nvim-neotest/nvim-nio.git	master	edcc181a875301dd21840189aa2f2f9ad69fc172	pack/vendor/opt/nvim-nio	opt
 nvim-surround	https://github.com/kylechui/nvim-surround.git	main	8b47db616ef658b8fc27e61db2896aa2f40134de	pack/vendor/start/nvim-surround	start
+nvim-tree.lua	https://github.com/nvim-tree/nvim-tree.lua.git	master	b2aadda94b107480c48e548d6db51c6840b7b33c	pack/vendor/opt/nvim-tree.lua	opt
 nvim-treesitter	https://github.com/nvim-treesitter/nvim-treesitter.git	main	c9f9ed6c1892f629ea399f4ee7905f2686fa13f2	pack/vendor/start/nvim-treesitter	start
 nvim-web-devicons	https://github.com/nvim-tree/nvim-web-devicons.git	master	2ae6958df7ced50baac5035cec0c15799eedfbf7	pack/vendor/start/nvim-web-devicons	start
 oil.nvim	https://github.com/stevearc/oil.nvim.git	master	b73018b75affd13fa38e2fc94ef753b465f770d7	pack/vendor/opt/oil.nvim	opt
