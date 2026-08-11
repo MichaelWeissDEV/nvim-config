@@ -705,9 +705,12 @@ add({
   name = "chktex",
   category = "linter",
   exe = "chktex",
-  mason = "chktex",
+  -- No Mason package exists (confirmed against the live registry) -- it
+  -- ships with TeX distributions (TeX Live / MacTeX), not standalone.
+  mason = nil,
   profiles = { "docs" },
-  note = "optional",
+  note = "optional; ships with TeX Live/MacTeX -- macOS: brew install --cask mactex-no-gui "
+    .. "| Debian/Ubuntu: apt install chktex | Arch: pacman -S texlive-binextra",
 })
 
 local M = {}
