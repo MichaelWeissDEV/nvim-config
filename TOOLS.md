@@ -44,6 +44,7 @@ Status for your machine: run `:ToolsStatus` or `:NvimConfigHealth` inside Neovim
 | Taplo | `taplo` | core |  |
 | terraform-ls | `terraform-ls` | devops |  |
 | texlab | `texlab` | docs |  |
+| ty | `ty` | python | Astral's fast Rust-based type checker/LSP; still pre-1.0 and evolving quickly. Runs alongside basedpyright as a second LSP client for python (see languages/python.lua's extra_lsp), not as a replacement -- disable it by removing that entry if it's too noisy. |
 | vtsls | `vtsls` | web |  |
 | vue-language-server | `vue-language-server` | web |  |
 | yaml-language-server | `yaml-language-server` | devops |  |
@@ -77,8 +78,8 @@ Status for your machine: run `:ToolsStatus` or `:NvimConfigHealth` inside Neovim
 | Tool | Mason package | Profiles | Notes |
 |---|---|---|---|
 | ansible-lint | `ansible-lint` | devops | optional |
-| chktex | `chktex` | docs | optional |
-| clang-tidy | `clang-tidy` | systems | optional |
+| chktex | _(manual install)_ | docs | optional; ships with TeX Live/MacTeX -- macOS: brew install --cask mactex-no-gui | Debian/Ubuntu: apt install chktex | Arch: pacman -S texlive-binextra |
+| clang-tidy | _(manual install)_ | systems | optional; ships with LLVM -- macOS: brew install llvm | Debian/Ubuntu: apt install clang-tidy | Arch: pacman -S clang |
 | clippy | _(manual install)_ | systems | ships with rustup; run on-demand, not on every keypress |
 | credo | _(manual install)_ | functional | optional; mix archive.install hex credo |
 | doc8 | _(manual install)_ | docs | optional; pip install doc8 |
