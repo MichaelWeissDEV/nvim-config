@@ -186,9 +186,13 @@ add({
   name = "clang-tidy",
   category = "linter",
   exe = "clang-tidy",
-  mason = "clang-tidy",
+  -- No standalone Mason package exists for clang-tidy (confirmed against
+  -- the live mason-registry: only clang-format and clangd are listed) --
+  -- it ships with the LLVM/clang toolchain itself, same as clang-format's
+  -- system install would if you're not using Mason's prebuilt binary.
+  mason = nil,
   profiles = { "systems" },
-  note = "optional",
+  note = "optional; ships with LLVM -- macOS: brew install llvm | Debian/Ubuntu: apt install clang-tidy | Arch: pacman -S clang",
 })
 add({
   id = "gdb",
