@@ -21,4 +21,5 @@ plenary.nvim	https://github.com/nvim-lua/plenary.nvim.git	master	74b06c6c75e4eeb
 render-markdown.nvim	https://github.com/MeanderingProgrammer/render-markdown.nvim.git	main	4663eb3ecd538bd5062628fb6d95bbe6bdca78f6	pack/vendor/opt/render-markdown.nvim	opt
 telescope.nvim	https://github.com/nvim-telescope/telescope.nvim.git	master	427b576c16792edad01a92b89721d923c19ad60f	pack/vendor/opt/telescope.nvim	opt
 trouble.nvim	https://github.com/folke/trouble.nvim.git	main	bd67efe408d4816e25e8491cc5ad4088e708a69a	pack/vendor/opt/trouble.nvim	opt
+vimtex	https://github.com/lervag/vimtex.git	master	a5568d902cc20a76bb8ef70743f0157ec2e79ded	pack/vendor/opt/vimtex	opt
 which-key.nvim	https://github.com/folke/which-key.nvim.git	main	3aab2147e74890957785941f0c1ad87d0a44c15a	pack/vendor/start/which-key.nvim	start
