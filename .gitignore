@@ -1,0 +1,23 @@
+# Neovim / plugin runtime state (never vendored, always regenerated locally)
+/doc/tags
+
+# Sphinx build output
+/docs/_build/
+/docs/.doctrees/
+
+# Python venv used only for building docs
+/.venv/
+/docs/.venv/
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Editor swap/undo/backup files if ever created inside the repo
+*.swp
+*.swo
+*~
+/undodir/
+
+# Local, machine-specific overrides (never committed)
+/lua/config/local.lua
