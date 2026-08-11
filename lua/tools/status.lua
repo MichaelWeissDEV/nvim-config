@@ -41,7 +41,14 @@ function M.health_report()
       if t.status == true then
         vim.health.ok(t.name)
       elseif t.status == false then
-        vim.health.warn(t.name .. " not installed", "Run :ToolsInstall " .. (t.profiles[1] or "core") .. " (or install manually" .. (t.note and (": " .. t.note) or "") .. ")")
+        vim.health.warn(
+          t.name .. " not installed",
+          "Run :ToolsInstall "
+            .. (t.profiles[1] or "core")
+            .. " (or install manually"
+            .. (t.note and (": " .. t.note) or "")
+            .. ")"
+        )
       end -- status == nil: not independently checkable, skip
     end
   end
@@ -59,7 +66,10 @@ cmdreg.command({
       table.insert(lines, "## " .. CATEGORY_LABEL[category])
       table.insert(lines, "")
       for _, t in ipairs(groups[category]) do
-        table.insert(lines, string.format("- [%s] %-28s (%s)", status_glyph(t.status), t.name, table.concat(t.profiles, ",")))
+        table.insert(
+          lines,
+          string.format("- [%s] %-28s (%s)", status_glyph(t.status), t.name, table.concat(t.profiles, ","))
+        )
       end
       table.insert(lines, "")
     end

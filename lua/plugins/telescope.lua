@@ -37,7 +37,11 @@ end
 local function live_grep()
   ensure()
   if not exe.exists("rg") then
-    notify.once("telescope-rg-missing", "Telescope live_grep needs ripgrep ('rg'); falling back to grep_string.", vim.log.levels.WARN)
+    notify.once(
+      "telescope-rg-missing",
+      "Telescope live_grep needs ripgrep ('rg'); falling back to grep_string.",
+      vim.log.levels.WARN
+    )
     require("telescope.builtin").grep_string({ search = vim.fn.input("Grep for: ") })
     return
   end
@@ -67,4 +71,10 @@ km.map_many({
 })
 
 lazyload.on_command("Telescope", "telescope", ensure)
-cmdreg.external({ name = "Telescope", desc = "Open a Telescope picker by name", category = "Plugins", args = "<picker>", example = ":Telescope find_files" })
+cmdreg.external({
+  name = "Telescope",
+  desc = "Open a Telescope picker by name",
+  category = "Plugins",
+  args = "<picker>",
+  example = ":Telescope find_files",
+})

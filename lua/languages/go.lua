@@ -15,7 +15,11 @@ return {
   debugger = {
     tool = "delve",
     adapter = function()
-      return { type = "server", port = "${port}", executable = { command = "dlv", args = { "dap", "-l", "127.0.0.1:${port}" } } }
+      return {
+        type = "server",
+        port = "${port}",
+        executable = { command = "dlv", args = { "dap", "-l", "127.0.0.1:${port}" } },
+      }
     end,
     configurations = function()
       return {

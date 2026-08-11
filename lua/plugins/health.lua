@@ -45,7 +45,10 @@ local function check_dir(base, name)
   if vim.uv.fs_stat(path) then
     vim.health.ok(name)
   else
-    vim.health.error(name .. " missing from pack/vendor/" .. base, "Repository checkout is incomplete; see scripts/plugin-status.sh")
+    vim.health.error(
+      name .. " missing from pack/vendor/" .. base,
+      "Repository checkout is incomplete; see scripts/plugin-status.sh"
+    )
   end
 end
 

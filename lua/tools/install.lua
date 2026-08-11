@@ -74,7 +74,10 @@ cmdreg.command({
   fn = function(opts)
     local profile = opts.args
     if not vim.tbl_contains(complete_profiles(), profile) then
-      vim.notify("Unknown profile: " .. profile .. ". Known: " .. table.concat(complete_profiles(), ", "), vim.log.levels.ERROR)
+      vim.notify(
+        "Unknown profile: " .. profile .. ". Known: " .. table.concat(complete_profiles(), ", "),
+        vim.log.levels.ERROR
+      )
       return
     end
     if not ensure_mason() then

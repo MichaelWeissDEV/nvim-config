@@ -22,4 +22,9 @@ end, "Toggle diagnostics list (Trouble)")
 km.document({ mode = "n", lhs = "<leader>xx", desc = "Toggle diagnostics list (Trouble)", group = "Diagnostics" })
 
 lazyload.on_command("Trouble", "trouble.nvim", setup)
-cmdreg.external({ name = "Trouble", desc = "Open Trouble (diagnostics/quickfix/loclist list)", category = "Plugins", example = ":Trouble diagnostics toggle" })
+cmdreg.external({
+  name = "Trouble",
+  desc = "Open Trouble (diagnostics/quickfix/loclist list)",
+  category = "Plugins",
+  example = ":Trouble diagnostics toggle",
+})

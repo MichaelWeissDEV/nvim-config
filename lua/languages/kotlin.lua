@@ -7,7 +7,7 @@ return {
   lsp = { tool = "kotlin_language_server" },
   formatters = { "ktlint" },
   linters = { "ktlint" },
-  notes = "ktlint is registered in tools.registry with category = \"formatter\" only; "
+  notes = 'ktlint is registered in tools.registry with category = "formatter" only; '
     .. "it's reused here as a linter too since it's the same binary in --check mode, "
     .. "and consumers key off lang.formatters/lang.linters, not the tool's category.",
 }

@@ -19,7 +19,13 @@ return {
     end,
     configurations = function()
       return {
-        { type = "js_debug_adapter", request = "launch", name = "Launch file", program = "${file}", cwd = "${workspaceFolder}" },
+        {
+          type = "js_debug_adapter",
+          request = "launch",
+          name = "Launch file",
+          program = "${file}",
+          cwd = "${workspaceFolder}",
+        },
       }
     end,
   },

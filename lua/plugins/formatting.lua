@@ -140,7 +140,15 @@ cmdreg.command({
     if current then
       table.insert(lines, "  available: " .. table.concat(current, ", "))
     else
-      table.insert(lines, "  none available" .. (missing_by_ft[vim.bo.filetype] and (" (missing: " .. table.concat(missing_by_ft[vim.bo.filetype], ", ") .. ")") or ""))
+      table.insert(
+        lines,
+        "  none available"
+          .. (
+            missing_by_ft[vim.bo.filetype]
+              and (" (missing: " .. table.concat(missing_by_ft[vim.bo.filetype], ", ") .. ")")
+            or ""
+          )
+      )
     end
     table.insert(lines, "")
     table.insert(lines, "## All filetypes")

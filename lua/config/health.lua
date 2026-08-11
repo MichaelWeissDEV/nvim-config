@@ -37,8 +37,14 @@ function M.check()
 
   vim.health.start("Core tools")
   report_tool("git", "Required for plugin vendoring and version metadata.")
-  report_tool("rg", "Improves Telescope live_grep/grep_string speed and accuracy.\nmacOS: brew install ripgrep | Debian/Ubuntu: apt install ripgrep | Arch: pacman -S ripgrep")
-  report_tool("fd", "Improves Telescope find_files speed; falls back to Neovim's own globbing otherwise.\nmacOS: brew install fd | Debian/Ubuntu: apt install fd-find | Arch: pacman -S fd")
+  report_tool(
+    "rg",
+    "Improves Telescope live_grep/grep_string speed and accuracy.\nmacOS: brew install ripgrep | Debian/Ubuntu: apt install ripgrep | Arch: pacman -S ripgrep"
+  )
+  report_tool(
+    "fd",
+    "Improves Telescope find_files speed; falls back to Neovim's own globbing otherwise.\nmacOS: brew install fd | Debian/Ubuntu: apt install fd-find | Arch: pacman -S fd"
+  )
 
   vim.health.start("Documentation")
   local docs_dir = vim.fs.joinpath(platform.config_dir, "docs", "_build", "html", "index.html")

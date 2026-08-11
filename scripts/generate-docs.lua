@@ -64,8 +64,16 @@ end
 -- TOOLS.md --------------------------------------------------------------
 local function gen_tools()
   local tools = require("tools.registry")
-  local CATEGORY_LABEL = { lsp = "Language Servers", formatter = "Formatters", linter = "Linters", debugger = "Debuggers" }
-  local lines = { GENERATED_HEADER, "", "# Tools", "", "Status for your machine: run `:ToolsStatus` or `:NvimConfigHealth` inside Neovim.", "" }
+  local CATEGORY_LABEL =
+    { lsp = "Language Servers", formatter = "Formatters", linter = "Linters", debugger = "Debuggers" }
+  local lines = {
+    GENERATED_HEADER,
+    "",
+    "# Tools",
+    "",
+    "Status for your machine: run `:ToolsStatus` or `:NvimConfigHealth` inside Neovim.",
+    "",
+  }
   for _, category in ipairs({ "lsp", "formatter", "linter", "debugger" }) do
     lines[#lines + 1] = "## " .. CATEGORY_LABEL[category]
     lines[#lines + 1] = ""
@@ -73,8 +81,13 @@ local function gen_tools()
     lines[#lines + 1] = "|---|---|---|---|"
     for _, t in ipairs(tools.all()) do
       if t.category == category then
-        lines[#lines + 1] =
-          string.format("| %s | %s | %s | %s |", t.name, t.mason and ("`" .. t.mason .. "`") or "_(manual install)_", table.concat(t.profiles, ", "), t.note or "")
+        lines[#lines + 1] = string.format(
+          "| %s | %s | %s | %s |",
+          t.name,
+          t.mason and ("`" .. t.mason .. "`") or "_(manual install)_",
+          table.concat(t.profiles, ", "),
+          t.note or ""
+        )
       end
     end
     lines[#lines + 1] = ""
@@ -139,8 +152,18 @@ end
 
 -- PLUGINS.md ------------------------------------------------------------
 local function gen_plugins()
-  local lines = { GENERATED_HEADER, "", "# Plugins", "", "All plugins are vendored in-repo via `git subtree` (see `scripts/plugins.tsv` / `plugins.lock`); nothing is downloaded at Neovim startup.", "" }
-  local sections = { { key = "start", title = "Always loaded (`pack/vendor/start/`)" }, { key = "opt", title = "Loaded on demand (`pack/vendor/opt/`)" } }
+  local lines = {
+    GENERATED_HEADER,
+    "",
+    "# Plugins",
+    "",
+    "All plugins are vendored in-repo via `git subtree` (see `scripts/plugins.tsv` / `plugins.lock`); nothing is downloaded at Neovim startup.",
+    "",
+  }
+  local sections = {
+    { key = "start", title = "Always loaded (`pack/vendor/start/`)" },
+    { key = "opt", title = "Loaded on demand (`pack/vendor/opt/`)" },
+  }
   local f = assert(io.open(repo_root .. "/scripts/plugins.tsv", "r"))
   local rows = {}
   local first = true
@@ -152,7 +175,10 @@ local function gen_plugins()
       for col in (line .. "\t"):gmatch("(.-)\t") do
         table.insert(cols, col)
       end
-      table.insert(rows, { name = cols[1], url = cols[2], branch = cols[3], prefix = cols[4], load_type = cols[5], trigger = cols[6] })
+      table.insert(
+        rows,
+        { name = cols[1], url = cols[2], branch = cols[3], prefix = cols[4], load_type = cols[5], trigger = cols[6] }
+      )
     end
   end
   f:close()
@@ -188,7 +214,11 @@ local function gen_help(keymaps)
     return string.rep(" ", math.max(1, W - #t)) .. t
   end
   local function section(title, tagname)
-    return { "==============================================================================", title .. tag(tagname), "" }
+    return {
+      "==============================================================================",
+      title .. tag(tagname),
+      "",
+    }
   end
 
   local lines = {}

@@ -19,7 +19,11 @@ local registered_filetypes = {}
 function M.ensure_for_filetype(filetype)
   local lang = languages.by_filetype(filetype)
   if not lang or not lang.debugger then
-    notify.once("debug:no-debugger:" .. filetype, "No debugger configured for filetype '" .. filetype .. "'.", vim.log.levels.WARN)
+    notify.once(
+      "debug:no-debugger:" .. filetype,
+      "No debugger configured for filetype '" .. filetype .. "'.",
+      vim.log.levels.WARN
+    )
     return false
   end
 

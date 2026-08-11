@@ -139,7 +139,10 @@ cmdreg.command({
   fn = function()
     local lines = { "# Debugger Status", "" }
     for _, row in ipairs(require("debugger.registry").all()) do
-      table.insert(lines, string.format("- [%s] %-14s -> %s", row.installed and "OK" or "MISSING", row.language, row.tool))
+      table.insert(
+        lines,
+        string.format("- [%s] %-14s -> %s", row.installed and "OK" or "MISSING", row.language, row.tool)
+      )
     end
     scratch.open("nvim-config://debugger-status", lines)
   end,
