@@ -13,6 +13,6 @@ for (their actual implementation is the plugin's, not redefined here), but
 the generated list doesn't visually distinguish them from commands this
 config defines itself.
 
-```{include} ../COMMANDS.md
+```{include} _generated/commands.md
 :start-line: 3
 ```

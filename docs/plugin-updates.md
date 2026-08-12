@@ -15,7 +15,7 @@ name    url    branch    prefix    load_type    trigger
 
 `prefix` is the vendor path (`pack/vendor/start/<name>` or
 `pack/vendor/opt/<name>`), `load_type` is `start` or `opt`, and `trigger`
-is a free-text note on what loads it (used for `PLUGINS.md` generation,
+is a free-text note on what loads it (used for `docs/_generated/plugins.md` generation,
 not read by any script logic).
 
 ## Adding a new plugin

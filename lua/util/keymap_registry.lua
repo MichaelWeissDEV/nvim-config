@@ -1,7 +1,8 @@
 -- Single source of truth for every keymap this config defines. Call
 -- registry.map() instead of vim.keymap.set() directly and the mapping is
 -- simultaneously: applied, shown by which-key, listed by :NvimKeymaps and
--- Telescope, and exported to KEYMAPS.md / Sphinx by scripts/docs-build.
+-- Telescope, and exported to docs/_generated/keymaps.md (and from there
+-- into the Sphinx site) by scripts/docs-build.
 --
 -- Buffer-local mappings (LSP, DAP-attach-only, filetype-specific) are still
 -- recorded once as a *template* entry (buffer = "context") the first time

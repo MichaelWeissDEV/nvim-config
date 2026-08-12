@@ -7,7 +7,7 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
-echo "==> Regenerating KEYMAPS.md / COMMANDS.md / TOOLS.md / LANGUAGES.md / PLUGINS.md / doc/nvim-config.txt"
+echo "==> Regenerating docs/_generated/*.md and doc/nvim-config.txt from the registries"
 nvim --headless -u init.lua -l scripts/generate-docs.lua
 
 echo "==> Refreshing :help tags"

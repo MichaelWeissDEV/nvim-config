@@ -60,10 +60,11 @@ registries:
   `vim.keymap.set()` / `vim.api.nvim_create_user_command()` directly. That
   single call simultaneously applies the mapping/command, and records it
   for `:NvimKeymaps`, `:NvimCommands`, which-key, and the generated
-  `KEYMAPS.md`/`COMMANDS.md`. See {doc}`keymaps` and {doc}`commands`.
+  reference tables under `docs/_generated/`. See {doc}`keymaps` and
+  {doc}`commands`.
 
 Because `scripts/generate-docs.lua` reads these same four registries to
-produce `KEYMAPS.md`, `COMMANDS.md`, `LANGUAGES.md`, `TOOLS.md` and
+produce every reference table under `docs/_generated/` plus
 `doc/nvim-config.txt`, there is exactly one place to update when a keymap,
 command, language or tool changes -- not three or four.
 

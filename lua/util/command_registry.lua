@@ -1,6 +1,6 @@
 -- Single source of truth for every user command this config defines. Same
 -- rationale as keymap_registry: register once, get :NvimCommands, Telescope,
--- COMMANDS.md and Sphinx for free.
+-- docs/_generated/commands.md and Sphinx for free.
 local M = {}
 
 --- @class CommandSpec

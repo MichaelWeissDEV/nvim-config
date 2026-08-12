@@ -8,7 +8,7 @@ $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $PSScriptRoot
 Set-Location $RepoRoot
 
-Write-Host "==> Regenerating KEYMAPS.md / COMMANDS.md / TOOLS.md / LANGUAGES.md / PLUGINS.md / doc/nvim-config.txt"
+Write-Host "==> Regenerating docs/_generated/*.md and doc/nvim-config.txt from the registries"
 & nvim --headless -u init.lua -l scripts/generate-docs.lua
 
 Write-Host "==> Refreshing :help tags"

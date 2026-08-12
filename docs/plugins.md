@@ -15,9 +15,10 @@ autocommand, a keymap's first press, or an explicit command). A plain
 each `opt` plugin.
 
 The table below — generated from `scripts/plugins.tsv` by
-`scripts/generate-docs.lua`, identical to `PLUGINS.md` at the repo root —
+`scripts/generate-docs.lua` into `docs/_generated/plugins.md`, included
+here verbatim —
 lists every vendored plugin, its upstream, and its load trigger.
 
-```{include} ../PLUGINS.md
+```{include} _generated/plugins.md
 :start-line: 3
 ```

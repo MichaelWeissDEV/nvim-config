@@ -13,6 +13,6 @@ discovering them below guaranteed to agree:
 The table below is generated from the same registry by
 `scripts/generate-docs.lua` and is identical to what `:NvimKeymaps` shows.
 
-```{include} ../KEYMAPS.md
+```{include} _generated/keymaps.md
 :start-line: 3
 ```

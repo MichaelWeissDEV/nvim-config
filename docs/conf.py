@@ -30,7 +30,12 @@ myst_enable_extensions = [
     "colon_fence",
 ]
 
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", ".venv"]
+# _generated/ holds the registry-derived reference tables written by
+# scripts/generate-docs.lua. They are {include}'d as partials by the real
+# pages (keymaps.md, commands.md, ...), so they must NOT also be parsed as
+# standalone documents -- otherwise Sphinx reports "document isn't included
+# in any toctree" and, under `-W`, fails the build.
+exclude_patterns = ["_build", "_generated", "Thumbs.db", ".DS_Store", ".venv"]
 
 # include/literalinclude paths below docs/ need to reach the repo root.
 myst_heading_anchors = 3

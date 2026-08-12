@@ -58,7 +58,7 @@ Steps:
    error out of `load_all()`, which is louder (a traceback, not a
    dedup'd/graceful notification) and worth knowing about before you rely
    on the gentler `config_error` path from step 2.
-4. Run `./scripts/docs-build.sh` to regenerate `LANGUAGES.md` and the
+4. Run `./scripts/docs-build.sh` to regenerate `docs/_generated/languages.md` and the
    Sphinx docs.
 
 ## Adding a new tool
@@ -81,7 +81,7 @@ Always through the registries — never a bare `vim.keymap.set()` or
   once) — `mode`, `lhs`, `rhs`, `desc`, `group` are required; `context` and
   `buffer` are optional. This single call applies the mapping *and*
   records it for which-key, `:NvimKeymaps`, Telescope, and generated
-  `KEYMAPS.md`/Sphinx docs.
+  `docs/_generated/keymaps.md`/Sphinx docs.
 - `util.command_registry.command({...})` — `name`, `desc`, `category`,
   `fn` (plus optional `example`/`args`/`opts` passed through to
   `nvim_create_user_command`). For a command that belongs to a vendored
@@ -109,7 +109,7 @@ that can drift.
 ./scripts/docs-build.sh
 ```
 
-Regenerates `KEYMAPS.md`, `COMMANDS.md`, `LANGUAGES.md`, `TOOLS.md`,
-`PLUGINS.md`, `doc/nvim-config.txt`, and rebuilds this Sphinx site from
+Regenerates every reference table under `docs/_generated/` and
+`doc/nvim-config.txt`, then rebuilds this Sphinx site from
 `scripts/generate-docs.lua` reading the same four registries — so a
 registry change and its documentation can never silently drift apart.

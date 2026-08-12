@@ -12,8 +12,9 @@ See {doc}`architecture` for the full picture and {doc}`development` for how
 to add a new language.
 
 The table below is generated from `lua/languages/registry.lua` by
-`scripts/generate-docs.lua`, identical to `LANGUAGES.md` at the repo root.
+`scripts/generate-docs.lua` into `docs/_generated/languages.md`, which this
+page includes verbatim.
 
-```{include} ../LANGUAGES.md
+```{include} _generated/languages.md
 :start-line: 3
 ```

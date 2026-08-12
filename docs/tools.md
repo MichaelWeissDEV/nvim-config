@@ -25,8 +25,9 @@ own; nothing here is installed automatically. Run `:ToolsStatus` or
 `:NvimConfigHealth` to see what's actually present on your machine.
 
 The table below is generated from `lua/tools/registry.lua` by
-`scripts/generate-docs.lua`, identical to `TOOLS.md` at the repo root.
+`scripts/generate-docs.lua` into `docs/_generated/tools.md`, which this
+page includes verbatim.
 
-```{include} ../TOOLS.md
+```{include} _generated/tools.md
 :start-line: 3
 ```
