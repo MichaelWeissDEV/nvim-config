@@ -18,7 +18,10 @@ vim.api.nvim_create_autocmd("VimEnter", {
     vim.schedule(function()
       lib.run("directory-arg opens the file tree", function()
         vim.wait(500)
-        lib.assert_true(package.loaded["nvim-tree"] ~= nil, "nvim-tree did not load for `nvim " .. tostring(target) .. "`")
+        lib.assert_true(
+          package.loaded["nvim-tree"] ~= nil,
+          "nvim-tree did not load for `nvim " .. tostring(target) .. "`"
+        )
         local resolved_cwd = vim.uv.fs_realpath(vim.fn.getcwd())
         local resolved_target = vim.uv.fs_realpath(target)
         lib.assert_eq(resolved_cwd, resolved_target, "cwd was not changed to the directory argument")
