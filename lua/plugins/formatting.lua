@@ -83,6 +83,31 @@ end
 
 km.map({ mode = { "n", "v" }, lhs = "<leader>lf", rhs = format_current, desc = "Format buffer", group = "Format" })
 
+-- Format-on-save is ON by default and lives under the UI-toggle prefix
+-- because that is where every other "change how the editor behaves right
+-- now" switch lives. Buffer-local by default (the common case: one file
+-- you don't want reformatted); <leader>uF flips it globally.
+km.map({
+  mode = "n",
+  lhs = "<leader>uf",
+  rhs = function()
+    vim.b.disable_autoformat = not vim.b.disable_autoformat
+    vim.notify("Format on save (this buffer): " .. (vim.b.disable_autoformat and "off" or "on"))
+  end,
+  desc = "Toggle format on save (buffer)",
+  group = "UI",
+})
+km.map({
+  mode = "n",
+  lhs = "<leader>uF",
+  rhs = function()
+    vim.g.disable_autoformat = not vim.g.disable_autoformat
+    vim.notify("Format on save (global): " .. (vim.g.disable_autoformat and "off" or "on"))
+  end,
+  desc = "Toggle format on save (global)",
+  group = "UI",
+})
+
 cmdreg.command({
   name = "Format",
   desc = "Format the current buffer",
@@ -126,6 +151,32 @@ cmdreg.command({
   example = ":FormatDisable",
   fn = function()
     vim.g.disable_autoformat = true
+  end,
+})
+
+cmdreg.command({
+  name = "FormatStatus",
+  desc = "Show whether format-on-save is currently active for this buffer, and why",
+  category = "Formatting",
+  example = ":FormatStatus",
+  fn = function()
+    local ft = vim.bo.filetype
+    local has_formatter = formatters_by_ft[ft] ~= nil
+    local off_global = vim.g.disable_autoformat and true or false
+    local off_buffer = vim.b.disable_autoformat and true or false
+    local active = has_formatter and not off_global and not off_buffer
+
+    local reason
+    if active then
+      reason = "formatting with: " .. table.concat(formatters_by_ft[ft], ", ")
+    elseif off_global then
+      reason = "disabled globally (:FormatEnable or <leader>uF to re-enable)"
+    elseif off_buffer then
+      reason = "disabled for this buffer (<leader>uf to re-enable)"
+    else
+      reason = "no formatter available for filetype '" .. ft .. "' (see :FormatterStatus)"
+    end
+    vim.notify("Format on save: " .. (active and "ON" or "OFF") .. " -- " .. reason)
   end,
 })
 

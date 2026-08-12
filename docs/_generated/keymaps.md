@@ -22,6 +22,8 @@
 | `n` | `<leader>du` | Toggle debug UI | Debug | Global |
 | `n` | `<leader>xl` | Line diagnostics (float) | Diagnostics | Global |
 | `n` | `<leader>xq` | Diagnostics to quickfix | Diagnostics | Global |
+| `n` | `<leader>xt` | Toggle diagnostics in this buffer | Diagnostics | Global |
+| `n` | `<leader>xv` | Toggle inline diagnostic details (virtual_lines) | Diagnostics | Global |
 | `n` | `<leader>xx` | Toggle diagnostics list (Trouble) | Diagnostics | Global |
 | `n` | `[d` | Previous diagnostic | Diagnostics | Global |
 | `n` | `]d` | Next diagnostic | Diagnostics | Global |
@@ -50,7 +52,9 @@
 | `n` | `<leader>hd` | Open documentation | Help | Global |
 | `n` | `<leader>hh` | Run health check | Help | Global |
 | `n` | `<leader>hk` | List keymaps | Help | Global |
+| `n` | `<leader>uF` | Toggle format on save (global) | UI | Global |
 | `n` | `<leader>uN` | Toggle line numbers on/off | UI | Global |
+| `n` | `<leader>uf` | Toggle format on save (buffer) | UI | Global |
 | `n` | `<leader>ul` | Toggle whitespace display | UI | Global |
 | `n` | `<leader>un` | Toggle relative/absolute line numbers | UI | Global |
 | `n` | `<leader>uw` | Toggle line wrap | UI | Global |

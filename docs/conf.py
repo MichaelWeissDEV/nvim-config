@@ -15,8 +15,8 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
 
 project = "nvim-config"
-copyright = "nvim-config contributors"
-author = "nvim-config contributors"
+copyright = "2026, Michael Weiss"
+author = "Michael Weiss"
 
 extensions = [
     "myst_parser",

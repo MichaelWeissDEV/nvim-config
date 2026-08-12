@@ -53,6 +53,9 @@ of what's installed on this machine.
 :FormatEnable                                                *nvim-config-cmd-formatenable*
     Enable format-on-save globally
 
+:FormatStatus                                                *nvim-config-cmd-formatstatus*
+    Show whether format-on-save is currently active for this buffer, and why
+
 :FormatToggle                                                *nvim-config-cmd-formattoggle*
     Toggle format-on-save (buffer-local; add ! for global)
 
@@ -132,6 +135,8 @@ Diagnostics ~
 
     n      <leader>xl         Line diagnostics (float)
     n      <leader>xq         Diagnostics to quickfix
+    n      <leader>xt         Toggle diagnostics in this buffer
+    n      <leader>xv         Toggle inline diagnostic details (virtual_lines)
     n      <leader>xx         Toggle diagnostics list (Trouble)
     n      [d                 Previous diagnostic
     n      ]d                 Next diagnostic
@@ -170,7 +175,9 @@ Help ~
     n      <leader>hk         List keymaps
 UI ~
 
+    n      <leader>uF         Toggle format on save (global)
     n      <leader>uN         Toggle line numbers on/off
+    n      <leader>uf         Toggle format on save (buffer)
     n      <leader>ul         Toggle whitespace display
     n      <leader>un         Toggle relative/absolute line numbers
     n      <leader>uw         Toggle line wrap

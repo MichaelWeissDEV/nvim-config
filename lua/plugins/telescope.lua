@@ -19,8 +19,29 @@ local function ensure()
         selection_caret = " ",
         sorting_strategy = "ascending",
         layout_config = { prompt_position = "top" },
-        -- No `fd`/`rg` on PATH just means Telescope's own fallback finder
-        -- (vim.fn.glob-based) is used instead -- not an error.
+        -- Show dotfiles, but never .git's internals -- searching a repo
+        -- should surface .github/, .editorconfig, .env.example and the
+        -- like, while thousands of objects under .git/ are pure noise.
+        -- These flags are passed to ripgrep, so they only apply when `rg`
+        -- is installed; Telescope's own fallback finder ignores them.
+        vimgrep_arguments = {
+          "rg",
+          "--color=never",
+          "--no-heading",
+          "--with-filename",
+          "--line-number",
+          "--column",
+          "--smart-case",
+          "--hidden",
+          "--glob=!**/.git/*",
+        },
+        file_ignore_patterns = { "^%.git/", "/%.git/" },
+      },
+      pickers = {
+        -- find_files needs the flags on the picker, not in
+        -- vimgrep_arguments (which only feeds the grep pickers).
+        find_files = { hidden = true, no_ignore = false },
+        git_files = { show_untracked = true },
       },
     })
     ready = true

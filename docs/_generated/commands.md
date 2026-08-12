@@ -82,6 +82,14 @@ Enable format-on-save globally
 :FormatEnable
 ```
 
+### `:FormatStatus`
+
+Show whether format-on-save is currently active for this buffer, and why
+
+```vim
+:FormatStatus
+```
+
 ### `:FormatToggle`
 
 Toggle format-on-save (buffer-local; add ! for global)
