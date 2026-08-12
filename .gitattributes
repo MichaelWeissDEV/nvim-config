@@ -1,0 +1,22 @@
+# Normalize line endings. This config is meant to work on macOS, Linux and
+# Windows from the same checkout, and Lua/shell files with CRLF break the
+# shell scripts under scripts/.
+* text=auto eol=lf
+
+# Windows-only scripts genuinely want CRLF.
+*.ps1 text eol=crlf
+
+# Vendored third-party plugins: not this repository's code.
+#
+# linguist-vendored keeps them out of GitHub's language statistics (without
+# it the ~5,500 vendored files drown out the actual configuration) and out
+# of diffs by default, which matters because a `git subtree pull` produces
+# very large, uninteresting diffs.
+pack/vendor/** linguist-vendored
+
+# Generated documentation: real content that must stay committed (Read the
+# Docs cannot run the generator), but marking it generated collapses it in
+# pull request diffs, where only the registry change that caused it is
+# worth reading.
+docs/_generated/** linguist-generated
+doc/nvim-config.txt linguist-generated
