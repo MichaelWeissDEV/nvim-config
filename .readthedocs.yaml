@@ -1,0 +1,26 @@
+# Read the Docs build configuration.
+# https://docs.readthedocs.io/en/stable/config-file/v2.html
+#
+# The RTD builder has no Neovim, so it can never run
+# scripts/generate-docs.lua. That is why docs/_generated/*.md is committed
+# to the repository rather than gitignored -- the hosted build consumes
+# the same partials a local `./scripts/docs-build.sh` would regenerate.
+version: 2
+
+build:
+  os: ubuntu-24.04
+  tools:
+    python: "3.12"
+
+sphinx:
+  configuration: docs/conf.py
+  # Same strictness as the local build and CI: any Sphinx warning
+  # (broken cross-reference, page missing from a toctree, ...) fails.
+  fail_on_warning: true
+
+python:
+  install:
+    - requirements: docs/requirements.txt
+
+formats:
+  - htmlzip

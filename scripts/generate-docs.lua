@@ -207,6 +207,100 @@ local function gen_plugins()
   write(generated_dir .. "/plugins.md", lines)
 end
 
+-- docs/_generated/third-party-licenses.md -------------------------------------
+-- Inventory of the licenses of every vendored plugin, read from the LICENSE
+-- file each one ships. Generated rather than hand-maintained so it cannot
+-- silently go stale when a plugin is added, removed or relicensed upstream --
+-- the same reason every other table here is generated. See LICENSE at the
+-- repo root for how these relate to this config's own MIT license.
+local function gen_third_party_licenses()
+  -- Matched against the first ~40 lines of each LICENSE file, most specific
+  -- first (e.g. "GNU LESSER" must beat "GNU GENERAL PUBLIC").
+  local PATTERNS = {
+    { pattern = "GNU LESSER GENERAL PUBLIC LICENSE", name = "LGPL" },
+    { pattern = "GNU GENERAL PUBLIC LICENSE", name = "GPL" },
+    { pattern = "GNU General Public License", name = "GPL" },
+    { pattern = "Apache License", name = "Apache-2.0" },
+    { pattern = "MIT License", name = "MIT" },
+    { pattern = "Permission is hereby granted, free of charge", name = "MIT" },
+    { pattern = "BSD", name = "BSD" },
+    { pattern = "Unlicense", name = "Unlicense" },
+  }
+
+  local function detect(dir)
+    for _, candidate in ipairs({ "LICENSE", "LICENSE.md", "LICENSE.txt", "LICENCE", "LICENCE.md", "COPYING" }) do
+      local path = dir .. "/" .. candidate
+      local fh = io.open(path, "r")
+      if fh then
+        local head = fh:read(4000) or ""
+        fh:close()
+        local label
+        for _, p in ipairs(PATTERNS) do
+          if head:find(p.pattern, 1, true) then
+            label = p.name
+            break
+          end
+        end
+        -- GPL/LGPL: report the actual version, it matters. Two spellings in
+        -- the wild -- the verbatim GPL text header ("Version 3, 29 June
+        -- 2007") and the short "either version 3 of the License" preamble
+        -- projects paste into their own LICENSE (e.g. nvim-tree.lua).
+        if label == "GPL" or label == "LGPL" then
+          local version = head:match("Version (%d)") or head:match("version (%d) of the License")
+          if version then
+            label = label .. "-" .. version .. ".0"
+          end
+        end
+        return label or "see file", candidate
+      end
+    end
+    return nil, nil
+  end
+
+  local lines = {
+    GENERATED_HEADER,
+    "",
+    "# Third-Party Licenses",
+    "",
+    "Every plugin under `pack/vendor/` is redistributed unmodified under its",
+    "own license, listed below and detected from the LICENSE file each plugin",
+    "ships. The authoritative text is always that file inside the plugin's own",
+    "directory; this table is a convenience index.",
+    "",
+    "This configuration's own code is MIT (see `LICENSE` at the repository",
+    "root), which does **not** extend to these plugins.",
+    "",
+    "| Plugin | License | License file |",
+    "|---|---|---|",
+  }
+
+  local names = {}
+  for _, base in ipairs({ "start", "opt" }) do
+    local dir = repo_root .. "/pack/vendor/" .. base
+    for name, kind in vim.fs.dir(dir) do
+      if kind == "directory" then
+        table.insert(names, { name = name, dir = dir .. "/" .. name })
+      end
+    end
+  end
+  table.sort(names, function(a, b)
+    return a.name:lower() < b.name:lower()
+  end)
+
+  for _, entry in ipairs(names) do
+    local label, file = detect(entry.dir)
+    lines[#lines + 1] = string.format(
+      "| %s | %s | %s |",
+      entry.name,
+      label or "**none found**",
+      file and ("`" .. file .. "`") or "_(no license file in the plugin)_"
+    )
+  end
+  lines[#lines + 1] = ""
+
+  write(generated_dir .. "/third-party-licenses.md", lines)
+end
+
 -- doc/nvim-config.txt (native :help) ---------------------------------------
 local function vimdoc_escape(s)
   return (s:gsub("|", "\\|"))
@@ -305,6 +399,7 @@ gen_commands()
 gen_tools()
 gen_languages()
 gen_plugins()
+gen_third_party_licenses()
 gen_help(keymaps)
 
 print("==> Docs generated. Run :helptags doc (or scripts/install.sh) to refresh help tags.")

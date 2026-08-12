@@ -1,0 +1,44 @@
+MIT License
+
+Copyright (c) 2026 Michael Weiss
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===============================================================================
+
+SCOPE OF THIS LICENSE
+
+The MIT license above applies to the original configuration in this
+repository: init.lua, everything under lua/, after/, scripts/, tests/ and
+docs/, and the generated files doc/nvim-config.txt and docs/_generated/.
+
+It does NOT apply to the third-party Neovim plugins vendored under
+pack/vendor/, which are redistributed unmodified, each under its own
+license, and each retaining its own copyright and LICENSE file inside its
+directory. Those licenses are not all MIT -- several are Apache-2.0 and
+three are GPL-3.0. See docs/_generated/third-party-licenses.md (generated
+by scripts/generate-docs.lua, so it cannot go stale) for the current
+per-plugin inventory, and the LICENSE file inside each plugin's own
+directory for the authoritative text.
+
+Vendoring these plugins is mere aggregation: each plugin remains a
+separate work, distributed under its own terms, and this configuration
+calls their public APIs rather than incorporating their code. Nothing
+here is legal advice -- if you plan to redistribute this repository under
+different terms, read the individual licenses yourself.

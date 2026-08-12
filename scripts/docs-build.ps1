@@ -19,8 +19,7 @@ if (-not (Test-Path $VenvPython)) {
   Write-Host "==> Creating docs\.venv and installing Sphinx (one-time, needs network)"
   python -m venv docs\.venv
   & $VenvPython -m pip install -q --upgrade pip
-  # Version range kept in sync with pyproject.toml's [project.optional-dependencies].docs
-  & $VenvPython -m pip install -q "sphinx>=8.0,<9" "myst-parser>=4.0,<5" "sphinx-rtd-theme>=3.0,<4"
+  & $VenvPython -m pip install -q -r docs\requirements.txt
 }
 
 Write-Host "==> Building Sphinx HTML (docs\_build\html)"

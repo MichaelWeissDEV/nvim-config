@@ -1,12 +1,23 @@
+# This repository is a Neovim configuration, not a Python package. The only
+# Python involved is the Sphinx toolchain that builds docs/.
+#
+# Those dependencies are pinned in exactly one place -- docs/requirements.txt --
+# which is what Read the Docs (/.readthedocs.yaml) and both docs-build scripts
+# install from. This file exists only so the docs extra is discoverable through
+# the conventional `pip install .[docs]`, and it deliberately does not repeat
+# the version pins.
+
 [project]
 name = "nvim-config-docs"
 version = "0.1.0"
-description = "Pinned build dependencies for this repository's local Sphinx documentation (docs/). Not an installable package -- nothing here ships in the editor config itself. scripts/docs-build.sh and docs-build.ps1 install these exact version ranges directly into docs/.venv; keep both in sync with this file."
+description = "Sphinx toolchain for building this Neovim configuration's documentation. Not an installable library."
 requires-python = ">=3.9"
+dynamic = ["dependencies", "optional-dependencies"]
 
-[project.optional-dependencies]
-docs = [
-    "sphinx>=8.0,<9",
-    "myst-parser>=4.0,<5",
-    "sphinx-rtd-theme>=3.0,<4",
-]
+[tool.setuptools.dynamic]
+optional-dependencies.docs = { file = ["docs/requirements.txt"] }
+dependencies = { file = [] }
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
