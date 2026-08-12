@@ -14,6 +14,7 @@ root), which does **not** extend to these plugins.
 |---|---|---|
 | catppuccin | MIT | `LICENSE.md` |
 | cmp-buffer | MIT | `LICENSE` |
+| cmp-cmdline | MIT | `LICENSE` |
 | cmp-nvim-lsp | MIT | `LICENSE` |
 | cmp-path | MIT | `LICENSE` |
 | cmp_luasnip | Apache-2.0 | `LICENSE` |
@@ -39,6 +40,7 @@ root), which does **not** extend to these plugins.
 | render-markdown.nvim | MIT | `LICENSE` |
 | telescope.nvim | MIT | `LICENSE` |
 | trouble.nvim | Apache-2.0 | `LICENSE` |
+| vim-fugitive | **none found** | _(no license file in the plugin)_ |
 | vimtex | MIT | `LICENSE.md` |
 | which-key.nvim | Apache-2.0 | `LICENSE` |
 

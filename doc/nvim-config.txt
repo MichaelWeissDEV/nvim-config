@@ -62,8 +62,14 @@ of what's installed on this machine.
 :FormatterStatus                                             *nvim-config-cmd-formatterstatus*
     Show which formatter(s) are configured/available for the current buffer, and all formatters by filetype
 
+:Git [git-subcommand]                                                         *nvim-config-cmd-git*
+    Run any git command through vim-fugitive; bare :Git opens the interactive status buffer
+
 :Gitsigns                                                    *nvim-config-cmd-gitsigns*
     Gitsigns subcommands (staging, blame, hunks)
+
+:Gvdiffsplit                                                 *nvim-config-cmd-gvdiffsplit*
+    Open a vertical three-way diff of the current file against the index (fugitive)
 
 :LspStatus                                                   *nvim-config-cmd-lspstatus*
     Show configured LSP servers (installed) and clients attached to the current buffer
@@ -167,6 +173,14 @@ General ~
     n      <leader>Y          Yank line to system clipboard
     n,v    <leader>y          Yank to system clipboard
     v      >                  Indent right, keep selection
+Git ~
+
+    n      <leader>gP         Git pull
+    n      <leader>gc         Git commit
+    n      <leader>gd         Git diff against index (split)
+    n      <leader>gg         Git status (fugitive)
+    n      <leader>gl         Git log (graph)
+    n      <leader>gp         Git push
 Help ~
 
     n      <leader>hc         List commands

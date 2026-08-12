@@ -46,6 +46,7 @@ formatting
 linting
 debugging
 git
+files
 telescope
 treesitter
 mason
@@ -58,6 +59,8 @@ mason
 plugin-updates
 troubleshooting
 development
+changelog
+license
 ```
 
 ## The five-second version

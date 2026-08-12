@@ -108,12 +108,28 @@ Show which formatter(s) are configured/available for the current buffer, and all
 
 ## Git
 
+### `:Git [git-subcommand]`
+
+Run any git command through vim-fugitive; bare :Git opens the interactive status buffer
+
+```vim
+:Git blame
+```
+
 ### `:Gitsigns`
 
 Gitsigns subcommands (staging, blame, hunks)
 
 ```vim
 :Gitsigns preview_hunk
+```
+
+### `:Gvdiffsplit`
+
+Open a vertical three-way diff of the current file against the index (fugitive)
+
+```vim
+:Gvdiffsplit
 ```
 
 ## LSP

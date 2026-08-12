@@ -16,6 +16,7 @@ All plugins are vendored in-repo via `git subtree` (see `scripts/plugins.tsv` / 
 | cmp-nvim-lsp | https://github.com/hrsh7th/cmp-nvim-lsp | always |
 | cmp-buffer | https://github.com/hrsh7th/cmp-buffer | always |
 | cmp-path | https://github.com/hrsh7th/cmp-path | always |
+| cmp-cmdline | https://github.com/hrsh7th/cmp-cmdline | always (`:` and `/` command-line completion) |
 | LuaSnip | https://github.com/L3MON4D3/LuaSnip | always (snippet engine) |
 | cmp_luasnip | https://github.com/saadparwaiz1/cmp_luasnip | always |
 | friendly-snippets | https://github.com/rafamadriz/friendly-snippets | always (snippet data, lazy_load()'d) |
@@ -34,6 +35,7 @@ All plugins are vendored in-repo via `git subtree` (see `scripts/plugins.tsv` / 
 |---|---|---|
 | telescope.nvim | https://github.com/nvim-telescope/telescope.nvim | first <leader>f* keypress or :Telescope |
 | nvim-tree.lua | https://github.com/nvim-tree/nvim-tree.lua | first <leader>e keypress or :NvimTreeToggle |
+| vim-fugitive | https://github.com/tpope/vim-fugitive | first :Git / <leader>gg / :G* command |
 | oil.nvim | https://github.com/stevearc/oil.nvim | first <leader>o keypress, "-", or :Oil |
 | trouble.nvim | https://github.com/folke/trouble.nvim | first <leader>xx keypress or :Trouble |
 | render-markdown.nvim | https://github.com/MeanderingProgrammer/render-markdown.nvim | FileType markdown |

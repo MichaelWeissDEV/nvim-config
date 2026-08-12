@@ -48,6 +48,12 @@
 | `n` | `<leader>Y` | Yank line to system clipboard | General | Global |
 | `n,v` | `<leader>y` | Yank to system clipboard | General | Global |
 | `v` | `>` | Indent right, keep selection | General | Global |
+| `n` | `<leader>gP` | Git pull | Git | Global |
+| `n` | `<leader>gc` | Git commit | Git | Global |
+| `n` | `<leader>gd` | Git diff against index (split) | Git | Global |
+| `n` | `<leader>gg` | Git status (fugitive) | Git | Global |
+| `n` | `<leader>gl` | Git log (graph) | Git | Global |
+| `n` | `<leader>gp` | Git push | Git | Global |
 | `n` | `<leader>hc` | List commands | Help | Global |
 | `n` | `<leader>hd` | Open documentation | Help | Global |
 | `n` | `<leader>hh` | Run health check | Help | Global |

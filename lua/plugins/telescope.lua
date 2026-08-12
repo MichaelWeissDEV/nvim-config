@@ -38,9 +38,12 @@ local function ensure()
         file_ignore_patterns = { "^%.git/", "/%.git/" },
       },
       pickers = {
-        -- find_files needs the flags on the picker, not in
+        -- find_files needs the flag on the picker, not in
         -- vimgrep_arguments (which only feeds the grep pickers).
-        find_files = { hidden = true, no_ignore = false },
+        -- Deliberately no `no_ignore` here: false is already the default,
+        -- and passing it explicitly makes Telescope warn when it falls
+        -- back to plain `find` (i.e. whenever `fd` isn't installed).
+        find_files = { hidden = true },
         git_files = { show_untracked = true },
       },
     })

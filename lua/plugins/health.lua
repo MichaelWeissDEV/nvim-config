@@ -15,6 +15,7 @@ local START = {
   "cmp-nvim-lsp",
   "cmp-buffer",
   "cmp-path",
+  "cmp-cmdline",
   "LuaSnip",
   "cmp_luasnip",
   "friendly-snippets",
@@ -31,6 +32,7 @@ local START = {
 local OPT = {
   "telescope.nvim",
   "nvim-tree.lua",
+  "vim-fugitive",
   "oil.nvim",
   "trouble.nvim",
   "render-markdown.nvim",

@@ -52,3 +52,33 @@ cmp.setup({
     documentation = cmp.config.window.bordered(),
   },
 })
+
+-- Command-line completion (cmp-cmdline). Neovim's built-in wildmenu already
+-- completes on <Tab>; this adds the same popup-with-selection UI insert mode
+-- has, so `:` behaves consistently with the rest of the editor.
+--
+-- `:` and `/` get different source sets on purpose: `/` and `?` search the
+-- current buffer, so buffer words are the useful completions there, while
+-- `:` wants command names and their arguments. cmp-cmdline's `cmdline`
+-- source wraps Neovim's own `getcompletion()`, so every command this config
+-- registers through util.command_registry is completed automatically --
+-- including argument completion like `:ToolsInstall <profile>`.
+cmp.setup.cmdline({ "/", "?" }, {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = { { name = "buffer" } },
+})
+
+cmp.setup.cmdline(":", {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = "path" },
+  }, {
+    {
+      name = "cmdline",
+      -- Don't fire on shell escapes (`:!cmd`), where the useful completion
+      -- is the shell's, not Neovim's.
+      option = { ignore_cmds = { "Man", "!" } },
+    },
+  }),
+  matching = { disallow_symbol_nonprefix_matching = false },
+})
