@@ -11,7 +11,8 @@ echo "==> Regenerating docs/_generated/*.md and doc/nvim-config.txt from the reg
 nvim --headless -u init.lua -l scripts/generate-docs.lua
 
 echo "==> Refreshing :help tags"
-nvim --headless -c "helptags $repo_root/doc" -c "qa"
+# -u NONE: do not load any user config while generating tags.
+nvim --headless -u NONE -c "helptags $repo_root/doc" -c "qa"
 
 if [ ! -x docs/.venv/bin/sphinx-build ]; then
   echo "==> Creating docs/.venv and installing Sphinx (one-time, needs network)"

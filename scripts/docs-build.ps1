@@ -12,7 +12,8 @@ Write-Host "==> Regenerating docs/_generated/*.md and doc/nvim-config.txt from t
 & nvim --headless -u init.lua -l scripts/generate-docs.lua
 
 Write-Host "==> Refreshing :help tags"
-& nvim --headless -c "helptags $RepoRoot\doc" -c "qa"
+# -u NONE: do not load any user config while generating tags.
+& nvim --headless -u NONE -c "helptags $RepoRoot\doc" -c "qa"
 
 $VenvPython = "docs\.venv\Scripts\python.exe"
 if (-not (Test-Path $VenvPython)) {

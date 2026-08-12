@@ -38,12 +38,28 @@ regardless of OS; there's no per-platform branching in those modules.
 
 ## Testing honesty
 
-macOS is the only platform this config has actually been run and
-interactively exercised on during development (see the tree-sitter-cli
-caveat in {doc}`offline`, which was caught this way). Linux and Windows are
-architecturally supported — they go through the same `util.platform`/
-`config.platform` code paths described above, with no macOS-specific
-assumptions baked into the rest of the config — but they have not been
-interactively verified on a real Linux or Windows machine as part of this
-project. If something here turns out to be wrong on either platform, it's
-an untested code path, not a hedge.
+Three different levels of confidence apply, and they are worth keeping
+apart.
+
+**macOS — interactively exercised.** The only platform this config has
+been *used*, not just tested: real editing sessions, real language servers
+attaching, real debugging. Findings that only surface that way came from
+here (the tree-sitter-cli caveat in {doc}`offline`, the typing-lag
+investigation in {doc}`lsp`).
+
+**Linux — full automated suite.** Every push runs `tests/run.sh` on
+`ubuntu-latest` in CI: clean-state and populated-state startup, the
+zero-notification assertion, lazy-load triggers, every custom command, and
+the missing-dependency check with `PATH` stripped to a sandbox.
+
+**Windows — automated subset.** `windows-latest` runs the
+platform-independent Lua tests directly (startup exits cleanly, quiet
+startup with nothing eagerly loaded, lazy-load triggers, every custom
+command, `:checkhealth nvim-config`). Deliberately *not* covered there: the
+missing-dependency test, which works by rebuilding `PATH` out of a symlink
+sandbox with `env -i` and has no faithful Windows equivalent.
+
+So "works on Linux and Windows" now means the automated assertions above
+pass on those runners — not that someone has spent a day editing code in
+it there. Interactive use on either may still surface something CI cannot
+see; if it does, that's a genuine bug report, not an expected hedge.

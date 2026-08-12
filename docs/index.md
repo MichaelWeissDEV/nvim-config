@@ -66,7 +66,7 @@ license
 ## The five-second version
 
 ```bash
-git clone <this-repo-url> ~/.config/nvim
+git clone https://github.com/MichaelWeissDEV/nvim-config.git ~/.config/nvim
 nvim
 ```
 

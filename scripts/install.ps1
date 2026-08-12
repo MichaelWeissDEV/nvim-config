@@ -14,7 +14,8 @@ if (-not (Get-Command nvim -ErrorAction SilentlyContinue)) {
 }
 
 Write-Host "==> Generating :help tags"
-& nvim --headless -c "helptags $RepoRoot\doc" -c "qa"
+# -u NONE: do not load any user config while generating tags.
+& nvim --headless -u NONE -c "helptags $RepoRoot\doc" -c "qa"
 
 $ConfigDir = Join-Path $env:LOCALAPPDATA "nvim"
 

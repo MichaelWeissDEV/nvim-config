@@ -14,11 +14,43 @@ Nothing else is required to get a working editor. Language servers,
 formatters, linters and debuggers are all optional and installed later,
 on purpose — see {doc}`offline`.
 
+## If you already have a Neovim configuration
+
+Read this first — cloning straight into `~/.config/nvim` only works if
+that directory does not exist yet.
+
+Back up whatever is there before doing anything else:
+
+```bash
+mv ~/.config/nvim ~/.config/nvim.backup
+```
+
+For a genuinely clean slate, also move Neovim's data and state
+directories aside (plugins, Mason downloads, shada, undo history live
+there, not in your config):
+
+```bash
+mv ~/.local/share/nvim ~/.local/share/nvim.backup
+mv ~/.local/state/nvim ~/.local/state/nvim.backup
+```
+
+`./scripts/install.sh` never deletes or overwrites an existing
+configuration. If it finds one that isn't this repository it refuses and
+tells you what to do; `./scripts/install.sh --backup` makes it move the
+existing config to a timestamped directory first. Nothing in either mode
+touches your data or state directories.
+
 ## Clone
 
 ```bash
-git clone <this-repo-url> ~/.config/nvim
+git clone https://github.com/MichaelWeissDEV/nvim-config.git ~/.config/nvim
 nvim
+```
+
+Over SSH instead:
+
+```bash
+git clone git@github.com:MichaelWeissDEV/nvim-config.git ~/.config/nvim
 ```
 
 On Linux and macOS, Neovim reads its config from `$XDG_CONFIG_HOME/nvim`
@@ -27,7 +59,7 @@ On Linux and macOS, Neovim reads its config from `$XDG_CONFIG_HOME/nvim`
 symlink it into place instead of cloning twice:
 
 ```bash
-git clone <this-repo-url> ~/git/nvim-config
+git clone https://github.com/MichaelWeissDEV/nvim-config.git ~/git/nvim-config
 ln -s ~/git/nvim-config ~/.config/nvim
 ```
 

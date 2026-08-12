@@ -1,14 +1,26 @@
 # Changelog
 
 All notable changes to this configuration are documented here. The format
-is loosely based on [Keep a Changelog](https://keepachangelog.com/1.1.0/);
-this project has no released versions yet, so everything so far lives
-under _Unreleased_.
+is loosely based on [Keep a Changelog](https://keepachangelog.com/1.1.0/)
+and versions follow [Semantic Versioning](https://semver.org/).
+
+Each release is a git tag, so `git checkout v0.1.0` gives you a known-good
+combination of configuration *and* vendored plugin versions — which
+matters more here than in most configs, because the plugins live in the
+repository rather than being resolved at install time.
 
 Vendored plugin updates (`git subtree pull`, recorded in `plugins.lock`)
 are not listed individually — see `git log -- pack/vendor/` for those.
 
 ## [Unreleased]
+
+Nothing yet.
+
+## [0.1.0] - 2026-08-13
+
+First tagged release. Everything below was built and verified before this
+tag; the entries are grouped by what a reader coming to the project fresh
+would care about rather than by commit order.
 
 ### Added
 
@@ -47,6 +59,27 @@ are not listed individually — see `git log -- pack/vendor/` for those.
   startup, lazy-load triggers, custom commands, a genuine
   missing-dependency test with `PATH` stripped to a sandbox, and the
   directory-argument behavior.
+- Command-line completion (`cmp-cmdline`): `:` completes commands and their
+  arguments through Neovim's own `getcompletion()`, so every command
+  registered in the command registry is completed automatically; `/` and
+  `?` complete buffer words.
+- Git: gitsigns.nvim for the in-buffer layer (hunks, staging, blame) plus
+  vim-fugitive, lazily loaded, for repository operations (`:Git`,
+  `:Gvdiffsplit`, `<leader>g*`).
+- Diagnostics: `virtual_lines` showing the full message for the diagnostic
+  under the cursor, toggles for inline details (`<leader>xv`) and
+  per-buffer diagnostics (`<leader>xt`).
+- Format-on-save toggles `<leader>uf` (buffer) and `<leader>uF` (global),
+  plus `:FormatStatus`, which reports whether it is active and why not.
+- Telescope shows hidden files while still excluding `.git` internals.
+- `./scripts/install.sh --backup`: moves an existing Neovim configuration
+  to a timestamped directory instead of refusing. Without the flag an
+  existing config is never touched.
+- CI (GitHub Actions): stylua, the full test suite on Linux and macOS, the
+  platform-independent tests on Windows, a strict Sphinx build, and a check
+  that the generated documentation is not stale.
+- MIT license for this repository's own code, with a generated inventory of
+  the vendored plugins' own licenses (20 MIT, 6 Apache-2.0, 3 GPL-3.0).
 
 ### Fixed
 
@@ -92,3 +125,9 @@ are not listed individually — see `git log -- pack/vendor/` for those.
 - Sphinx theme switched from `alabaster` to `sphinx-rtd-theme`.
 - `nvim <directory>` changes the working directory but no longer opens the
   file tree automatically — the sidebar stays closed until requested.
+- Diagnostic sign glyphs are written as `\u{...}` escapes rather than
+  literal characters, after the literals were found to have been silently
+  stripped to empty strings.
+
+[Unreleased]: https://github.com/MichaelWeissDEV/nvim-config/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/MichaelWeissDEV/nvim-config/releases/tag/v0.1.0

@@ -36,9 +36,17 @@ jobs:
           # their upstream formatting, we do not reformat other projects.
           args: --check lua/ after/ scripts/ tests/
 
+  # Full POSIX suite. tests/run.sh isolates each check with XDG_* overrides
+  # and builds a stripped-PATH sandbox out of symlinks for the
+  # missing-dependency test -- both POSIX-specific, hence the separate
+  # Windows job below rather than one three-way matrix.
   tests:
-    name: headless test suite
-    runs-on: ubuntu-latest
+    name: tests (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
     steps:
       - uses: actions/checkout@v4
 
@@ -63,7 +71,9 @@ jobs:
       # It lives in this job because it needs the Neovim installed above --
       # regenerating and then diffing is the only way to actually check
       # this; a bare `git diff` without regenerating would always pass.
+      # Once is enough, so it is pinned to the Linux leg of the matrix.
       - name: Generated docs are up to date
+        if: matrix.os == 'ubuntu-latest'
         run: |
           nvim --headless -u init.lua -l scripts/generate-docs.lua
           if ! git diff --quiet -- docs/_generated doc/nvim-config.txt; then
@@ -71,6 +81,54 @@ jobs:
             git --no-pager diff -- docs/_generated doc/nvim-config.txt
             exit 1
           fi
+
+  # Windows runs the platform-independent Lua tests directly instead of
+  # tests/run.sh. What is deliberately NOT covered here is the
+  # missing-dependency test: it works by rebuilding PATH out of a symlink
+  # sandbox with `env -i`, which has no faithful Windows equivalent. The
+  # rest -- quiet startup, nothing eagerly loaded, lazy-load triggers,
+  # every custom command running -- is exactly the same assertion set as on
+  # POSIX, so "does this config actually work on Windows" is answered
+  # rather than assumed.
+  tests-windows:
+    name: tests (windows-latest)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Neovim
+        uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+          version: stable
+
+      - name: Show versions
+        run: nvim --version
+
+      - name: Startup exits cleanly
+        run: |
+          nvim --headless -u init.lua "+qa"
+          if ($LASTEXITCODE -ne 0) { throw "nvim exited with $LASTEXITCODE" }
+
+      - name: Quiet startup, nothing eagerly loaded
+        run: |
+          nvim --headless -u init.lua -l tests/test_startup.lua
+          if ($LASTEXITCODE -ne 0) { throw "test_startup failed" }
+
+      - name: Lazy-load triggers
+        run: |
+          nvim --headless -u init.lua -l tests/test_lazy_load.lua
+          if ($LASTEXITCODE -ne 0) { throw "test_lazy_load failed" }
+
+      - name: Custom commands all run
+        run: |
+          nvim --headless -u init.lua -l tests/test_commands.lua
+          if ($LASTEXITCODE -ne 0) { throw "test_commands failed" }
+
+      - name: Health check runs without error
+        run: |
+          nvim --headless -u init.lua -c "checkhealth nvim-config" -c "qa"
+          if ($LASTEXITCODE -ne 0) { throw "checkhealth failed" }
 
   docs:
     name: Sphinx (-W)

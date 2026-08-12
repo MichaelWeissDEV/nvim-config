@@ -10,11 +10,27 @@
      If you pick a project slug other than "nvim-config", update both the
      badge and its link above to match. -->
 
-A from-scratch, fully documented Neovim configuration for practically every
-commonly used programming language. Built to behave like a small
-distribution — fast, quiet, modular, portable — while remaining 100%
+A reproducible, offline-capable, fully documented Neovim development
+environment built directly on native Neovim mechanisms. Behaves like a
+small distribution — fast, quiet, modular, portable — while remaining 100%
 readable, hand-written configuration. No LazyVim, NvChad, AstroNvim,
 LunarVim or SpaceVim anywhere in this repository.
+
+<!-- HERO SCREENSHOT
+     Drop one image here and this section becomes the five-second pitch.
+     Only you can take it -- it depends on your terminal, font and colours.
+
+     Suggested single shot (one image, not ten): a real source file open
+     (Rust or C++ reads well), Telescope or the nvim-tree sidebar visible,
+     a completion popup up, and one diagnostic showing. Then:
+
+       1. save it as docs/_static/screenshot.png
+       2. replace this comment with:
+          ![nvim-config](docs/_static/screenshot.png)
+       3. add the same image to docs/index.md so it appears on the docs site
+          (docs/conf.py currently has html_static_path = []; set it to
+          ["_static"] once that directory exists)
+-->
 
 ## Features
 
@@ -184,9 +200,9 @@ language: [docs/_generated/languages.md](docs/_generated/languages.md).
 
 | Platform | Status |
 |---|---|
-| macOS | Primary development platform — real, interactive testing |
-| Linux | Same code paths as macOS (`lua/util/platform.lua`), architecturally supported; not interactively tested on a real Linux machine in this project |
-| Windows | Dedicated `.ps1` scripts and `config/platform.lua` shell settings; architecturally supported, not interactively tested on a real Windows machine in this project |
+| macOS | Primary development platform — real, interactive daily use |
+| Linux | Full headless test suite runs on every push (`ubuntu-latest`) |
+| Windows | Platform-independent tests run on every push (`windows-latest`); the POSIX-only missing-dependency sandbox test is skipped there |
 
 See [docs/platform.md](docs/platform.md) for exactly what differs per OS.
 

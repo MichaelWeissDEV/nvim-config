@@ -61,6 +61,40 @@ rather than publishing something broken.
 If the project slug you choose is not `nvim-config`, update the docs badge
 and its link at the top of [README.md](README.md) to match.
 
+### Versioned documentation
+
+Read the Docs builds `latest` from `main`. To also publish a stable,
+tagged version:
+
+1. Push a tag (see _Releasing_ below). Read the Docs detects tags as
+   versions automatically.
+2. In the project's _Versions_ page, activate the tag you want published.
+3. Optionally set that version as the project default, so
+   `nvim-config.readthedocs.io` lands on the stable docs instead of
+   `latest`.
+
+This matters more here than for most projects: because plugins are
+vendored, a tag pins the configuration *and* the exact plugin versions, so
+the documentation for a tag genuinely describes what that checkout does.
+
+## Releasing
+
+```bash
+# 1. Move the entries under "Unreleased" into a new version section in
+#    CHANGELOG.md, with today's date, and update the link definitions
+#    at the bottom of that file.
+# 2. Make sure everything is green (see "Before opening a pull request").
+# 3. Tag and push.
+git tag -a v0.2.0 -m "v0.2.0"
+git push origin v0.2.0
+```
+
+Then create the GitHub release from that tag, using the changelog section
+as its body. Versions follow [Semantic Versioning](https://semver.org/):
+breaking changes to keymaps, command names or the registry schemas are a
+major bump; new languages, tools or plugins are a minor bump; fixes are a
+patch.
+
 ## Standards this repository holds itself to
 
 - **No downloads at startup.** Plugins are vendored via `git subtree`;
