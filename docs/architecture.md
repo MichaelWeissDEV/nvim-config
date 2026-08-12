@@ -106,12 +106,15 @@ theme, statusline, which-key, Tree-sitter, completion, Git signs, Mason
 - a `FileType` autocommand (`render-markdown.nvim` on `markdown`, `vimtex`
   on `tex`/`plaintex`/`bib`, `rainbow_csv` on `csv`/`tsv`),
 - the first press of a relevant keymap (`telescope.nvim` on any
-  `<leader>f*`, `oil.nvim` on `<leader>e`, `trouble.nvim` on `<leader>xx`,
-  `nvim-dap` on any `<leader>d*`),
+  `<leader>f*`, `nvim-tree.lua` on `<leader>e`, `oil.nvim` on `<leader>o`
+  or `-`, `trouble.nvim` on `<leader>xx`, `nvim-dap` on any `<leader>d*`),
   ({file}`nvim-dap-ui`/{file}`nvim-nio` load even later still -- only once
   a debug session is actually *started*, not merely when a breakpoint is
   set).
-- an explicit command (`:Oil`, `:Trouble`, `:Telescope`).
+- an explicit command (`:NvimTreeToggle`, `:Oil`, `:Trouble`, `:Telescope`).
+- `nvim-tree.lua` also loads at `VimEnter` if Neovim's sole startup
+  argument is a directory (`nvim .`, `nvim some/project`) -- see the
+  autocommand in `plugins/tree.lua` and `tests/test_directory_arg.lua`.
 
 A plain `nvim` with no file argument loads **zero** `opt` packages. You can
 verify this yourself: `:lua for k in pairs(package.loaded) do print(k) end`
