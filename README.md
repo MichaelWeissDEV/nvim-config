@@ -10,8 +10,6 @@
      If you pick a project slug other than "nvim-config", update both the
      badge and its link above to match. -->
 
-
-
 A from-scratch, fully documented Neovim configuration for practically every
 commonly used programming language. Built to behave like a small
 distribution — fast, quiet, modular, portable — while remaining 100%
@@ -59,14 +57,14 @@ Nothing else is required for a working editor — see [Offline Usage](#offline-u
 ## Installation
 
 ```bash
-git clone <this-repo-url> ~/.config/nvim
+git clone https://github.com/MichaelWeissDEV/nvim-config.git ~/.config/nvim
 nvim
 ```
 
 or, if you keep the repo elsewhere:
 
 ```bash
-git clone <this-repo-url> ~/git/nvim-config
+git clone https://github.com/MichaelWeissDEV/nvim-config.git ~/git/nvim-config
 ./scripts/install.sh          # symlinks ~/.config/nvim -> the repo, generates :help tags
 ```
 
