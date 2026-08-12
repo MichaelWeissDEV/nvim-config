@@ -17,6 +17,12 @@ the `LanguageSpec` schema documented as a comment at the top of
   treesitter    string[]?             nvim-treesitter parser names
   root_markers  string[]?             files/dirs that mark a project root
   lsp           { tool: string, settings: table?, extra: table? }?
+  extra_lsp     { tool: string, settings: table?, extra: table? }[]?
+                additional LSP clients attached alongside `lsp` for the same
+                filetypes -- use sparingly, see the schema comment for why
+                (two servers both producing diagnostics/hints for one buffer
+                is exactly the kind of thing that made typing feel laggy
+                once, see {doc}`troubleshooting`)
   formatters    string[]?             tool ids from tools.registry, in order
   linters       string[]?             tool ids from tools.registry
   debugger      { tool: string, adapter: fun():table, configurations: fun():table[] }?
@@ -29,8 +35,11 @@ the `LanguageSpec` schema documented as a comment at the top of
 `lua/languages/rust.lua` is a good concrete example — LSP settings, a
 formatter, an intentionally empty `linters` list (with a comment
 explaining clippy runs through `rust-analyzer`'s `checkOnSave` instead),
-a debugger built from the shared `debugger.adapters.codelldb` module, and
-a buffer-local keymap.
+and a debugger built from the shared `debugger.adapters.codelldb` module.
+`lua/languages/python.lua` is the example for the other two optional
+fields: `extra_lsp` (a second client, `ty`, attached alongside
+`basedpyright`) and `keymaps` (a buffer-local `<leader>cr` "run this
+file" mapping).
 
 Steps:
 

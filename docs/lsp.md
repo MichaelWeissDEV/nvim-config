@@ -65,10 +65,22 @@ the first place.
 
 ## Inlay hints
 
-If the attaching client supports `textDocument/inlayHint`, inlay hints are
-enabled for that buffer automatically (`vim.lsp.inlay_hint.enable(true,
-...)`). Some languages add their own toggle on top — e.g. Rust's
-`<leader>ci` (see `lua/languages/rust.lua`, documented in {doc}`languages`).
+Opt-in, not automatic: if the attaching client supports
+`textDocument/inlayHint`, `lsp/attach.lua` registers a `<leader>ci` toggle
+for that buffer, but does **not** enable hints itself. They used to be
+auto-enabled on attach; that was changed after it turned out to be a real
+source of typing lag on large files/projects. Neovim's built-in
+`vim.lsp.inlay_hint` module re-requests hints from every capable attached
+client on every `textDocument/didChange` notification (see
+`vim/lsp/inlay_hint.lua`'s `LspNotify` autocommand in Neovim's own
+runtime) — i.e. on every debounced keystroke while typing, once per
+capable client. That's doubled for any language running two LSP clients
+via `extra_lsp` (Python's `ty`, see {doc}`languages`), and for at least one
+observed case (a large C++ translation unit) produced clangd's
+`-32001: invalid AST` error, which clangd throws when a request outruns
+its ability to keep the AST synchronized — exactly what frequent hint
+requests do. Toggle hints on with `<leader>ci` when you want them for a
+specific buffer.
 
 ## Related
 

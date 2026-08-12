@@ -107,8 +107,29 @@ function M.setup()
         },
       })
 
+      -- Inlay hints are opt-in via this toggle, not auto-enabled on attach.
+      -- Neovim's built-in inlay_hint module re-requests hints from every
+      -- capable client on every textDocument/didChange (see
+      -- vim/lsp/inlay_hint.lua's LspNotify autocmd) -- i.e. on every
+      -- debounced keystroke while typing. Auto-enabling it made typing feel
+      -- laggy on large files/projects (worse now that some languages, e.g.
+      -- Python via extra_lsp, run two capable clients on the same buffer),
+      -- and for at least one real case produced clangd's "invalid AST"
+      -- error (-32001) -- clangd throws that when a request outruns its
+      -- ability to keep the AST in sync, which frequent hint requests on a
+      -- large translation unit does exactly that.
       if client and client:supports_method("textDocument/inlayHint") then
-        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+        km.map({
+          mode = "n",
+          lhs = "<leader>ci",
+          rhs = function()
+            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
+          end,
+          desc = "Toggle inlay hints",
+          group = "Code",
+          context = ctx,
+          buffer = bufnr,
+        })
       end
     end,
   })

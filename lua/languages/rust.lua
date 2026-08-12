@@ -1,5 +1,3 @@
-local km = require("util.keymap_registry")
-
 ---@type table
 return {
   filetypes = { "rust" },
@@ -26,17 +24,6 @@ return {
       return { require("debugger.adapters.codelldb").configuration("Debug Cargo binary") }
     end,
   },
-  keymaps = function(bufnr)
-    km.map({
-      mode = "n",
-      lhs = "<leader>ci",
-      rhs = function()
-        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
-      end,
-      desc = "Toggle inlay hints",
-      group = "Code",
-      context = "Rust buffer",
-      buffer = bufnr,
-    })
-  end,
+  -- Inlay-hint toggle is a global LSP keymap now (lsp/attach.lua,
+  -- <leader>ci) available for every capable server, not just this one.
 }
