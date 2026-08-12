@@ -2,6 +2,18 @@
 -- required here in dependency order. See docs/architecture.rst for the
 -- full picture, or :NvimDocs / :help nvim-config from inside Neovim.
 
+-- Bootstrap: when Neovim is started with `nvim -u init.lua` from the repo
+-- root (as CI does with `nvim --headless -u init.lua`), the repo root is NOT
+-- automatically added to runtimepath — only stdpath("config") is. On a fresh
+-- runner there is no ~/.config/nvim, so require("config.*") would fail. If
+-- the directory that contains this init.lua has a lua/ subdirectory we
+-- prepend it, making the behaviour identical to a normal install where the
+-- repo lives at stdpath("config").
+local config_root = vim.fn.fnamemodify(vim.env.MYVIMRC or "init.lua", ":p:h")
+if vim.fn.isdirectory(config_root .. "/lua") == 1 then
+  vim.opt.runtimepath:prepend(config_root)
+end
+
 require("config.options") -- vim.opt, leader keys -- must come first
 require("config.platform") -- OS-specific vim.opt overrides
 require("config.diagnostics") -- vim.diagnostic.config + nav keymaps
