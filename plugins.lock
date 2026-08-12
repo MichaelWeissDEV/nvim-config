@@ -2,6 +2,7 @@ name	url	branch	sha	prefix	load_type
 LuaSnip	https://github.com/L3MON4D3/LuaSnip.git	master	0abc8f390b278c3b4aabc4c004ac8a088b65cf24	pack/vendor/start/LuaSnip	start
 catppuccin	https://github.com/catppuccin/nvim.git	main	edefef779ab08ce1a4a404713e3012b0d202bd35	pack/vendor/start/catppuccin	start
 cmp-buffer	https://github.com/hrsh7th/cmp-buffer.git	main	b74fab3656eea9de20a9b8116afa3cfc4ec09657	pack/vendor/start/cmp-buffer	start
+cmp-cmdline	https://github.com/hrsh7th/cmp-cmdline.git	main	d126061b624e0af6c3a556428712dd4d4194ec6d	pack/vendor/start/cmp-cmdline	start
 cmp-nvim-lsp	https://github.com/hrsh7th/cmp-nvim-lsp.git	main	cbc7b02bb99fae35cb42f514762b89b5126651ef	pack/vendor/start/cmp-nvim-lsp	start
 cmp-path	https://github.com/hrsh7th/cmp-path.git	main	c642487086dbd9a93160e1679a1327be111cbc25	pack/vendor/start/cmp-path	start
 cmp_luasnip	https://github.com/saadparwaiz1/cmp_luasnip.git	master	98d9cb5c2c38532bd9bdb481067b20fea8f32e90	pack/vendor/start/cmp_luasnip	start
