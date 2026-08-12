@@ -44,24 +44,23 @@ cmdreg.external({
   example = ":NvimTreeFindFile",
 })
 
--- `nvim <a-directory>` (or `nvim .`): open the tree at that directory
--- immediately, instead of leaving an empty buffer or netrw's raw listing --
--- this is the one case a lazy "first keypress" trigger can't catch, since
--- there's no keypress before Neovim has already tried to open the argument.
+-- `nvim <a-directory>` (or `nvim .`): cd into it, same as Neovim's own
+-- default behavior for a directory argument. Deliberately does NOT open
+-- the tree -- the sidebar stays closed until you explicitly ask for it
+-- (<leader>e / :NvimTreeToggle), matching this config's "quiet by
+-- default, nothing visible until you ask" rule for every other opt
+-- plugin. An earlier version auto-opened the tree here; removed by
+-- request so a plain `nvim .` never shows a sidebar you didn't ask for.
 vim.api.nvim_create_autocmd("VimEnter", {
-  group = vim.api.nvim_create_augroup("nvim_tree_on_dir_arg", { clear = true }),
+  group = vim.api.nvim_create_augroup("cd_to_dir_arg", { clear = true }),
   once = true,
   callback = function()
     if vim.fn.argc() ~= 1 then
       return
     end
     local arg = vim.fn.argv(0) --[[@as string]]
-    if vim.fn.isdirectory(arg) ~= 1 then
-      return
+    if vim.fn.isdirectory(arg) == 1 then
+      vim.cmd.cd(arg)
     end
-    vim.cmd.cd(arg)
-    setup()
-    vim.keymap.set("n", "<leader>e", toggle, { desc = "Toggle file explorer (nvim-tree)", silent = true })
-    require("nvim-tree.api").tree.open()
   end,
 })

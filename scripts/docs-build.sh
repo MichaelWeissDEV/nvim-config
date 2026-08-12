@@ -18,7 +18,7 @@ if [ ! -x docs/.venv/bin/sphinx-build ]; then
   python3 -m venv docs/.venv
   docs/.venv/bin/pip install -q --upgrade pip
   # Version range kept in sync with pyproject.toml's [project.optional-dependencies].docs
-  docs/.venv/bin/pip install -q "sphinx>=8.0,<9" "myst-parser>=4.0,<5"
+  docs/.venv/bin/pip install -q "sphinx>=8.0,<9" "myst-parser>=4.0,<5" "sphinx-rtd-theme>=3.0,<4"
 fi
 
 echo "==> Building Sphinx HTML (docs/_build/html)"

@@ -35,7 +35,12 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", ".venv"]
 # include/literalinclude paths below docs/ need to reach the repo root.
 myst_heading_anchors = 3
 
-html_theme = "alabaster"
+html_theme = "sphinx_rtd_theme"
+html_theme_options = {
+    "collapse_navigation": False,
+    "navigation_depth": 3,
+    "titles_only": False,
+}
 html_static_path = []
 
 master_doc = "index"

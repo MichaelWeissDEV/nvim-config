@@ -44,7 +44,7 @@ run_test "lazyload" nvim -u init.lua --headless -l tests/test_lazy_load.lua
 echo "== test_commands.lua =="
 run_test "commands" nvim -u init.lua --headless -l tests/test_commands.lua
 
-echo "== test_directory_arg.lua (nvim <dir> opens the file tree) =="
+echo "== test_directory_arg.lua (nvim <dir> cds into it, tree stays closed) =="
 dir_fixture="$work/a-directory-argument"
 mkdir -p "$dir_fixture"
 run_test "directoryarg" nvim -u init.lua --headless --cmd "source tests/test_directory_arg.lua" "$dir_fixture"

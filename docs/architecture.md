@@ -112,9 +112,12 @@ theme, statusline, which-key, Tree-sitter, completion, Git signs, Mason
   a debug session is actually *started*, not merely when a breakpoint is
   set).
 - an explicit command (`:NvimTreeToggle`, `:Oil`, `:Trouble`, `:Telescope`).
-- `nvim-tree.lua` also loads at `VimEnter` if Neovim's sole startup
-  argument is a directory (`nvim .`, `nvim some/project`) -- see the
-  autocommand in `plugins/tree.lua` and `tests/test_directory_arg.lua`.
+
+`nvim .` / `nvim some/project` (a directory as Neovim's sole startup
+argument) `cd`s into it -- same as Neovim's own default behavior -- but
+deliberately does **not** open the tree; the sidebar stays closed until
+you ask for it, same as every other opt plugin (see the `VimEnter`
+autocommand in `plugins/tree.lua` and `tests/test_directory_arg.lua`).
 
 A plain `nvim` with no file argument loads **zero** `opt` packages. You can
 verify this yourself: `:lua for k in pairs(package.loaded) do print(k) end`
