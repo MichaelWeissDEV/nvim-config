@@ -1,5 +1,17 @@
 # nvim-config
 
+[![CI](https://github.com/MichaelWeissDEV/nvim-config/actions/workflows/ci.yml/badge.svg)](https://github.com/MichaelWeissDEV/nvim-config/actions/workflows/ci.yml)
+[![Docs](https://app.readthedocs.org/projects/nvim-config/badge/?version=latest)](https://nvim-config.readthedocs.io/en/latest/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+<!-- The Docs badge stays "unknown" until the project is imported on
+     readthedocs.org. The repo is already RTD-ready (.readthedocs.yaml +
+     docs/requirements.txt); see CONTRIBUTING.md for the one-time import.
+     If you pick a project slug other than "nvim-config", update both the
+     badge and its link above to match. -->
+
+
+
 A from-scratch, fully documented Neovim configuration for practically every
 commonly used programming language. Built to behave like a small
 distribution — fast, quiet, modular, portable — while remaining 100%

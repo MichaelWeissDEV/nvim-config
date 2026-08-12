@@ -1,0 +1,93 @@
+# Runs the same three checks CONTRIBUTING.md asks contributors to run
+# locally, so a green PR means those actually pass rather than "probably".
+#
+# Deliberately NOT run here: ./scripts/bootstrap.sh. Installing language
+# servers would make CI slow, network-dependent and flaky, and would test
+# Mason's registry rather than this repository. The test suite is designed
+# to pass with zero language tooling installed -- that is the property
+# worth protecting on every push.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  lua-format:
+    name: stylua
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: JohnnyMorganz/stylua-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: latest
+          # Same paths as the local command documented in CONTRIBUTING.md.
+          # pack/vendor/ is excluded on purpose: vendored plugins keep
+          # their upstream formatting, we do not reformat other projects.
+          args: --check lua/ after/ scripts/ tests/
+
+  tests:
+    name: headless test suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Neovim
+        uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+          version: stable
+
+      - name: Show versions
+        run: nvim --version
+
+      # The suite asserts a quiet startup with NO language tooling present,
+      # which is exactly the state of a fresh CI runner -- no setup needed.
+      - name: Run tests
+        run: bash tests/run.sh
+
+      # docs/_generated/*.md is committed because Read the Docs cannot run
+      # Neovim to regenerate it. This guards the obvious failure mode of
+      # that arrangement: a registry change committed without re-running
+      # ./scripts/docs-build.sh, leaving the published tables stale.
+      # It lives in this job because it needs the Neovim installed above --
+      # regenerating and then diffing is the only way to actually check
+      # this; a bare `git diff` without regenerating would always pass.
+      - name: Generated docs are up to date
+        run: |
+          nvim --headless -u init.lua -l scripts/generate-docs.lua
+          if ! git diff --quiet -- docs/_generated doc/nvim-config.txt; then
+            echo "::error::docs/_generated is stale -- run ./scripts/docs-build.sh and commit the result"
+            git --no-pager diff -- docs/_generated doc/nvim-config.txt
+            exit 1
+          fi
+
+  docs:
+    name: Sphinx (-W)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: docs/requirements.txt
+
+      - name: Install docs toolchain
+        run: pip install -r docs/requirements.txt
+
+      # Same strictness as .readthedocs.yaml's fail_on_warning, so a docs
+      # regression fails here before it fails the hosted build.
+      - name: Build docs
+        run: sphinx-build -W -b html docs docs/_build/html

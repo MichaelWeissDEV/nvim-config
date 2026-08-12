@@ -43,6 +43,24 @@ bash tests/run.sh                                      # full headless suite
 All three also run in CI (`.github/workflows/ci.yml`), so a PR that breaks
 any of them will fail there.
 
+## Publishing the docs on Read the Docs
+
+The repository is already configured for it — `/.readthedocs.yaml` and
+`docs/requirements.txt` are committed, and so is `docs/_generated/`,
+which is what makes a hosted build possible at all (the Read the Docs
+builder has no Neovim and therefore can never run
+`scripts/generate-docs.lua` itself).
+
+One-time setup: sign in at [readthedocs.org](https://readthedocs.org) with
+the GitHub account, _Import a Project_, pick this repository, and accept
+the defaults — the config file is detected automatically. Builds then run
+on every push to `main`. `fail_on_warning: true` is set, matching the
+local `-W` build and CI, so a docs regression fails the hosted build
+rather than publishing something broken.
+
+If the project slug you choose is not `nvim-config`, update the docs badge
+and its link at the top of [README.md](README.md) to match.
+
 ## Standards this repository holds itself to
 
 - **No downloads at startup.** Plugins are vendored via `git subtree`;
