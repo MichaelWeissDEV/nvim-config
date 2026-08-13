@@ -44,6 +44,12 @@ run_test "version" nvim -u init.lua --headless -l tests/test_version.lua
 echo "== test_startup.lua =="
 run_test "startup" nvim -u init.lua --headless -l tests/test_startup.lua
 
+echo "== test_lazyload_failure.lua (failed loads roll back + retry) =="
+run_test "lazyloadfail" nvim -u init.lua --headless -l tests/test_lazyload_failure.lua
+
+echo "== test_lazyload_command_context.lua (bang/args/range/mods preserved) =="
+run_test "lazyloadctx" nvim -u init.lua --headless -l tests/test_lazyload_command_context.lua
+
 echo "== test_lazy_load.lua =="
 run_test "lazyload" nvim -u init.lua --headless -l tests/test_lazy_load.lua
 
