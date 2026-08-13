@@ -62,6 +62,9 @@ run_test "integrity" nvim -u init.lua --headless -l tests/test_registry_integrit
 echo "== test_tools_refresh.lua (NvimConfigToolsChanged, no downloads) =="
 run_test "toolsrefresh" nvim -u init.lua --headless -l tests/test_tools_refresh.lua
 
+echo "== test_process.lua (interpreter resolution, venv, spaces) =="
+run_test "process" nvim -u init.lua --headless -l tests/test_process.lua
+
 echo "== test_commands.lua =="
 run_test "commands" nvim -u init.lua --headless -l tests/test_commands.lua
 

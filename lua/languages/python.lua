@@ -51,7 +51,12 @@ return {
     km.map({
       mode = "n",
       lhs = "<leader>cr",
-      rhs = "<cmd>update<cr><cmd>split | terminal python3 %<cr>",
+      rhs = function()
+        -- Resolves $VIRTUAL_ENV first, then platform-appropriate
+        -- candidates; passes the path as a real argv element so a
+        -- filename with spaces is not split. See lua/util/process.lua.
+        require("util.process").run_current_file("python")
+      end,
       desc = "Run current file",
       group = "Code",
       context = "Python buffer",

@@ -154,6 +154,7 @@ jobs:
             "tests/test_lazyload_command_context.lua",
             "tests/test_lsp_registry.lua",
             "tests/test_tools_refresh.lua",
+            "tests/test_process.lua",
             "tests/test_startup.lua",
             "tests/test_lazy_load.lua",
             "tests/test_commands.lua"
@@ -168,6 +169,28 @@ jobs:
         run: |
           nvim --headless -u init.lua -c "checkhealth nvim-config" -c "qa"
           if ($LASTEXITCODE -ne 0) { throw "checkhealth failed" }
+
+      # The .ps1 scripts cannot be syntax-checked on the POSIX development
+      # machine (no pwsh there), so this is the only place a typo in them
+      # would be caught before a user hits it. Parse-only: the installer is
+      # NOT executed, because it would relink this runner's real
+      # %LOCALAPPDATA%\nvim.
+      - name: PowerShell scripts parse
+        run: |
+          $failed = $false
+          foreach ($f in @("scripts/install.ps1","scripts/bootstrap.ps1","scripts/docs-build.ps1")) {
+            $errs = $null
+            [System.Management.Automation.Language.Parser]::ParseFile(
+              (Resolve-Path $f), [ref]$null, [ref]$errs) | Out-Null
+            if ($errs.Count -gt 0) {
+              Write-Host "::error::$f has $($errs.Count) syntax error(s)"
+              $errs | ForEach-Object { Write-Host "  $_" }
+              $failed = $true
+            } else {
+              Write-Host "$f : OK"
+            }
+          }
+          if ($failed) { throw "PowerShell syntax errors" }
 
   docs:
     name: Sphinx (-W)
