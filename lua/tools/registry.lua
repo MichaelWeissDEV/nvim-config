@@ -16,9 +16,32 @@
 ---@type table<string, table>
 local tools = {}
 
+--- `category` is the tool's primary role -- the one it is grouped under in
+--- :ToolsStatus and the generated tables. A few tools genuinely fill more
+--- than one role with the same binary (ktlint formats *and* lints, taplo is
+--- both an LSP and a formatter), and those declare the extra ones in
+--- `also`. Without that, a language referencing ktlint as a linter looks
+--- like a typo to the integrity checker even though it is correct.
+---
+--- Tools whose roles need *different invocations* stay separate entries
+--- instead (ruff/ruff_format, rubocop/rubocop_lint), because those differ
+--- in more than classification.
 local function add(spec)
   assert(tools[spec.id] == nil, "duplicate tool id: " .. spec.id)
+  local categories = { [spec.category] = true }
+  for _, extra in ipairs(spec.also or {}) do
+    categories[extra] = true
+  end
+  spec.categories = categories
   tools[spec.id] = spec
+end
+
+--- Does this tool fill the given role, primary or secondary?
+--- @param tool table
+--- @param category string
+--- @return boolean
+local function has_category(tool, category)
+  return tool ~= nil and tool.categories ~= nil and tool.categories[category] == true
 end
 
 -- Lua ---------------------------------------------------------------------
@@ -234,7 +257,17 @@ add({
   mason = "kotlin-language-server",
   profiles = { "jvm" },
 })
-add({ id = "ktlint", name = "ktlint", category = "formatter", exe = "ktlint", mason = "ktlint", profiles = { "jvm" } })
+add({
+  id = "ktlint",
+  name = "ktlint",
+  category = "formatter",
+  -- The same binary also lints (`ktlint` checks, `ktlint --format` fixes),
+  -- which is why languages/kotlin.lua legitimately lists it under both.
+  also = { "linter" },
+  exe = "ktlint",
+  mason = "ktlint",
+  profiles = { "jvm" },
+})
 
 -- JS / TS / Web -----------------------------------------------------------
 add({ id = "vtsls", name = "vtsls", category = "lsp", exe = "vtsls", mason = "vtsls", profiles = { "web" } })
@@ -606,7 +639,17 @@ add({
   mason = "json-lsp",
   profiles = { "web" },
 })
-add({ id = "taplo", name = "Taplo", category = "lsp", exe = "taplo", mason = "taplo", profiles = { "core" } })
+add({
+  id = "taplo",
+  name = "Taplo",
+  category = "lsp",
+  -- `taplo fmt` formats; conform ships a built-in taplo formatter, so
+  -- languages/toml.lua uses this one entry for both roles.
+  also = { "formatter" },
+  exe = "taplo",
+  mason = "taplo",
+  profiles = { "core" },
+})
 add({ id = "lemminx", name = "lemminx", category = "lsp", exe = "lemminx", mason = "lemminx", profiles = { "devops" } })
 
 -- DevOps / IaC ------------------------------------------------------------
@@ -716,6 +759,8 @@ add({
 local M = {}
 
 M.tools = tools
+
+M.has_category = has_category
 
 --- @param id string
 --- @return table|nil

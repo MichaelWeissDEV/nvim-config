@@ -394,6 +394,17 @@ local function gen_help(keymaps)
   _ = tools
 end
 
+-- Gate: an invalid registry must not produce valid-looking documentation.
+-- Generating from a registry with an unknown tool reference or a duplicate
+-- filetype would publish a table describing something that does not work.
+local integrity = require("config.integrity")
+local problems = integrity.check_current()
+if #problems > 0 then
+  io.stderr:write(table.concat(integrity.format(problems), "\n") .. "\n")
+  io.stderr:write("\nRefusing to generate documentation from an invalid registry.\n")
+  os.exit(1)
+end
+
 local keymaps = gen_keymaps()
 gen_commands()
 gen_tools()
