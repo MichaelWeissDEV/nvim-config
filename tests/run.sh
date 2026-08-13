@@ -56,6 +56,9 @@ run_test "lazyload" nvim -u init.lua --headless -l tests/test_lazy_load.lua
 echo "== test_lsp_registry.lua (marker order, shared-server conflicts) =="
 run_test "lspregistry" nvim -u init.lua --headless -l tests/test_lsp_registry.lua
 
+echo "== test_tools_refresh.lua (NvimConfigToolsChanged, no downloads) =="
+run_test "toolsrefresh" nvim -u init.lua --headless -l tests/test_tools_refresh.lua
+
 echo "== test_commands.lua =="
 run_test "commands" nvim -u init.lua --headless -l tests/test_commands.lua
 

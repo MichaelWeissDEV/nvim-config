@@ -78,7 +78,10 @@ local function install_packages(mason_packages, force)
       pending = pending - 1
       if pending == 0 then
         vim.schedule(function()
-          require("util.executable").reset()
+          -- One signal, one owner: this clears the executable cache and
+          -- lets LSP/formatting/linting react. Never reset the cache
+          -- directly here -- see lua/tools/refresh.lua.
+          require("tools.refresh").notify_tools_changed({ packages = mason_packages })
           vim.notify(
             (force and "Tools updated: " or "Tools installed: ")
               .. table.concat(mason_packages, ", ")

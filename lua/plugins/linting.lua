@@ -38,6 +38,13 @@ for _, lang in ipairs(languages.all()) do
   end
 end
 
+-- Availability is resolved here, on every trigger, rather than being
+-- baked into linters_by_ft at module load. That means a linter installed
+-- mid-session (:ToolsInstall) starts firing on the next BufWritePost with
+-- no restart and no NvimConfigToolsChanged subscription needed -- the only
+-- thing that could have made it stale was util.executable's cache, which
+-- tools.refresh clears before announcing the change.
+-- Covered by tests/test_tools_refresh.lua.
 local function installed_engine_names(ft)
   local entries = linters_by_ft[ft]
   if not entries then

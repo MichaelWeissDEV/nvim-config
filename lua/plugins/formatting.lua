@@ -21,30 +21,51 @@ local CUSTOM_FORMATTERS = {
   dotnet_format = { command = "dotnet", args = { "format", "--include", "$FILENAME" }, stdin = false },
 }
 
+-- Which formatters are available depends on which binaries are installed,
+-- which can change *during* a session (:ToolsInstall). These tables are
+-- therefore rebuilt on demand rather than computed once at module load --
+-- the tables themselves are mutated in place, because conform holds a
+-- reference to formatters_by_ft from setup() onwards and would not see a
+-- replacement table.
 local formatters_by_ft = {}
 local missing_by_ft = {}
 
-for _, lang in ipairs(languages.all()) do
-  if lang.formatters and #lang.formatters > 0 then
-    local available, missing = {}, {}
-    for _, tool_id in ipairs(lang.formatters) do
-      local tool = tools.get(tool_id)
-      if tool and detection.installed(tool) then
-        table.insert(available, tool_id)
-      else
-        table.insert(missing, tool and tool.name or tool_id)
+--- Recompute formatter availability from the registries. Idempotent.
+local function rebuild()
+  for k in pairs(formatters_by_ft) do
+    formatters_by_ft[k] = nil
+  end
+  for k in pairs(missing_by_ft) do
+    missing_by_ft[k] = nil
+  end
+
+  for _, lang in ipairs(languages.all()) do
+    if lang.formatters and #lang.formatters > 0 then
+      local available, missing = {}, {}
+      for _, tool_id in ipairs(lang.formatters) do
+        local tool = tools.get(tool_id)
+        if tool and detection.installed(tool) then
+          table.insert(available, tool_id)
+        else
+          table.insert(missing, tool and tool.name or tool_id)
+        end
       end
-    end
-    for _, ft in ipairs(lang.filetypes) do
-      if #available > 0 then
-        formatters_by_ft[ft] = available
-      end
-      if #missing > 0 then
-        missing_by_ft[ft] = missing
+      for _, ft in ipairs(lang.filetypes) do
+        if #available > 0 then
+          formatters_by_ft[ft] = available
+        end
+        if #missing > 0 then
+          missing_by_ft[ft] = missing
+        end
       end
     end
   end
 end
+
+rebuild()
+
+-- A formatter installed mid-session becomes usable without restarting.
+require("tools.refresh").on_tools_changed("formatting", rebuild)
 
 conform.setup({
   formatters = CUSTOM_FORMATTERS,

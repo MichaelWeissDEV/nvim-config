@@ -27,6 +27,9 @@ function M.ensure_for_filetype(filetype)
     return false
   end
 
+  -- Checked per invocation, not cached: a debug adapter installed
+  -- mid-session works on the next <leader>d press without a restart. See
+  -- the same note in plugins/linting.lua and tests/test_tools_refresh.lua.
   local tool = tools.get(lang.debugger.tool)
   if not tool or not detection.installed(tool) then
     notify.missing_dependency(

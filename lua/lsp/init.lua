@@ -5,6 +5,17 @@ local registry = require("lsp.registry")
 require("lsp.attach").setup()
 registry.setup()
 
+-- Pick up servers installed during this session. registry.refresh() is
+-- idempotent: vim.lsp.config() replaces a name's config rather than
+-- accumulating, and vim.lsp.enable() on an already-enabled name is a
+-- no-op, so nothing is duplicated and attached clients are not restarted.
+-- Buffers opened afterwards get the newly available server; already-open
+-- buffers still need :e or a restart, which is what {doc}`troubleshooting`
+-- documents.
+require("tools.refresh").on_tools_changed("lsp", function()
+  registry.refresh()
+end)
+
 cmdreg.command({
   name = "LspStatus",
   desc = "Show configured LSP servers (installed) and clients attached to the current buffer",
