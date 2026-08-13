@@ -50,6 +50,12 @@ are not listed individually — see `git log -- pack/vendor/` for those.
 - **`python3` was hardcoded** in the Python run keymap, ignoring
   `$VIRTUAL_ENV`, absent on a default Windows install, and splitting paths
   containing spaces.
+- **The bootstrap test's path assertion was Windows-fragile.** It searched
+  `runtimepath`/`packpath` for the repository root as a plain substring,
+  which ignores separator normalisation (`\` vs `/`), trailing separators
+  and Windows' case-insensitive filesystem. It now splits both option
+  values on `,` and compares canonicalised entries exactly — stricter than
+  the substring match it replaces.
 
 ### Added
 
