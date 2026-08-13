@@ -53,6 +53,9 @@ run_test "lazyloadctx" nvim -u init.lua --headless -l tests/test_lazyload_comman
 echo "== test_lazy_load.lua =="
 run_test "lazyload" nvim -u init.lua --headless -l tests/test_lazy_load.lua
 
+echo "== test_lsp_registry.lua (marker order, shared-server conflicts) =="
+run_test "lspregistry" nvim -u init.lua --headless -l tests/test_lsp_registry.lua
+
 echo "== test_commands.lua =="
 run_test "commands" nvim -u init.lua --headless -l tests/test_commands.lua
 
