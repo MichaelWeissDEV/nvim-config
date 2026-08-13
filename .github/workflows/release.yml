@@ -1,24 +1,20 @@
-# Creates a GitHub Release whenever a vX.Y.Z tag is pushed.
+# Creates a GitHub Release when a vX.Y.Z tag is pushed.
 #
 # Flow
 # ----
-#   1. All CI jobs (stylua, tests, docs) are re-run at the tagged commit.
-#      The release step is only reached when every one of them is green.
-#   2. The release body is extracted from CHANGELOG.md:
-#      the section between the heading for this version and the next heading.
-#   3. `gh release create` uploads the release as a Draft first so you can
-#      review/edit it before publishing.  Remove `--draft` to auto-publish.
+#   1. The shared quality gate (quality.yml) runs at the tagged commit --
+#      the *same* definition ci.yml uses, not a copy of it. A release
+#      therefore cannot be cut against weaker checks than a normal push.
+#   2. The release body is extracted from CHANGELOG.md: the section between
+#      this version's heading and the next one.
+#   3. The release is created as a draft so it can be reviewed before
+#      publishing. Drop --draft to publish immediately.
 #
-# Secrets
-# -------
-#   Only GITHUB_TOKEN (automatically provided by GitHub Actions) is used.
-#   No personal tokens, no extra secrets to configure.
+# Secrets: only GITHUB_TOKEN, provided automatically.
 #
-# Triggering
-# ----------
-#   git tag -a v0.1.0 -m "Release v0.1.0"
-#   git push origin v0.1.0
-
+# Triggering:
+#   git tag -a v0.1.1 -m "v0.1.1"
+#   git push origin v0.1.1
 name: Release
 
 on:
@@ -26,146 +22,39 @@ on:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+"
 
-# The release job needs write access to create the release object.
-# All other jobs inherit read-only by default.
 permissions:
   contents: read
 
 jobs:
-  # ── 1. Quality gate ─────────────────────────────────────────────────────────
-  # Re-use the exact same checks as the normal CI workflow.
-  # Every job is independent so they all run in parallel.
-
-  lua-format:
-    name: stylua
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: JohnnyMorganz/stylua-action@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          version: latest
-          args: --check lua/ after/ scripts/ tests/
-
-  tests:
-    name: tests (${{ matrix.os }})
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Neovim
-        uses: rhysd/action-setup-vim@v1
-        with:
-          neovim: true
-          version: stable
-
-      - name: Show versions
-        run: nvim --version
-
-      - name: Run tests
-        run: bash tests/run.sh
-
-      - name: Generated docs are up to date
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          nvim --headless -u init.lua -l scripts/generate-docs.lua
-          if ! git diff --quiet -- docs/_generated doc/nvim-config.txt; then
-            echo "::error::docs/_generated is stale — run ./scripts/docs-build.sh and commit the result"
-            git --no-pager diff -- docs/_generated doc/nvim-config.txt
-            exit 1
-          fi
-
-  tests-windows:
-    name: tests (windows-latest)
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Neovim
-        uses: rhysd/action-setup-vim@v1
-        with:
-          neovim: true
-          version: stable
-
-      - name: Show versions
-        run: nvim --version
-
-      - name: Startup exits cleanly
-        run: |
-          nvim --headless -u init.lua "+qa"
-          if ($LASTEXITCODE -ne 0) { throw "nvim exited with $LASTEXITCODE" }
-
-      - name: Quiet startup, nothing eagerly loaded
-        run: |
-          nvim --headless -u init.lua -l tests/test_startup.lua
-          if ($LASTEXITCODE -ne 0) { throw "test_startup failed" }
-
-      - name: Lazy-load triggers
-        run: |
-          nvim --headless -u init.lua -l tests/test_lazy_load.lua
-          if ($LASTEXITCODE -ne 0) { throw "test_lazy_load failed" }
-
-      - name: Custom commands all run
-        run: |
-          nvim --headless -u init.lua -l tests/test_commands.lua
-          if ($LASTEXITCODE -ne 0) { throw "test_commands failed" }
-
-      - name: Health check runs without error
-        run: |
-          nvim --headless -u init.lua -c "checkhealth nvim-config" -c "qa"
-          if ($LASTEXITCODE -ne 0) { throw "checkhealth failed" }
-
-  docs:
-    name: Sphinx (-W)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-          cache: pip
-          cache-dependency-path: docs/requirements.txt
-
-      - name: Install docs toolchain
-        run: pip install -r docs/requirements.txt
-
-      - name: Build docs
-        run: sphinx-build -W -b html docs docs/_build/html
-
-  # ── 2. Publish ──────────────────────────────────────────────────────────────
-  # Only runs when every quality-gate job above is green.
-  # Extracts the relevant CHANGELOG section and creates the release object.
+  # The gate. Identical to what every push runs -- one definition, in
+  # quality.yml. Previously this file carried its own copy of the whole
+  # matrix, which could silently drift from the one CI actually enforced.
+  quality:
+    uses: ./.github/workflows/quality.yml
 
   release:
     name: Create GitHub Release
-    needs: [lua-format, tests, tests-windows, docs]
+    needs: [quality]
     runs-on: ubuntu-latest
     permissions:
-      contents: write   # required to create releases
+      contents: write # required to create releases
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          # Fetch full history so the tag annotation message is available.
+          # Full history so the tag annotation is available.
           fetch-depth: 0
 
       # Strip the leading "v" to match the CHANGELOG heading style:
-      #   ## [0.1.0] - 2026-08-13
+      #   ## [0.1.1] - 2026-08-13
       - name: Derive version string
         id: version
         run: |
-          TAG="${GITHUB_REF_NAME}"           # e.g.  v0.1.0
-          VER="${TAG#v}"                      # e.g.  0.1.0
+          TAG="${GITHUB_REF_NAME}"
+          VER="${TAG#v}"
           echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
           echo "ver=${VER}" >> "$GITHUB_OUTPUT"
 
-      # Extract everything between "## [X.Y.Z]" and the next "## [" heading.
-      # The result is written to release_notes.md and shown in the log.
       - name: Extract CHANGELOG section
         id: notes
         run: |

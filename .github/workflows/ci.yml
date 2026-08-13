@@ -1,11 +1,8 @@
-# Runs the same three checks CONTRIBUTING.md asks contributors to run
-# locally, so a green PR means those actually pass rather than "probably".
+# Every push and pull request runs the quality gate.
 #
-# Deliberately NOT run here: ./scripts/bootstrap.sh. Installing language
-# servers would make CI slow, network-dependent and flaky, and would test
-# Mason's registry rather than this repository. The test suite is designed
-# to pass with zero language tooling installed -- that is the property
-# worth protecting on every push.
+# The gate itself lives in quality.yml and is shared verbatim with
+# release.yml, so a release can never be cut against a weaker set of checks
+# than a normal push had to satisfy.
 name: CI
 
 on:
@@ -22,130 +19,5 @@ permissions:
   contents: read
 
 jobs:
-  lua-format:
-    name: stylua
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: JohnnyMorganz/stylua-action@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          version: latest
-          # Same paths as the local command documented in CONTRIBUTING.md.
-          # pack/vendor/ is excluded on purpose: vendored plugins keep
-          # their upstream formatting, we do not reformat other projects.
-          args: --check lua/ after/ scripts/ tests/
-
-  # Full POSIX suite. tests/run.sh isolates each check with XDG_* overrides
-  # and builds a stripped-PATH sandbox out of symlinks for the
-  # missing-dependency test -- both POSIX-specific, hence the separate
-  # Windows job below rather than one three-way matrix.
-  tests:
-    name: tests (${{ matrix.os }})
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Neovim
-        uses: rhysd/action-setup-vim@v1
-        with:
-          neovim: true
-          version: stable
-
-      - name: Show versions
-        run: nvim --version
-
-      # The suite asserts a quiet startup with NO language tooling present,
-      # which is exactly the state of a fresh CI runner -- no setup needed.
-      - name: Run tests
-        run: bash tests/run.sh
-
-      # docs/_generated/*.md is committed because Read the Docs cannot run
-      # Neovim to regenerate it. This guards the obvious failure mode of
-      # that arrangement: a registry change committed without re-running
-      # ./scripts/docs-build.sh, leaving the published tables stale.
-      # It lives in this job because it needs the Neovim installed above --
-      # regenerating and then diffing is the only way to actually check
-      # this; a bare `git diff` without regenerating would always pass.
-      # Once is enough, so it is pinned to the Linux leg of the matrix.
-      - name: Generated docs are up to date
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          nvim --headless -u init.lua -l scripts/generate-docs.lua
-          if ! git diff --quiet -- docs/_generated doc/nvim-config.txt; then
-            echo "::error::docs/_generated is stale -- run ./scripts/docs-build.sh and commit the result"
-            git --no-pager diff -- docs/_generated doc/nvim-config.txt
-            exit 1
-          fi
-
-  # Windows runs the platform-independent Lua tests directly instead of
-  # tests/run.sh. What is deliberately NOT covered here is the
-  # missing-dependency test: it works by rebuilding PATH out of a symlink
-  # sandbox with `env -i`, which has no faithful Windows equivalent. The
-  # rest -- quiet startup, nothing eagerly loaded, lazy-load triggers,
-  # every custom command running -- is exactly the same assertion set as on
-  # POSIX, so "does this config actually work on Windows" is answered
-  # rather than assumed.
-  tests-windows:
-    name: tests (windows-latest)
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Neovim
-        uses: rhysd/action-setup-vim@v1
-        with:
-          neovim: true
-          version: stable
-
-      - name: Show versions
-        run: nvim --version
-
-      - name: Startup exits cleanly
-        run: |
-          nvim --headless -u init.lua "+qa"
-          if ($LASTEXITCODE -ne 0) { throw "nvim exited with $LASTEXITCODE" }
-
-      - name: Quiet startup, nothing eagerly loaded
-        run: |
-          nvim --headless -u init.lua -l tests/test_startup.lua
-          if ($LASTEXITCODE -ne 0) { throw "test_startup failed" }
-
-      - name: Lazy-load triggers
-        run: |
-          nvim --headless -u init.lua -l tests/test_lazy_load.lua
-          if ($LASTEXITCODE -ne 0) { throw "test_lazy_load failed" }
-
-      - name: Custom commands all run
-        run: |
-          nvim --headless -u init.lua -l tests/test_commands.lua
-          if ($LASTEXITCODE -ne 0) { throw "test_commands failed" }
-
-      - name: Health check runs without error
-        run: |
-          nvim --headless -u init.lua -c "checkhealth nvim-config" -c "qa"
-          if ($LASTEXITCODE -ne 0) { throw "checkhealth failed" }
-
-  docs:
-    name: Sphinx (-W)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-          cache: pip
-          cache-dependency-path: docs/requirements.txt
-
-      - name: Install docs toolchain
-        run: pip install -r docs/requirements.txt
-
-      # Same strictness as .readthedocs.yaml's fail_on_warning, so a docs
-      # regression fails here before it fails the hosted build.
-      - name: Build docs
-        run: sphinx-build -W -b html docs docs/_build/html
+  quality:
+    uses: ./.github/workflows/quality.yml

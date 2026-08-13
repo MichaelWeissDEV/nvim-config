@@ -1,0 +1,39 @@
+# Keeps the pinned GitHub Actions current.
+#
+# The workflows pin every action to a full commit SHA rather than a tag,
+# because a tag can be repointed at different code after it was reviewed.
+# Dependabot understands that convention: it bumps the SHA *and* rewrites
+# the `# vX.Y.Z` comment next to it, so pinning does not mean going stale.
+#
+# Weekly and grouped on purpose -- a daily PR per action is noise that gets
+# ignored, which is worse than a single batched one that gets read.
+version: 2
+
+updates:
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 3
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+    commit-message:
+      prefix: "ci"
+
+  # The Sphinx toolchain in docs/requirements.txt. Same reasoning: batched,
+  # weekly, and it has to pass the same quality gate as anything else.
+  - package-ecosystem: pip
+    directory: "/docs"
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 2
+    groups:
+      docs:
+        patterns:
+          - "*"
+    commit-message:
+      prefix: "docs"
