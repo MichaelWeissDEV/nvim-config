@@ -15,17 +15,36 @@
 local this_dir = vim.fs.dirname(debug.getinfo(1, "S").source:sub(2))
 local lib = dofile(this_dir .. "/lib.lua")
 
+local function canonical(path)
+  local p = vim.fs.normalize(vim.fn.fnamemodify(path, ":p"))
+  p = p:gsub("[/\\]+$", "")
+  if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 then
+    p = p:lower()
+  end
+  return p
+end
+
+local function pathlist_contains(pathlist, path)
+  local want = canonical(path)
+  for _, entry in ipairs(vim.split(pathlist, ",", { plain = true, trimempty = true })) do
+    if canonical(entry) == want then
+      return true
+    end
+  end
+  return false
+end
+
 lib.run("bootstrap: config modules and vendored plugins resolve", function()
   local repo_root = vim.fs.dirname(this_dir)
 
   -- The repo root must be on both paths. runtimepath alone is not enough:
   -- that was the exact incomplete fix that left CI red.
   lib.assert_true(
-    vim.o.runtimepath:find(repo_root, 1, true) ~= nil,
+    pathlist_contains(vim.o.runtimepath, repo_root),
     "repo root missing from runtimepath -- lua/ would not resolve"
   )
   lib.assert_true(
-    vim.o.packpath:find(repo_root, 1, true) ~= nil,
+    pathlist_contains(vim.o.packpath, repo_root),
     "repo root missing from packpath -- vendored start plugins would not resolve"
   )
 
