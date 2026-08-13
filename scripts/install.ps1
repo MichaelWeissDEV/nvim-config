@@ -9,7 +9,7 @@ $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $PSScriptRoot
 
 if (-not (Get-Command nvim -ErrorAction SilentlyContinue)) {
-  Write-Error "nvim not found on PATH (need Neovim 0.11+, 0.12+ recommended)"
+  Write-Error "nvim not found on PATH (nvim-config requires Neovim >= 0.12.0)"
   exit 1
 }
 

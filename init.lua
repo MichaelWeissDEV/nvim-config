@@ -2,16 +2,25 @@
 -- required here in dependency order. See docs/architecture.rst for the
 -- full picture, or :NvimDocs / :help nvim-config from inside Neovim.
 
--- Bootstrap: when Neovim is started with `nvim -u init.lua` from the repo
--- root (as CI does with `nvim --headless -u init.lua`), the repo root is NOT
--- automatically added to runtimepath — only stdpath("config") is. On a fresh
--- runner there is no ~/.config/nvim, so require("config.*") would fail. If
--- the directory that contains this init.lua has a lua/ subdirectory we
--- prepend it, making the behaviour identical to a normal install where the
--- repo lives at stdpath("config").
-local config_root = vim.fn.fnamemodify(vim.env.MYVIMRC or "init.lua", ":p:h")
+-- Bootstrap for `nvim -u /path/to/init.lua`, which is how CI and the test
+-- suite start Neovim. Only stdpath("config") is on 'runtimepath'/'packpath'
+-- by default, and on a fresh runner that directory does not exist -- so
+-- without this, require("config.*") fails, and even with 'runtimepath'
+-- fixed, require() of a vendored plugin under pack/vendor/start/ still
+-- fails because package loading keys off 'packpath', not 'runtimepath'.
+-- Both were observed failing in CI; both are needed.
+--
+-- The root is derived from this file's own path via debug.getinfo rather
+-- than MYVIMRC or a relative "init.lua": MYVIMRC is nil under `-u <file>`
+-- (verified), and a relative path would resolve against the current
+-- working directory, making startup depend on where nvim was invoked from.
+--
+-- No-op for a normal install where the repo already is stdpath("config"),
+-- since prepending a path that is already present just reorders it.
+local config_root = vim.fn.fnamemodify(debug.getinfo(1, "S").source:sub(2), ":p:h")
 if vim.fn.isdirectory(config_root .. "/lua") == 1 then
   vim.opt.runtimepath:prepend(config_root)
+  vim.opt.packpath:prepend(config_root)
 end
 
 require("config.options") -- vim.opt, leader keys -- must come first

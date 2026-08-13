@@ -24,10 +24,11 @@ end
 
 function M.check()
   vim.health.start("Neovim")
-  if vim.fn.has("nvim-0.11") == 1 then
-    ok("Neovim " .. tostring(vim.version()))
+  local version = require("util.version")
+  if version.current_is_supported() then
+    ok("Neovim " .. version.tostring(version.current()))
   else
-    vim.health.error("Neovim 0.11+ required, found " .. tostring(vim.version()))
+    vim.health.error(version.unsupported_message())
   end
 
   vim.health.start("Platform")

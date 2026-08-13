@@ -2,8 +2,12 @@
 
 ## Requirements
 
-- **Neovim 0.11+** (0.12+ recommended; this config is developed and tested
-  against 0.12). Check with `nvim --version`.
+- **Neovim 0.12.0 or newer.** Check with `nvim --version`. This is a hard
+  minimum: the vendored nvim-treesitter is its `main` branch, which
+  requires 0.12+ (the frozen `master` branch is the one that supports
+  0.11, and this config deliberately does not use it).
+  `./scripts/install.sh` verifies the version and refuses to continue on
+  anything older, so you get a clear message rather than a broken editor.
 - **git** — for cloning and for the `git subtree`-based plugin vendoring
   scripts.
 - Optional, but recommended: **ripgrep** (`rg`) and **fd** for faster

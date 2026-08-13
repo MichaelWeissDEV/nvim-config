@@ -35,6 +35,12 @@ run_test() {
 echo "== clean-state startup (fresh XDG dirs: no prior Mason/Tree-sitter/Neovim data, repo present) =="
 run_test "cleanstate" nvim -u init.lua --headless "+qa"
 
+echo "== test_bootstrap.lua (runtimepath/packpath, the CI startup failure) =="
+run_test "bootstrap" nvim -u init.lua --headless -l tests/test_bootstrap.lua
+
+echo "== test_version.lua (Neovim >= 0.12.0 contract) =="
+run_test "version" nvim -u init.lua --headless -l tests/test_version.lua
+
 echo "== test_startup.lua =="
 run_test "startup" nvim -u init.lua --headless -l tests/test_startup.lua
 

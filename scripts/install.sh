@@ -34,9 +34,22 @@ EOF
 done
 
 if ! command -v nvim >/dev/null 2>&1; then
-  echo "error: nvim not found on PATH (need Neovim 0.11+, 0.12+ recommended)" >&2
+  echo "error: nvim not found on PATH (nvim-config requires Neovim >= 0.12.0)" >&2
   exit 1
 fi
+
+# Let Neovim evaluate its own version against the single contract in
+# lua/util/version.lua, rather than parsing `nvim --version` output here.
+# That keeps one definition of "supported" and avoids brittle string
+# comparisons of things like "v0.12.0-dev+123".
+if ! nvim --headless -u NONE \
+  --cmd "set runtimepath^=$repo_root" \
+  -c 'lua local v = require("util.version") if v.current_is_supported() then vim.cmd("qa") else io.stderr:write(v.unsupported_message() .. "\n") vim.cmd("cquit 1") end' 2>/tmp/nvim-version-check.$$; then
+  cat /tmp/nvim-version-check.$$ >&2 2>/dev/null || true
+  rm -f /tmp/nvim-version-check.$$
+  exit 1
+fi
+rm -f /tmp/nvim-version-check.$$
 
 echo "==> Generating :help tags"
 # -u NONE: generating tags must not load *any* user config -- without it

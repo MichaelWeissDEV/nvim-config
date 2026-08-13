@@ -64,7 +64,9 @@ LunarVim or SpaceVim anywhere in this repository.
 
 ## Requirements
 
-- Neovim **0.11+** (0.12+ recommended; developed against 0.12).
+- Neovim **0.12.0 or newer** — a hard requirement, not a preference: this
+  config vendors nvim-treesitter's `main` branch, which itself requires
+  0.12+. `./scripts/install.sh` refuses to continue on anything older.
 - `git` (for cloning and for the plugin-vendoring scripts).
 - Recommended, optional: `ripgrep`, `fd`, a [Nerd Font](https://www.nerdfonts.com/).
 

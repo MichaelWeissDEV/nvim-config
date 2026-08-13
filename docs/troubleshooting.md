@@ -20,7 +20,8 @@ narrower than they might look:
   emits one warning per missing tool, each with its own `:ToolsInstall
   <profile>` hint).
 - **ERROR** (`vim.health.error`) — something is actually broken, not just
-  absent-by-design: Neovim below 0.11 (`config/health.lua`), or a vendored
+  absent-by-design: Neovim below 0.12.0 (`config/health.lua`, via the
+  contract in `util.version`), or a vendored
   plugin directory missing from `pack/vendor/{start,opt}/`
   (`plugins/health.lua` — this means an incomplete clone/checkout, not a
   missing optional external tool; its hint points at
