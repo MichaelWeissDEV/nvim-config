@@ -89,6 +89,21 @@ else
   echo "---- (missingdeps) failed ----"
 fi
 
+echo "== plugin-verify (manifest/lock/vendored directories agree) =="
+if bash scripts/plugin-verify.sh; then
+  pass=$((pass + 1))
+else
+  fail=$((fail + 1))
+fi
+
+echo "== test_plugin_vendoring.sh (atomic vendoring, local git only) =="
+if bash tests/test_plugin_vendoring.sh >/dev/null 2>&1; then
+  pass=$((pass + 1))
+else
+  fail=$((fail + 1))
+  echo "---- (plugin vendoring) failed; re-run for detail: bash tests/test_plugin_vendoring.sh ----"
+fi
+
 echo
 echo "== populated-state startup (existing Mason/Tree-sitter data present, not a fresh clone) =="
 # Distinct from the clean-state check above: reuse a real, already-populated

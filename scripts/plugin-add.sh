@@ -37,10 +37,25 @@ if [ -n "$(git status --porcelain)" ]; then
   exit 1
 fi
 
-echo "==> Adding $plugin_name ($url @ $branch) into $prefix"
-git subtree add --prefix="$prefix" "$url" "$branch" --squash -m "vendor($plugin_name): subtree add $url @ $branch"
+# Resolve the branch to a concrete commit ONCE, then vendor exactly that
+# commit and lock exactly that commit.
+#
+# The previous version passed the branch name to `git subtree add` and then
+# asked `git ls-remote` for the branch head again afterwards. If upstream
+# published between those two steps, plugins.lock recorded a commit that
+# was never vendored -- the lockfile would describe a tree that does not
+# exist in this repository. Fetching once and using FETCH_HEAD for both the
+# subtree operation and the lock entry removes the window entirely, and
+# works against servers that refuse to serve arbitrary SHAs.
+echo "==> Fetching $plugin_name ($url @ $branch)"
+git fetch --no-tags "$url" "$branch"
+sha="$(git rev-parse FETCH_HEAD)"
+echo "==> Resolved $branch to $sha"
 
-sha="$(git ls-remote "$url" "refs/heads/$branch" | cut -f1)"
+echo "==> Adding $plugin_name into $prefix"
+git subtree add --prefix="$prefix" FETCH_HEAD --squash \
+  -m "vendor($plugin_name): subtree add $url @ $branch ($sha)"
+
 "$repo_root/scripts/plugin-status.sh" --record "$plugin_name" "$url" "$branch" "$prefix" "$load_type" "$sha"
 git add plugins.lock
 git commit -q -m "plugins.lock: record $plugin_name @ ${sha:0:12}"
