@@ -4,23 +4,90 @@ All notable changes to this configuration are documented here. The format
 is loosely based on [Keep a Changelog](https://keepachangelog.com/1.1.0/)
 and versions follow [Semantic Versioning](https://semver.org/).
 
-Each release is a git tag, so `git checkout v0.1.0` gives you a known-good
-combination of configuration *and* vendored plugin versions — which
-matters more here than in most configs, because the plugins live in the
-repository rather than being resolved at install time.
+Each release is a git tag, so `git checkout v0.1.1` pins the configuration
+*and* the vendored plugin versions together — which matters more here than
+in most configs, because the plugins live in the repository rather than
+being resolved at install time.
+
+From v0.1.1 onward a tag is only created after the shared quality gate
+(`.github/workflows/quality.yml`) has passed at that commit. That was
+**not** true of v0.1.0 — see its entry below.
 
 Vendored plugin updates (`git subtree pull`, recorded in `plugins.lock`)
 are not listed individually — see `git log -- pack/vendor/` for those.
 
 ## [Unreleased]
 
-Nothing yet.
+### Fixed
+
+- **Startup failed outside `stdpath("config")`.** Started as
+  `nvim -u <repo>/init.lua` — which is how CI and the test suite run it —
+  neither the repository's own `lua/` modules nor the vendored plugins
+  under `pack/vendor/start/` resolved, because the repo root was on
+  neither `runtimepath` nor `packpath`. This is why the CI run for v0.1.0
+  was red.
+- **A failed lazy-load poisoned the session.** The loader marked a plugin
+  as loaded *before* running its loader, so one failure disabled that
+  feature until Neovim restarted. Loading is now transactional: failure
+  rolls back and the next trigger retries.
+- **Lazy command stubs lost their invocation context.** Re-dispatch rebuilt
+  an Ex string, dropping range, register and command modifiers and
+  re-joining arguments the parser had already split. It now uses a
+  structured `nvim_cmd` call.
+- **LSP root markers lost their declared priority.** They were collected
+  into a set and sorted alphabetically, so `.git` outranked
+  `pyproject.toml`. Order is now preserved verbatim.
+- **Shared LSP configuration merged by load order.** Servers used by
+  several languages (clangd, vtsls) had their settings silently
+  deep-extended; conflicting configuration is now reported instead.
+- **Two registry inconsistencies**, found by the new integrity validator:
+  `ktlint` referenced as a linter but registered as a formatter, and
+  `taplo` referenced as a formatter but registered as an LSP. Tools can now
+  declare secondary roles.
+- **The plugin lockfile could describe a commit that was never vendored.**
+  `git subtree` was given a branch name and the lockfile was written from a
+  *second* `ls-remote` afterwards. Both now use one resolved commit.
+- **`python3` was hardcoded** in the Python run keymap, ignoring
+  `$VIRTUAL_ENV`, absent on a default Windows install, and splitting paths
+  containing spaces.
+
+### Added
+
+- Neovim **>= 0.12.0** as an enforced contract (`lua/util/version.lua`),
+  checked by the installers and the health check, and tested against
+  versions this machine is not running.
+- `lua/config/integrity.lua`: registry validation collecting all problems
+  at once, deterministically ordered. The documentation generator refuses
+  to run against an invalid registry.
+- `scripts/plugin-verify.sh`: cross-validates the manifest, the lockfile
+  and the vendored directories.
+- `User NvimConfigToolsChanged` (`lua/tools/refresh.lua`): a single event
+  after tool installation, so newly installed tools are visible without
+  restarting Neovim.
+- `lua/util/process.lua`: platform-aware interpreter resolution.
+- `.\scripts\install.ps1 -Backup`, matching the POSIX installer.
+- One shared CI quality gate used by both CI and release, running on
+  Linux, macOS and Windows against both Neovim 0.12.0 and stable, with all
+  actions pinned to commit SHAs and Dependabot keeping them current.
+- Nine new test files (version, bootstrap, lazyload failure and command
+  context, LSP registry, tools refresh, registry integrity, process
+  runner, plugin vendoring).
+
+### Changed
+
+- Documentation updated to describe the above.
 
 ## [0.1.0] - 2026-08-13
 
-First tagged release. Everything below was built and verified before this
-tag; the entries are grouped by what a reader coming to the project fresh
-would care about rather than by commit order.
+First tagged release.
+
+:warning: **This tag was never green in CI.** It was created before the
+quality gate existed in its current form, and the CI run at this commit
+failed: the configuration did not start when Neovim was invoked as
+`nvim -u <repo>/init.lua`, which is how every CI job runs it. The tag is
+left in place unchanged rather than rewritten; use v0.1.1 or later.
+
+The entries below describe what was built for this tag.
 
 ### Added
 

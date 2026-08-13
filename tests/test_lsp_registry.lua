@@ -43,7 +43,11 @@ lib.run("lsp registry: marker order, filetype union, shared-server conflicts", f
     end
   end
 
-  local languages_stub = { all = function() return {} end }
+  local languages_stub = {
+    all = function()
+      return {}
+    end,
+  }
   package.loaded["languages.registry"] = languages_stub
   package.loaded["tools.registry"] = {
     get = function(id)
@@ -52,7 +56,11 @@ lib.run("lsp registry: marker order, filetype union, shared-server conflicts", f
   }
   -- Pretend every tool is installed, so collect() does not filter our
   -- synthetic languages out.
-  package.loaded["tools.detection"] = { installed = function() return true end }
+  package.loaded["tools.detection"] = {
+    installed = function()
+      return true
+    end,
+  }
   package.loaded["lsp.registry"] = nil
   local reg = require("lsp.registry")
 
@@ -178,7 +186,12 @@ lib.run("lsp registry: marker order, filetype union, shared-server conflicts", f
     ----------------------------------------------------------------
     languages_stub.all = function()
       return {
-        { id = "c", filetypes = { "c" }, root_markers = { "compile_commands.json", ".git" }, lsp = { tool = "clangd" } },
+        {
+          id = "c",
+          filetypes = { "c" },
+          root_markers = { "compile_commands.json", ".git" },
+          lsp = { tool = "clangd" },
+        },
         { id = "cpp", filetypes = { "cpp" }, root_markers = { ".git" }, lsp = { tool = "clangd" } },
       }
     end

@@ -100,10 +100,11 @@ Straight from `lua/config/health.lua`'s own advice text:
   package — see {doc}`tools`). `:ToolsInstall`/`:ToolsUpdate` reset
   `util.executable`'s cache once every package finishes installing (see
   {doc}`linting`), so formatters/linters/debuggers pick up a freshly
-  installed tool on their very next trigger, no restart needed. **LSP
-  servers are the one exception**: `lsp/registry.lua`'s `M.setup()` only
-  runs once, at startup, so a language server installed mid-session still
-  needs a Neovim restart before it will actually attach.
+  installed tool on their very next trigger, no restart needed. Language
+  servers are re-registered too: `lsp/registry.lua` subscribes to the same
+  `User NvimConfigToolsChanged` event and re-runs its idempotent
+  `refresh()`. A **buffer that was already open** still needs `:e` (or a
+  restart) before the newly available server attaches to it.
 
 ## Diagnosing "a language server won't attach"
 
@@ -135,6 +136,7 @@ In order:
    table would surface there, from the `pcall(vim.lsp.config, ...)` in
    `lsp/registry.lua`) — that's a real bug, not a missing dependency.
 
-Remember `lsp/registry.lua`'s `M.setup()` runs once, at startup: installing
-a server mid-session (`:ToolsInstall`) doesn't attach it until Neovim is
-restarted.
+Installing a server mid-session via `:ToolsInstall` re-registers it
+immediately (`lsp/registry.lua` listens for `User NvimConfigToolsChanged`),
+but a buffer that was already open when it arrived needs `:e` to pick it
+up.

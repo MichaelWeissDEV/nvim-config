@@ -18,8 +18,7 @@ local M = {}
 --- fragments -- no shell strings.
 --- @type table<string, string[][]>
 local CANDIDATES = {
-  python = platform.is_windows and { { "python" }, { "py", "-3" }, { "python3" } }
-    or { { "python3" }, { "python" } },
+  python = platform.is_windows and { { "python" }, { "py", "-3" }, { "python3" } } or { { "python3" }, { "python" } },
   ruby = { { "ruby" } },
   node = { { "node" } },
   lua = { { "lua" }, { "lua5.4" }, { "lua5.1" }, { "luajit" } },

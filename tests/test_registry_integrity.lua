@@ -88,7 +88,8 @@ lib.run("registry integrity: real registry valid, synthetic breakage caught", fu
   ------------------------------------------------------------------
   -- 4. wrong-category reference (formatter list pointing at an LSP)
   ------------------------------------------------------------------
-  problems = integrity.check(languages_stub({ { id = "x", filetypes = { "x" }, formatters = { "some_ls" } } }), base_tools)
+  problems =
+    integrity.check(languages_stub({ { id = "x", filetypes = { "x" }, formatters = { "some_ls" } } }), base_tools)
   lib.assert_true(messages(problems):find("not a formatter", 1, true) ~= nil, "wrong-category reference not caught")
 
   -- ...but a genuinely multi-role tool must NOT be flagged
@@ -123,7 +124,9 @@ lib.run("registry integrity: real registry valid, synthetic breakage caught", fu
         filetypes = { "x" },
         debugger = {
           tool = "some_fmt",
-          adapter = function() return {} end,
+          adapter = function()
+            return {}
+          end,
           configurations = function()
             return { { type = "something_else" } }
           end,
@@ -148,7 +151,10 @@ lib.run("registry integrity: real registry valid, synthetic breakage caught", fu
     }),
     base_tools
   )
-  lib.assert_true(#problems >= 4, "expected several problems in one run, got " .. #problems .. ":\n" .. messages(problems))
+  lib.assert_true(
+    #problems >= 4,
+    "expected several problems in one run, got " .. #problems .. ":\n" .. messages(problems)
+  )
 
   ------------------------------------------------------------------
   -- 9. output is deterministic -- same input, byte-identical output

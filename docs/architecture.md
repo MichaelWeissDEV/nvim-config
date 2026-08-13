@@ -68,6 +68,17 @@ produce every reference table under `docs/_generated/` plus
 `doc/nvim-config.txt`, there is exactly one place to update when a keymap,
 command, language or tool changes -- not three or four.
 
+`lua/config/integrity.lua` validates the language and tool registries
+against each other: unique ids, filetypes claimed by exactly one language,
+every tool reference resolving to a real tool of the right category,
+root-marker structure, debug configurations matching their adapter keys.
+It collects every problem in one deterministic pass rather than stopping
+at the first, the documentation generator refuses to run when it reports
+anything, and CI runs it on every push. A registry mistake does not crash
+Neovim -- it silently produces a language with no formatter, or a table
+documenting a tool that does not exist -- so it needs a checker rather
+than trust.
+
 ## Consumers of the language registry
 
 `lsp/registry.lua`, `plugins/formatting.lua`, `plugins/linting.lua` and
