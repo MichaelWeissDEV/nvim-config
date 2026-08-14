@@ -13,6 +13,12 @@ M.exe_suffix = M.is_windows and ".exe" or ""
 --- Path separator for display purposes (Neovim accepts "/" everywhere internally).
 M.path_sep = M.is_windows and "\\" or "/"
 
+--- Separator between entries of $PATH itself -- ";" on Windows, ":" elsewhere.
+--- Distinct from path_sep above, and getting the two confused turns $PATH into
+--- a single nonsense entry rather than erroring, so it lives here next to the
+--- other platform facts instead of being written out at each call site.
+M.path_list_sep = M.is_windows and ";" or ":"
+
 function M.shell()
   if M.is_windows then
     return vim.o.shell ~= "" and vim.o.shell or "powershell"

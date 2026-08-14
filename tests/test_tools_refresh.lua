@@ -13,15 +13,37 @@ local lib = dofile(this_dir .. "/lib.lua")
 lib.run("tools refresh: newly installed tools become visible without a restart", function()
   local exe = require("util.executable")
   local refresh = require("tools.refresh")
+  local platform = require("util.platform")
 
   local tmp = vim.fn.tempname()
   vim.fn.mkdir(tmp, "p")
   local original_path = vim.env.PATH
+
+  -- The name a tool registry entry carries in its `exe` field: never
+  -- suffixed, on any platform. The file on disk does need a suffix on
+  -- Windows, where an extensionless file is not executable at all -- so
+  -- probe name and filename are kept apart deliberately. That difference is
+  -- itself part of what this test asserts: `exe.exists("nvimcfg_fake_tool")`
+  -- has to find `nvimcfg_fake_tool.cmd` through PATHEXT, exactly as it finds
+  -- a real `ruff` through `ruff.exe`.
   local tool_name = "nvimcfg_fake_tool"
-  local tool_path = tmp .. "/" .. tool_name
+  local tool_path = tmp .. "/" .. tool_name .. (platform.is_windows and ".cmd" or "")
+
+  --- Write the fake tool to disk and make it executable where that is a
+  --- separate step (it is not on Windows, where the suffix decides).
+  local function install_fake_tool()
+    local f = assert(io.open(tool_path, "w"))
+    f:write(platform.is_windows and "@echo off\r\nexit /b 0\r\n" or "#!/bin/sh\nexit 0\n")
+    f:close()
+    if not platform.is_windows then
+      vim.fn.system({ "chmod", "+x", tool_path })
+    end
+  end
 
   local ok, err = pcall(function()
-    vim.env.PATH = tmp .. ":" .. original_path
+    -- ";" on Windows, ":" elsewhere -- the wrong one does not error, it
+    -- silently collapses $PATH into one unusable entry.
+    vim.env.PATH = tmp .. platform.path_list_sep .. original_path
     exe.reset()
 
     ------------------------------------------------------------------
@@ -35,10 +57,7 @@ lib.run("tools refresh: newly installed tools become visible without a restart",
     --    This asserts the failure mode exists, so the fix below is
     --    demonstrably doing something.
     ------------------------------------------------------------------
-    local f = assert(io.open(tool_path, "w"))
-    f:write("#!/bin/sh\nexit 0\n")
-    f:close()
-    vim.fn.system({ "chmod", "+x", tool_path })
+    install_fake_tool()
 
     lib.assert_eq(exe.exists(tool_name), false, "stale cache is expected until the change is announced")
 
@@ -83,10 +102,7 @@ lib.run("tools refresh: newly installed tools become visible without a restart",
     local fake = { id = "fake", name = "fake", category = "linter", exe = tool_name, profiles = { "core" } }
     exe.reset()
     lib.assert_eq(detection.installed(fake), false, "detection reflects a missing binary")
-    local f2 = assert(io.open(tool_path, "w"))
-    f2:write("#!/bin/sh\nexit 0\n")
-    f2:close()
-    vim.fn.system({ "chmod", "+x", tool_path })
+    install_fake_tool()
     exe.reset()
     lib.assert_eq(detection.installed(fake), true, "detection reflects an installed binary after a reset")
   end)

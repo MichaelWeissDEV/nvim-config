@@ -50,6 +50,16 @@ are not listed individually — see `git log -- pack/vendor/` for those.
 - **`python3` was hardcoded** in the Python run keymap, ignoring
   `$VIRTUAL_ENV`, absent on a default Windows install, and splitting paths
   containing spaces.
+- **The Windows CI job had never been green.** `tests/test_tools_refresh.lua`
+  built its temporary `$PATH` with `:`, which on Windows is not a separator
+  at all — the whole variable collapsed into one unusable entry, so the fake
+  tool was never found and the test could not pass there. It also wrote an
+  extensionless file and ran `chmod`, neither of which makes a file
+  executable on Windows. The test now writes `<name>.cmd` and still probes
+  the extensionless name, which is exactly how a real tool registry entry
+  (`exe = "ruff"`) resolves `ruff.exe`. `util.platform` gained
+  `path_list_sep` so the separator is a platform fact in one place rather
+  than a literal at each call site.
 - **The bootstrap test's path assertion was Windows-fragile.** It searched
   `runtimepath`/`packpath` for the repository root as a plain substring,
   which ignores separator normalisation (`\` vs `/`), trailing separators

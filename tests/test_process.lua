@@ -39,7 +39,13 @@ lib.run("process: interpreter resolution, venv priority, spaces in paths", funct
     local f = assert(io.open(bindir .. "/" .. pyname, "w"))
     f:write("#!/bin/sh\nexit 0\n")
     f:close()
-    vim.fn.system({ "chmod", "+x", bindir .. "/" .. pyname })
+    -- venv_python() only stats the candidate, so the executable bit is not
+    -- what the assertion below turns on -- but leaving a non-executable file
+    -- behind would be misleading. There is no chmod on Windows, and none is
+    -- needed there: the .exe suffix is what makes a file executable.
+    if not require("util.platform").is_windows then
+      vim.fn.system({ "chmod", "+x", bindir .. "/" .. pyname })
+    end
 
     vim.env.VIRTUAL_ENV = venv
     exe.reset()
