@@ -59,20 +59,18 @@ jobs:
         id: notes
         run: |
           VER="${{ steps.version.outputs.ver }}"
-          awk \
-            -v start="## \\[${VER}\\]" \
-            '/^## \[/{found=0} found{print} $0 ~ start{found=1}' \
-            CHANGELOG.md \
-            > release_notes.md
-
-          echo "--- release notes preview ---"
-          cat release_notes.md
-
-          if [ ! -s release_notes.md ]; then
+          # The extraction lives in a script rather than inline here, so that
+          # tests/test_release_notes.sh can exercise the very same code on
+          # every ordinary push. Inline, it ran only during a release -- and
+          # had never once succeeded.
+          if ! bash scripts/release-notes.sh "${VER}" > release_notes.md; then
             echo "::error::No CHANGELOG section found for version ${VER}."
             echo "::error::Add a '## [${VER}]' entry to CHANGELOG.md before tagging."
             exit 1
           fi
+
+          echo "--- release notes preview ---"
+          cat release_notes.md
 
       - name: Create GitHub Release (draft)
         env:

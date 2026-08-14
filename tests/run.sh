@@ -107,6 +107,13 @@ else
   echo "---- (plugin vendoring) failed; re-run for detail: bash tests/test_plugin_vendoring.sh ----"
 fi
 
+echo "== test_release_notes.sh (the release body extracts from CHANGELOG.md) =="
+if bash tests/test_release_notes.sh; then
+  pass=$((pass + 1))
+else
+  fail=$((fail + 1))
+fi
+
 echo
 echo "== populated-state startup (existing Mason/Tree-sitter data present, not a fresh clone) =="
 # Distinct from the clean-state check above: reuse a real, already-populated

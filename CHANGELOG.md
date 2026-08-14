@@ -16,6 +16,27 @@ From v0.1.1 onward a tag is only created after the shared quality gate
 Vendored plugin updates (`git subtree pull`, recorded in `plugins.lock`)
 are not listed individually — see `git log -- pack/vendor/` for those.
 
+## [Unreleased]
+
+### Fixed
+
+- **Release-note extraction had never worked.** The release job built its
+  body with `awk -v start="## \[$VER\]"`, but `awk -v` runs escape
+  processing on its own assignments: the backslashes were consumed before
+  awk saw a pattern, leaving `## [0.1.1]`, which awk then read as a
+  *character class* matching a single `0`, `.` or `1`. No heading ever
+  matched, so both the v0.1.0 and the v0.1.1 release runs aborted after a
+  fully green quality gate. The heading is now matched literally with
+  `index()`.
+
+### Added
+
+- `scripts/release-notes.sh` and `tests/test_release_notes.sh`. The
+  extraction moved out of the workflow into a script the test suite runs on
+  every push, against the real changelog, for every version it documents —
+  code that only executes during a release is code whose failure surfaces
+  at the most expensive possible moment.
+
 ## [0.1.1] - 2026-08-14
 
 First release cut against a fully green quality gate — Linux, macOS **and**

@@ -63,6 +63,12 @@ jobs:
       - name: Plugin vendoring is atomic
         run: bash tests/test_plugin_vendoring.sh
 
+      # Release-note extraction only ever runs during a release, which is
+      # the worst possible moment to discover it is broken -- as it was,
+      # from the day it was written. Checked on every push instead.
+      - name: Release notes extract from the changelog
+        run: bash tests/test_release_notes.sh
+
       # docs/_generated/*.md is committed because Read the Docs cannot run
       # Neovim to regenerate it. This guards the failure mode that creates:
       # a registry change committed without re-running the generator,
