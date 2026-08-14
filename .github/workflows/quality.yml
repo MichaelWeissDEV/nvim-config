@@ -144,8 +144,17 @@ jobs:
           nvim --headless -u init.lua "+qa"
           if ($LASTEXITCODE -ne 0) { throw "nvim exited with $LASTEXITCODE" }
 
+      # Every test runs even after one fails, and each failure is emitted as
+      # a GitHub annotation carrying the test name and its output. Reading a
+      # workflow *log* requires an authenticated token; annotations are
+      # readable without one, which is the difference between diagnosing a
+      # Windows-only failure from a POSIX machine and guessing at it.
       - name: Lua test scripts
         run: |
+          # Native stderr surfaces as ErrorRecords. Under the default "Stop"
+          # preference that aborts the step before $LASTEXITCODE is read, so
+          # the exit code -- not PowerShell's error stream -- decides here.
+          $ErrorActionPreference = "Continue"
           $tests = @(
             "tests/test_bootstrap.lua",
             "tests/test_version.lua",
@@ -159,11 +168,20 @@ jobs:
             "tests/test_lazy_load.lua",
             "tests/test_commands.lua"
           )
+          $failed = @()
           foreach ($t in $tests) {
             Write-Host "== $t"
-            nvim --headless -u init.lua -l $t
-            if ($LASTEXITCODE -ne 0) { throw "$t failed" }
+            $out = (& nvim --headless -u init.lua -l $t 2>&1 | Out-String)
+            $code = $LASTEXITCODE
+            Write-Host $out
+            if ($code -ne 0) {
+              $body = "$t exited $code`n$out"
+              $encoded = $body -replace "`r", "" -replace "`n", "%0A"
+              Write-Host "::error title=Windows Lua test failed::$encoded"
+              $failed += $t
+            }
           }
+          if ($failed.Count -gt 0) { throw ("failed: " + ($failed -join ", ")) }
 
       - name: Health check runs without error
         run: |
