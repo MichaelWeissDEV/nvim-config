@@ -16,7 +16,10 @@ From v0.1.1 onward a tag is only created after the shared quality gate
 Vendored plugin updates (`git subtree pull`, recorded in `plugins.lock`)
 are not listed individually — see `git log -- pack/vendor/` for those.
 
-## [Unreleased]
+## [0.1.1] - 2026-08-14
+
+First release cut against a fully green quality gate — Linux, macOS **and**
+Windows, on both Neovim 0.12.0 and stable.
 
 ### Fixed
 
@@ -226,5 +229,6 @@ The entries below describe what was built for this tag.
   literal characters, after the literals were found to have been silently
   stripped to empty strings.
 
-[Unreleased]: https://github.com/MichaelWeissDEV/nvim-config/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/MichaelWeissDEV/nvim-config/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/MichaelWeissDEV/nvim-config/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/MichaelWeissDEV/nvim-config/releases/tag/v0.1.0
