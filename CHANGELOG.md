@@ -78,6 +78,11 @@ are not listed individually — see `git log -- pack/vendor/` for those.
 - Nine new test files (version, bootstrap, lazyload failure and command
   context, LSP registry, tools refresh, registry integrity, process
   runner, plugin vendoring).
+- Three documentation pages that were missing from the Sphinx site:
+  **UI** (options, theme, statusline, which-key groups, the runtime
+  toggles and large-file handling), **Diagnostics** (presentation,
+  keymaps, the three producers, and when diagnostics are switched off on
+  purpose) and an **FAQ**.
 
 ### Changed
 

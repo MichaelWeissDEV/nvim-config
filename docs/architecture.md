@@ -104,8 +104,10 @@ and build their own plugin's configuration from it:
 ## Plugin loading: what's `start`, what's `opt`
 
 Neovim's native package system (`:h packages`) is the plugin loader here.
-There is no custom plugin-manager engine -- `lua/config/lazyload.lua` is
-~90 lines wrapping `vim.cmd.packadd()` and autocommands, nothing more.
+There is no custom plugin-manager engine -- `lua/config/lazyload.lua` is a
+single module wrapping `vim.cmd.packadd()`, autocommands and command/key
+stubs, with a transactional load state so a failed load rolls back and can
+be retried (see {doc}`plugins`). Nothing more.
 
 **`pack/vendor/start/`** — sourced automatically at startup. Reserved for
 things genuinely needed immediately (or, in nvim-treesitter's case,

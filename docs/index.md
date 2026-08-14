@@ -44,12 +44,14 @@ lsp
 completion
 formatting
 linting
+diagnostics
 debugging
 git
 files
 telescope
 treesitter
 mason
+ui
 ```
 
 ```{toctree}
@@ -58,6 +60,7 @@ mason
 
 plugin-updates
 troubleshooting
+faq
 development
 changelog
 license
