@@ -50,7 +50,16 @@ are not listed individually — see `git log -- pack/vendor/` for those.
 - **`python3` was hardcoded** in the Python run keymap, ignoring
   `$VIRTUAL_ENV`, absent on a default Windows install, and splitting paths
   containing spaces.
-- **The Windows CI job had never been green.** `tests/test_tools_refresh.lua`
+- **The Windows CI job had never been green.** Two independent causes, both
+  in the tests rather than in the configuration they exercise.
+  `tests/test_process.lua` compared an interpreter path as a *string*, so it
+  failed on the difference between the backslashes `vim.fn.tempname()`
+  returns and the forward slashes `vim.fs.joinpath()` produces — two
+  spellings of one file, and the forward-slash form is the correct thing for
+  the runner to hand to `jobstart`. Paths are now compared through
+  `lib.assert_same_path`, which canonicalises both sides; the bootstrap
+  test's private copy of that helper moved to `tests/lib.lua` with it.
+  `tests/test_tools_refresh.lua`
   built its temporary `$PATH` with `:`, which on Windows is not a separator
   at all — the whole variable collapsed into one unusable entry, so the fake
   tool was never found and the test could not pass there. It also wrote an

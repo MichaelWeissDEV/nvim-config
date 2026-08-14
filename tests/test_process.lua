@@ -50,7 +50,12 @@ lib.run("process: interpreter resolution, venv priority, spaces in paths", funct
     vim.env.VIRTUAL_ENV = venv
     exe.reset()
     argv = process.resolve("python")
-    lib.assert_eq(argv[1], bindir .. "/" .. pyname, "an activated virtualenv must win over PATH")
+    -- Compared as a path, not as a string: on Windows the test builds this
+    -- from vim.fn.tempname() (backslashes) while venv_python() builds it
+    -- with vim.fs.joinpath (forward slashes). Both name the same file, and
+    -- the forward-slash form is the correct thing for the runner to
+    -- produce -- Neovim accepts it everywhere, including jobstart.
+    lib.assert_same_path(argv[1], bindir .. "/" .. pyname, "an activated virtualenv must win over PATH")
 
     ------------------------------------------------------------------
     -- 4. a VIRTUAL_ENV without an interpreter falls back to PATH

@@ -30,6 +30,39 @@ function M.assert_eq(actual, expected, msg)
   end
 end
 
+--- Absolute, normalised form of a path, for comparing two paths that
+--- describe the same location but were spelled differently.
+---
+--- On Windows this matters constantly: `vim.fn.tempname()` returns
+--- backslashes, `vim.fs.joinpath()` returns forward slashes, and the
+--- filesystem is case-insensitive -- so three spellings of one directory
+--- compare unequal as plain strings. A trailing separator is dropped for
+--- the same reason.
+--- @param path string
+--- @return string
+function M.canonical(path)
+  local p = vim.fs.normalize(vim.fn.fnamemodify(path, ":p"))
+  p = p:gsub("[/\\]+$", "")
+  if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 then
+    p = p:lower()
+  end
+  return p
+end
+
+--- Assert that two paths point at the same location, whatever their
+--- spelling. Use instead of assert_eq whenever either side came out of an
+--- API rather than out of the test itself.
+--- @param actual string
+--- @param expected string
+--- @param msg string|nil
+function M.assert_same_path(actual, expected, msg)
+  local a, e = M.canonical(actual), M.canonical(expected)
+  if a ~= e then
+    local detail = string.format("expected path %s, got %s (canonical: %s vs %s)", expected, actual, e, a)
+    error((msg or "paths differ") .. ": " .. detail, 2)
+  end
+end
+
 --- Report failures and exit with the right code, or print PASS and exit 0.
 --- @param name string test name
 --- @param fn function the test body; failure = anything it errors on

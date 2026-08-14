@@ -15,19 +15,14 @@
 local this_dir = vim.fs.dirname(debug.getinfo(1, "S").source:sub(2))
 local lib = dofile(this_dir .. "/lib.lua")
 
-local function canonical(path)
-  local p = vim.fs.normalize(vim.fn.fnamemodify(path, ":p"))
-  p = p:gsub("[/\\]+$", "")
-  if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 then
-    p = p:lower()
-  end
-  return p
-end
-
+-- Exact comparison of canonicalised entries, not a substring search of the
+-- whole option: on Windows a substring match ignores separator spelling,
+-- trailing separators and case, and would report a match that Neovim's own
+-- path resolution would not make.
 local function pathlist_contains(pathlist, path)
-  local want = canonical(path)
+  local want = lib.canonical(path)
   for _, entry in ipairs(vim.split(pathlist, ",", { plain = true, trimempty = true })) do
-    if canonical(entry) == want then
+    if lib.canonical(entry) == want then
       return true
     end
   end
