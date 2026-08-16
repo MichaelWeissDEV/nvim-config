@@ -3,6 +3,8 @@
 -- no language server attached (e.g. linter-only diagnostics via nvim-lint).
 local km = require("util.keymap_registry")
 
+local M = {}
+
 -- Nerd Font glyphs, written as \u{...} escapes rather than pasted literals:
 -- the literal characters get silently stripped by some editors and tooling
 -- (they were empty strings in this file for a while, which is exactly the
@@ -28,11 +30,16 @@ vim.diagnostic.config({
     source = "if_many",
     prefix = "\u{25cf}", -- ● U+25CF, plain Unicode, no Nerd Font needed
   },
-  -- Full multi-line message for the diagnostic under the cursor only.
-  -- Restricting to current_line keeps long messages readable without
-  -- pushing the whole buffer around, which `virtual_lines = true` does.
-  -- Toggle it off/on with <leader>xv.
-  virtual_lines = { current_line = true },
+  -- Off by default. virtual_lines renders the full message as extra screen
+  -- lines beneath the code, so the buffer visibly reflows as the cursor
+  -- moves -- the line you are reading shifts down and back up again. That
+  -- is a lot of motion for information you did not ask for.
+  --
+  -- Nothing is lost by having it off: the underline, the sign and the
+  -- end-of-line virtual_text above all still mark the problem. The full
+  -- text is one keypress away in a floating window (<leader>xl), and
+  -- <leader>xv turns this back on when a particular buffer warrants it.
+  virtual_lines = false,
   signs = { text = SIGNS },
   float = {
     border = "rounded",
@@ -41,6 +48,34 @@ vim.diagnostic.config({
     prefix = "",
   },
 })
+
+--- Turn the inline multi-line detail (`virtual_lines`) on or off for the
+--- whole session, and report which it now is.
+---
+--- Written as a plain if/else rather than the usual `cond and a or b`: with
+--- `false` as the middle operand that idiom silently collapses -- `x and
+--- false or y` is always `y` -- so the previous one-liner could only ever
+--- switch this *on* while announcing that it had switched it off.
+--- @return boolean enabled the state it is in now
+function M.toggle_virtual_lines()
+  local enabled = vim.diagnostic.config().virtual_lines ~= false
+  if enabled then
+    vim.diagnostic.config({ virtual_lines = false })
+  else
+    vim.diagnostic.config({ virtual_lines = { current_line = true } })
+  end
+  vim.notify("Inline diagnostic details: " .. (enabled and "off" or "on"))
+  return not enabled
+end
+
+--- Enable or disable diagnostics in the current buffer.
+--- @return boolean enabled the state it is in now
+function M.toggle_buffer()
+  local enabled = vim.diagnostic.is_enabled({ bufnr = 0 })
+  vim.diagnostic.enable(not enabled, { bufnr = 0 })
+  vim.notify("Diagnostics in this buffer: " .. (enabled and "off" or "on"))
+  return not enabled
+end
 
 km.map_many({
   {
@@ -80,23 +115,17 @@ km.map_many({
   {
     mode = "n",
     lhs = "<leader>xv",
-    rhs = function()
-      local current = vim.diagnostic.config().virtual_lines
-      vim.diagnostic.config({ virtual_lines = current and false or { current_line = true } })
-      vim.notify("Inline diagnostic details: " .. (current and "off" or "on"))
-    end,
-    desc = "Toggle inline diagnostic details (virtual_lines)",
+    rhs = M.toggle_virtual_lines,
+    desc = "Toggle inline diagnostic details (virtual_lines, off by default)",
     group = "Diagnostics",
   },
   {
     mode = "n",
     lhs = "<leader>xt",
-    rhs = function()
-      local enabled = vim.diagnostic.is_enabled({ bufnr = 0 })
-      vim.diagnostic.enable(not enabled, { bufnr = 0 })
-      vim.notify("Diagnostics in this buffer: " .. (enabled and "off" or "on"))
-    end,
+    rhs = M.toggle_buffer,
     desc = "Toggle diagnostics in this buffer",
     group = "Diagnostics",
   },
 })
+
+return M

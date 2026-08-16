@@ -23,7 +23,7 @@
 | `n` | `<leader>xl` | Line diagnostics (float) | Diagnostics | Global |
 | `n` | `<leader>xq` | Diagnostics to quickfix | Diagnostics | Global |
 | `n` | `<leader>xt` | Toggle diagnostics in this buffer | Diagnostics | Global |
-| `n` | `<leader>xv` | Toggle inline diagnostic details (virtual_lines) | Diagnostics | Global |
+| `n` | `<leader>xv` | Toggle inline diagnostic details (virtual_lines, off by default) | Diagnostics | Global |
 | `n` | `<leader>xx` | Toggle diagnostics list (Trouble) | Diagnostics | Global |
 | `n` | `[d` | Previous diagnostic | Diagnostics | Global |
 | `n` | `]d` | Next diagnostic | Diagnostics | Global |

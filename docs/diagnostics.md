@@ -33,12 +33,19 @@ only when more than one tool reports on that buffer, so a single-linter
 buffer stays uncluttered while a `ruff` + `basedpyright` buffer tells you
 which one is complaining.
 
-**`virtual_lines = { current_line = true }`** — the *full*, multi-line
-message, rendered below the cursor's line only. Plain `virtual_lines = true`
-would expand every diagnostic in the buffer and push the code around as you
-move; restricting it to the current line gives you the complete text of long
-type errors (the kind Rust and TypeScript produce) without the buffer
-dancing. Toggle it with `<leader>xv`.
+**`virtual_lines = false`** — **off by default**, and it is the one setting
+here worth understanding, because it is the only one that changes the
+*layout* of the buffer. With it on, the full multi-line message is rendered
+as extra screen lines beneath the code, so the file visibly reflows as the
+cursor moves: the line you are reading is pushed down, then springs back
+when you move away. On a file with several diagnostics that is constant
+motion for information you did not ask for.
+
+Nothing is lost by having it off. The underline, the sign and the
+end-of-line virtual text all still mark the problem exactly where it is,
+without moving a single character. The full text is one keypress away in a
+floating window (`<leader>xl`, below), and `<leader>xv` switches the inline
+form back on for as long as a particular buffer warrants it.
 
 **`signs`** — Nerd Font glyphs in the sign column, one per severity:
 
@@ -71,7 +78,7 @@ All registered under the `Diagnostics` group, so `:NvimKeymaps` and the
 | `]d` | next diagnostic, and open its float |
 | `<leader>xl` | show the float for the current line |
 | `<leader>xq` | send all diagnostics to the quickfix list and open it |
-| `<leader>xv` | toggle inline detail (`virtual_lines`) on/off |
+| `<leader>xv` | toggle inline detail (`virtual_lines`) — off by default |
 | `<leader>xt` | toggle diagnostics in **this buffer** on/off |
 | `<leader>xx` | toggle the Trouble list (loads trouble.nvim on first press) |
 
@@ -83,7 +90,26 @@ requires 0.12.0 (see {doc}`installation`).
 `<leader>xv` and `<leader>xt` both print what they just did
 (`"Inline diagnostic details: off"`, `"Diagnostics in this buffer: on"`) —
 a toggle whose only feedback is the absence of something is a toggle you
-lose track of.
+lose track of. Both are exported as `config.diagnostics.toggle_virtual_lines()`
+and `.toggle_buffer()` so `tests/test_diagnostics_display.lua` can assert
+they move in *both* directions, which an earlier one-liner version did not.
+
+## Reading a diagnostic without changing the layout
+
+This is the intended everyday flow, given `virtual_lines` is off:
+
+- the **sign** and the **underline** tell you a line has a problem,
+- the **end-of-line text** gives you the gist,
+- `<leader>xl` opens a **floating window** over the buffer with the full
+  message and the tool that produced it — it overlays, so nothing below it
+  moves. Press it a second time to step into the float and scroll a long
+  message; `q` or any cursor movement dismisses it.
+- `K` does the same for LSP hover information (types, signatures,
+  documentation) — see {doc}`lsp`.
+
+`<leader>xv` is there for the case where you want the messages permanently
+in view while working through them, and `<leader>xx` opens the Trouble list
+when you would rather walk a whole project's worth.
 
 ## Trouble: the list view
 

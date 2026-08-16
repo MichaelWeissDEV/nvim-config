@@ -18,7 +18,27 @@ are not listed individually — see `git log -- pack/vendor/` for those.
 
 ## [Unreleased]
 
+### Changed
+
+- **Inline multi-line diagnostics (`virtual_lines`) are off by default.**
+  They were the only diagnostic display setting that adds screen lines, so
+  the buffer reflowed as the cursor moved — the line being read was pushed
+  down and sprang back on leaving it. Everything that marks a problem
+  without moving text stays exactly as it was: underline, sign column,
+  end-of-line virtual text. The full message is on `<leader>xl` in a
+  floating window that overlays rather than displaces, and `<leader>xv`
+  switches the inline form back on per session.
+
 ### Fixed
+
+- **The `virtual_lines` toggle only ever toggled one way.** It was written
+  as `current and false or { current_line = true }`, and in Lua
+  `x and false or y` always evaluates to `y` — so `<leader>xv` could switch
+  the feature on but never off, while notifying that it had switched it
+  off. Rewritten as an explicit branch, exported as
+  `config.diagnostics.toggle_virtual_lines()`, and covered by
+  `tests/test_diagnostics_display.lua`, which asserts both directions and
+  fails against the old implementation.
 
 - **Release-note extraction had never worked.** The release job built its
   body with `awk -v start="## \[$VER\]"`, but `awk -v` runs escape

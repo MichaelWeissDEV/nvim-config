@@ -142,7 +142,7 @@ Diagnostics ~
     n      <leader>xl         Line diagnostics (float)
     n      <leader>xq         Diagnostics to quickfix
     n      <leader>xt         Toggle diagnostics in this buffer
-    n      <leader>xv         Toggle inline diagnostic details (virtual_lines)
+    n      <leader>xv         Toggle inline diagnostic details (virtual_lines, off by default)
     n      <leader>xx         Toggle diagnostics list (Trouble)
     n      [d                 Previous diagnostic
     n      ]d                 Next diagnostic

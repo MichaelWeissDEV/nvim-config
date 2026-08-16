@@ -168,6 +168,7 @@ jobs:
             "tests/test_lazyload_failure.lua",
             "tests/test_lazyload_command_context.lua",
             "tests/test_lsp_registry.lua",
+            "tests/test_diagnostics_display.lua",
             "tests/test_tools_refresh.lua",
             "tests/test_process.lua",
             "tests/test_startup.lua",
