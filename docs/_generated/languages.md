@@ -19,11 +19,13 @@
 - **Filetypes:** python
 - **Extensions:** .py, .pyi
 - **Tree-sitter:** python
-- **Project root markers:** pyproject.toml, setup.py, setup.cfg, requirements.txt, Pipfile, .git
-- **LSP:** basedpyright
+- **Project root markers:** pyproject.toml, uv.lock, setup.py, setup.cfg, requirements.txt, Pipfile, ty.toml, ruff.toml, .ruff.toml, pyrightconfig.json, .git
+- **LSP:** ty
+- **Additional LSP:** ruff (server), basedpyright _(optional)_
 - **Formatters:** ruff format
-- **Linters:** ruff
+- **Linters:** _none_
 - **Debugger:** debugpy
+- **Notes:** Language server: ty by default, basedpyright as alternative (:PythonLsp / vim.g.nvim_config_python_lsp); ruff's server always runs alongside for lint + fixes. Run/test/debug use $VIRTUAL_ENV, then the project's .venv/venv, then $CONDA_PREFIX, then PATH.
 
 ## ruby
 

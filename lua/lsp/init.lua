@@ -7,11 +7,11 @@ registry.setup()
 
 -- Pick up servers installed during this session. registry.refresh() is
 -- idempotent: vim.lsp.config() replaces a name's config rather than
--- accumulating, and vim.lsp.enable() on an already-enabled name is a
--- no-op, so nothing is duplicated and attached clients are not restarted.
--- Buffers opened afterwards get the newly available server; already-open
--- buffers still need :e or a restart, which is what {doc}`troubleshooting`
--- documents.
+-- accumulating, and re-enabling an attached server reuses its client, so
+-- nothing is duplicated. Since Neovim 0.12, vim.lsp.enable() also re-runs
+-- its FileType hook over every open buffer, so a server installed (or
+-- switched on with :PythonLsp) attaches to already-open buffers as well --
+-- no :e needed. Verified by tests/test_python_stack.lua.
 require("tools.refresh").on_tools_changed("lsp", function()
   registry.refresh()
 end)

@@ -18,7 +18,68 @@ are not listed individually — see `git log -- pack/vendor/` for those.
 
 ## [Unreleased]
 
+### Added
+
+- **`:LangInstall [lang]` / `:LangInfo [lang]`** (`<leader>tl` /
+  `<leader>ti`). They set up one language at a time, from the language
+  registry: server(s), formatter, linter and debugger through Mason, plus
+  the Tree-sitter parsers. If the `tree-sitter` CLI that builds the
+  parsers is missing, it comes from Mason first. `:LangInfo` lists what
+  is installed, what is missing (with the package or manual command) and
+  what is attached to the buffer. With no argument, both commands use the
+  current buffer's language. `:LangInstall!` also installs inactive
+  alternatives.
+- **Python as a full IDE around ty and ruff.** ty is the default language
+  server. ruff now runs as a language server (`ruff server`): diagnostics,
+  quick fixes, `<leader>co` organize imports, `<leader>cF` fix all.
+  basedpyright is the opt-in alternative: `:PythonLsp ty|basedpyright|both`
+  for the session, `vim.g.nvim_config_python_lsp` permanently.
+  `:Pytest file|nearest|all|last` (`<leader>ct` / `<leader>cT` /
+  `<leader>cA`) runs pytest. `:PythonInfo` (`<leader>cv`) shows the
+  interpreter, venv and servers. Run, test and debug find a project-local
+  `.venv`/`venv` without activation, after `$VIRTUAL_ENV` and before
+  `$CONDA_PREFIX`/`PATH`. New page: `docs/python.md`.
+- **More IDE keys.**
+  - LSP: `gy` type definition, `gK` signature help, `<leader>lS`
+    workspace symbols, `<leader>lI`/`<leader>lO` call hierarchy,
+    `<leader>lR` restart. `gr`/`gi`/symbols open Telescope pickers.
+    Other occurrences of the symbol under the cursor are highlighted.
+  - Telescope: `<leader><space>`, `<leader>/`, `<leader>fw`,
+    `<leader>fR`, `<leader>fS`, `<leader>fq`, `<leader>fm`, `<leader>fj`,
+    `<leader>f:`, `<leader>gs`/`<leader>gC`/`<leader>gf`.
+  - Trouble: `<leader>xX`, `<leader>xs`, `<leader>xr`, `<leader>xQ`.
+  - Editing: `<C-s>` save, `<leader>qq`/`<leader>qw` quit, `<A-j>`/`<A-k>`
+    move lines, `<leader>bb`/`<leader>ba`.
+  - `<leader>cr` runs the current file for Python, Ruby, JS, Lua, Perl,
+    shell, Go and Rust (cargo).
+  - A persistent terminal on `<C-/>` / `<leader>tt` (`:TermToggle`).
+- The statusline shows the language servers attached to the buffer, and
+  for Python the virtualenv in use.
+- **`lua/config/local.lua`**, gitignored, for personal settings. It is
+  loaded right after the options and reports errors loudly.
+  `lua/config/local.example.lua` lists every switch.
+- `enabled` predicate for `lsp`/`extra_lsp` entries in a language spec. It
+  is re-evaluated on every registry refresh, and servers that drop out are
+  disabled and stopped.
+- Tests: `tests/test_python_stack.lua`, `tests/test_lang_tools.lua`. The
+  second also fails on any two keymaps claiming the same key in the same
+  context.
+
 ### Changed
+
+- **Markdown is plain text by default.** render-markdown.nvim is no longer
+  loaded when a markdown file opens. `<leader>um` / `:MarkdownRender`
+  turns rendering on and off, and `vim.g.nvim_config_markdown_render =
+  true` restores automatic rendering.
+- ruff is no longer run through nvim-lint for Python. Its language server
+  reports the same diagnostics, so keeping both would have shown every
+  problem twice.
+- `scripts/bootstrap.sh` builds Tree-sitter parsers *after* Mason has
+  finished, and adds `tree-sitter-cli` when it is missing.
+- The generated keymap docs and `:help nvim-config` now include the
+  buffer-local keymaps (LSP, per-language, gitsigns). Before, they only
+  listed keys mapped at startup. Generated language docs list additional
+  LSP servers.
 
 - **Inline multi-line diagnostics (`virtual_lines`) are off by default.**
   They were the only diagnostic display setting that adds screen lines, so
@@ -30,6 +91,16 @@ are not listed individually — see `git log -- pack/vendor/` for those.
   switches the inline form back on per session.
 
 ### Fixed
+
+- **`<C-k>` no longer stops working as "go to the window above" in LSP
+  buffers.** Signature help was mapped buffer-locally in normal mode too,
+  which shadowed it. It is now insert-mode only, with `gK` in normal mode.
+- **`gr` no longer waits `'timeoutlen'`.** Neovim's `grr`/`grn`/`gra`/
+  `gri`/`grt` defaults share the prefix. `gr` is now mapped `nowait`.
+- **Python debugging used Mason's interpreter.** debugpy launched the
+  program under the interpreter it was installed into, so project imports
+  failed. The launch configurations now use the project's resolved
+  interpreter.
 
 - **The `virtual_lines` toggle only ever toggled one way.** It was written
   as `current and false or { current_line = true }`, and in Lua

@@ -40,7 +40,11 @@ deliberate exception to "no network at runtime" in this whole config (see
 parser set per profile at the same time it installs that profile's Mason
 tools.
 
+`:LangInstall <language>` installs a language's parsers together with its
+other tools (see {doc}`languages`). When a newly built parser arrives,
+Tree-sitter is started in the language's buffers that are already open.
+
 Parser compilation depends on the external `tree-sitter` CLI and a C
-compiler, neither of which ships with Neovim — see {doc}`offline` for the
-exact failure mode and install commands if `tree-sitter-cli` is missing;
-it's not repeated here.
+compiler, neither of which ships with Neovim. `:LangInstall` and
+`bootstrap.sh` install the CLI through Mason when it is missing. See
+{doc}`offline` for the details and for a bare `:TSInstall`.

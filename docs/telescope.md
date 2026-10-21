@@ -34,6 +34,19 @@ Group `Find`:
 | `<leader>fd` | Diagnostics |
 | `<leader>fs` | Document symbols |
 | `<leader>fG` | Git files |
+| `<leader><space>` | Find files (same as `<leader>ff`) |
+| `<leader>/` | Fuzzy search in the current buffer |
+| `<leader>fw` | Grep the word under the cursor (or the visual selection) |
+| `<leader>fR` | Resume the last picker where you left it |
+| `<leader>fS` | Workspace symbols (LSP) |
+| `<leader>fq` / `<leader>fm` / `<leader>fj` / `<leader>f:` | Quickfix list / marks / jumplist / command history |
+| `<leader>gs` / `<leader>gC` / `<leader>gf` | Git status / commits / commits of this file |
+
+LSP navigation with more than one possible result also opens here: `gr`
+(references), `gi` (implementations), `<leader>ls`/`<leader>lS`
+(symbols) and `<leader>lI`/`<leader>lO` (call hierarchy). Other modules
+use `require("plugins.telescope").pick(name, opts)` to open a picker, so
+Telescope still has a single loader. See {doc}`lsp`.
 
 `:Telescope <picker>` opens any picker by name directly.
 

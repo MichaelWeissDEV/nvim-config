@@ -76,7 +76,9 @@ exactly once, on first use.
 
 `<leader>fG` lists Git-tracked files (with untracked files included), and
 falls back to a plain file search outside a repository rather than
-erroring. See {doc}`telescope`.
+erroring. `<leader>gs` is a status picker (changed files, with a diff
+preview), `<leader>gC` lists the repository's commits and `<leader>gf`
+lists the commits that touched the current file. See {doc}`telescope`.
 
 ## Related
 

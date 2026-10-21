@@ -10,6 +10,9 @@ set -uo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
+# A developer's lua/config/local.lua must not change what the tests see.
+export NVIM_CONFIG_NO_LOCAL=1
+
 pass=0
 fail=0
 work="$(mktemp -d)"
@@ -68,6 +71,12 @@ run_test "toolsrefresh" nvim -u init.lua --headless -l tests/test_tools_refresh.
 echo "== test_process.lua (interpreter resolution, venv, spaces) =="
 run_test "process" nvim -u init.lua --headless -l tests/test_process.lua
 
+echo "== test_python_stack.lua (ty/ruff/basedpyright choice, venv, pytest ids) =="
+run_test "pythonstack" nvim -u init.lua --headless -l tests/test_python_stack.lua
+
+echo "== test_lang_tools.lua (:LangInstall plan offline, unique keymaps) =="
+run_test "langtools" nvim -u init.lua --headless -l tests/test_lang_tools.lua
+
 echo "== test_commands.lua =="
 run_test "commands" nvim -u init.lua --headless -l tests/test_commands.lua
 
@@ -87,7 +96,7 @@ data="$work/missingdeps-data"
 state="$work/missingdeps-state"
 cache="$work/missingdeps-cache"
 mkdir -p "$data" "$state" "$cache"
-if env -i PATH="$restricted_bin" HOME="$HOME" XDG_DATA_HOME="$data" XDG_STATE_HOME="$state" XDG_CACHE_HOME="$cache" \
+if env -i PATH="$restricted_bin" HOME="$HOME" NVIM_CONFIG_NO_LOCAL=1 XDG_DATA_HOME="$data" XDG_STATE_HOME="$state" XDG_CACHE_HOME="$cache" \
   nvim -u init.lua --headless -l tests/test_missing_deps.lua; then
   pass=$((pass + 1))
 else

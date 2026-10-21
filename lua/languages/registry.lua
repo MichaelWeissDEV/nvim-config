@@ -13,15 +13,18 @@
 --   extensions    string[]?             file extensions, documentation only
 --   treesitter    string[]?             nvim-treesitter parser names
 --   root_markers  string[]?             files/dirs that mark a project root
---   lsp           { tool: string, settings: table?, extra: table? }?
---   extra_lsp     { tool: string, settings: table?, extra: table? }[]?
+--   lsp           { tool: string, settings: table?, extra: table?, enabled: fun():boolean? }?
+--                 `enabled` (optional) is re-evaluated on every LSP registry
+--                 refresh; returning false keeps (or switches) the server off.
+--                 Python uses it to choose between ty and basedpyright.
+--   extra_lsp     { tool: string, settings: table?, extra: table?, enabled: fun():boolean? }[]?
 --                 additional LSP clients attached alongside `lsp` for the same
 --                 filetypes/root_markers (Neovim allows multiple clients per
 --                 buffer natively). Use sparingly -- two servers both producing
 --                 diagnostics/completions for the same buffer can be noisy;
---                 this exists for cases like Python's "ty" (a fast supplementary
---                 type checker most people run next to, not instead of, their
---                 main LSP), not as the default way to add a language server.
+--                 this exists for cases like Python's ruff server (lint + fixes
+--                 next to the type checker), not as the default way to add a
+--                 language server.
 --   formatters    string[]?             tool ids from tools.registry, in order
 --   linters       string[]?             tool ids from tools.registry
 --   debugger      { tool: string, adapter: fun():table, configurations: fun():table[] }?

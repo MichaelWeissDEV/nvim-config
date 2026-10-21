@@ -16,9 +16,10 @@ wk.add({
   { "<leader>gh", group = "Git Hunk" },
   { "<leader>l", group = "LSP / Format" },
   { "<leader>d", group = "Debug" },
-  { "<leader>t", group = "Tools" },
+  { "<leader>t", group = "Tools / Terminal" },
+  { "<leader>q", group = "Quit" },
   { "<leader>u", group = "UI" },
-  { "<leader>c", group = "Code" },
+  { "<leader>c", group = "Code (run, test, imports)" },
   { "<leader>x", group = "Diagnostics" },
   { "<leader>h", group = "Help / Docs" },
 })

@@ -171,6 +171,8 @@ jobs:
             "tests/test_diagnostics_display.lua",
             "tests/test_tools_refresh.lua",
             "tests/test_process.lua",
+            "tests/test_python_stack.lua",
+            "tests/test_lang_tools.lua",
             "tests/test_startup.lua",
             "tests/test_lazy_load.lua",
             "tests/test_commands.lua"

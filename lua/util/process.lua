@@ -27,29 +27,25 @@ local CANDIDATES = {
   bash = { { "bash" } },
 }
 
---- The interpreter from an activated virtualenv, if there is one.
---- Checked before PATH so `source .venv/bin/activate` actually decides
---- which Python runs the file, which is the whole point of activating it.
+--- The Python interpreter for `file` from a virtualenv: $VIRTUAL_ENV, a
+--- project-local .venv/venv, or $CONDA_PREFIX (see util/python.lua).
+--- Checked before PATH, so a fresh clone with `uv sync` / `python -m venv
+--- .venv` runs against the project's own packages without activating
+--- anything first.
+--- @param file string|nil
 --- @return string[]|nil
-local function venv_python()
-  local venv = vim.env.VIRTUAL_ENV
-  if not venv or venv == "" then
-    return nil
-  end
-  local candidate = platform.is_windows and vim.fs.joinpath(venv, "Scripts", "python.exe")
-    or vim.fs.joinpath(venv, "bin", "python")
-  if vim.uv.fs_stat(candidate) then
-    return { candidate }
-  end
-  return nil
+local function venv_python(file)
+  local interpreter = require("util.python").interpreter(file)
+  return interpreter and { interpreter } or nil
 end
 
 --- Resolve an interpreter to a concrete argv prefix.
 --- @param language string key into CANDIDATES, e.g. "python"
+--- @param file string|nil the file about to be run; used to find a project venv
 --- @return string[]|nil argv prefix, nil when nothing suitable is installed
-function M.resolve(language)
+function M.resolve(language, file)
   if language == "python" then
-    local venv = venv_python()
+    local venv = venv_python(file)
     if venv then
       return venv
     end
@@ -60,6 +56,18 @@ function M.resolve(language)
     end
   end
   return nil
+end
+
+--- Run `argv` in a terminal split at the bottom. An argv list, never a
+--- shell string, so nothing is re-split or re-quoted.
+--- @param argv string[]
+--- @param opts table|nil { cwd = string }
+--- @return boolean started
+function M.run(argv, opts)
+  opts = opts or {}
+  vim.cmd("botright split")
+  vim.fn.jobstart(argv, { term = true, cwd = opts.cwd })
+  return true
 end
 
 --- Run the current buffer's file with `language`'s interpreter in a
@@ -83,7 +91,7 @@ function M.run_current_file(language, opts)
     return false
   end
 
-  local argv = M.resolve(language)
+  local argv = M.resolve(language, file)
   if not argv then
     -- One message, only when the feature is actually used: the same
     -- contract every other optional dependency in this config follows.
@@ -101,9 +109,7 @@ function M.run_current_file(language, opts)
   vim.list_extend(cmd, opts.args or {})
   table.insert(cmd, file)
 
-  vim.cmd("botright split")
-  vim.fn.jobstart(cmd, { term = true })
-  return true
+  return M.run(cmd)
 end
 
 --- Human-readable candidate list, for the "not found" message.
@@ -115,7 +121,7 @@ function M.describe_candidates(language)
     table.insert(names, table.concat(candidate, " "))
   end
   if language == "python" then
-    table.insert(names, 1, "$VIRTUAL_ENV")
+    table.insert(names, 1, "$VIRTUAL_ENV, ./.venv, ./venv, $CONDA_PREFIX")
   end
   return table.concat(names, ", ")
 end

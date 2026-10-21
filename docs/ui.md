@@ -22,8 +22,15 @@ gets added later does not silently start theming itself differently.
 (`plugins/statusline.lua`), with `globalstatus = true`. Combined with
 `opt.laststatus = 3` that means **one** statusline for the whole editor
 rather than one per split — splits stay visually quiet, and the line
-never jumps as you change window layout. Its right-hand section shows
-diagnostics, file encoding and filetype; the centre shows the filename
+never jumps as you change window layout. Its right-hand section shows:
+
+- diagnostics;
+- the language servers attached to the current buffer (e.g. `ruff,ty`),
+  so you can always see whether one is actually running;
+- for Python, the virtualenv in use (e.g. `(.venv)`, see {doc}`python`);
+- file encoding and filetype.
+
+The centre shows the filename
 with one level of parent directory (`path = 1`), which is enough to tell
 `src/main.rs` from `tests/main.rs` without printing the whole path.
 
@@ -47,9 +54,10 @@ never defines a mapping, it only names the leader groups:
 | `<leader>g` / `<leader>gh` | Git / Git Hunk |
 | `<leader>l` | LSP / Format |
 | `<leader>d` | Debug |
-| `<leader>t` | Tools |
+| `<leader>t` | Tools / Terminal |
 | `<leader>u` | UI |
-| `<leader>c` | Code |
+| `<leader>c` | Code (run, test, imports) |
+| `<leader>q` | Quit |
 | `<leader>x` | Diagnostics |
 | `<leader>h` | Help / Docs |
 
@@ -94,6 +102,7 @@ are also listed by `:NvimKeymaps`:
 | `<leader>uw` | line wrap on/off |
 | `<leader>ul` | whitespace display (`list`) on/off |
 | `<leader>uf` / `<leader>uF` | format on save, buffer / global — see {doc}`formatting` |
+| `<leader>um` | markdown rendering on/off — see below |
 
 There is one command in the same family, `:RelativeNumbersToggle`, doing
 what `<leader>un` does — useful when you want it from a script or a
@@ -101,6 +110,36 @@ what `<leader>un` does — useful when you want it from a script or a
 
 These are all window-local (`vim.wo`), deliberately: toggling wrap to read
 one long log line should not reformat every other split.
+
+## Markdown: plain text by default, rendering on request
+
+Markdown files open as **the plain text they are**: ordinary Tree-sitter
+highlighting, nothing concealed, nothing replaced. What you see is what is
+in the file, which is what you want when editing it.
+
+[render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim)
+is vendored, but it is not even loaded until you ask for it:
+
+| | |
+| --- | --- |
+| `<leader>um` | toggle rendering (headings, tables, code blocks, checkboxes, links) for all markdown buffers |
+| `:MarkdownRender [on\|off]` | the same, explicitly |
+| `vim.g.nvim_config_markdown_render = true` | in `lua/config/local.lua`: render every markdown buffer as it opens |
+
+While rendering is on, the line under the cursor is still shown raw
+(`anti_conceal`), so you never edit text you cannot see. Switching it off
+restores plain text (`conceallevel` 0) in the window.
+
+## The terminal
+
+`<C-/>` (also sent as `<C-_>` by most terminals) or `<leader>tt` toggles
+one persistent shell in a split at the bottom (`lua/ide/terminal.lua`,
+native `:terminal`, no plugin). Hiding it keeps the shell running, so the
+next toggle returns to the same session, scrollback included. In
+terminal mode, a double `<Esc>` switches to normal mode for scrolling,
+searching and yanking. A single `<Esc>` stays with the shell, so vi-mode
+and fzf keep working. `<leader>cr` (run file) and `:Pytest` open their own
+terminal splits.
 
 ## Icons and the Nerd Font question
 

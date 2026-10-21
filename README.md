@@ -56,6 +56,18 @@ LunarVim or SpaceVim anywhere in this repository.
   functional (Haskell/OCaml/Elixir/Erlang), scripting (Python/Ruby/Perl/
   PowerShell/Bash), data/config formats (JSON/YAML/TOML/XML/SQL/...), and
   documentation (Markdown/LaTeX/reStructuredText). Full matrix: [docs/_generated/languages.md](docs/_generated/languages.md).
+- **One command per language.** `:LangInstall python` (or `<leader>tl` in
+  any buffer) installs that language's server(s), formatter, linter,
+  debugger and Tree-sitter parsers through Mason, in the background. They
+  attach to the files already open, with no restart. `:LangInfo`
+  (`<leader>ti`) shows what is there and what is missing.
+- **Python with Astral's tools.** ty (types, go-to-definition, references,
+  rename, completion) plus ruff's language server (lint, quick fixes,
+  organize imports, formatting). basedpyright is one `:PythonLsp` away.
+  Run, pytest and debug use the project's `.venv` without activating
+  anything. See [docs/python.md](docs/python.md).
+- **Markdown is shown as text.** Rendering (headings, tables, checkboxes)
+  is off by default, and `<leader>um` toggles it.
 - **Real debugging**, not just LSP — `nvim-dap` + `nvim-dap-ui`, lazily
   loaded, with a documented keymap set and per-language adapter config.
 - **Cross-platform architecture**: macOS, Linux and Windows all go
@@ -91,10 +103,12 @@ git clone https://github.com/MichaelWeissDEV/nvim-config.git ~/git/nvim-config
 ## Quick Start
 
 - `<space>` (leader) opens which-key's group popup.
+- `<leader>tl` — install everything the current file's language needs (`:LangInstall`); `<leader>ti` shows what's missing.
 - `<leader>ff` / `<leader>fg` — find files / live grep (Telescope, loads on first use).
 - `<leader>e` — file explorer sidebar (nvim-tree, loads on first use); `<leader>o` / `-` for Oil's buffer-as-directory editing instead.
-- `gd`, `K`, `<leader>lr`, `<leader>la` — LSP go-to-definition, hover, rename, code action (once a server has attached).
+- `gd`, `gr`, `K`, `<leader>lr`, `<leader>la` — LSP go-to-definition, references, hover, rename, code action (once a server has attached); `<C-o>` jumps back.
 - `<leader>lf` — format the current buffer.
+- `<C-/>` — toggle a terminal; `<leader>cr` — run the current file.
 - `<leader>db` / `<leader>dc` — toggle breakpoint / start-or-continue debugging.
 - `:NvimConfigHealth` — full report of what's vendored and what optional tooling is missing.
 - `:NvimKeymaps` / `:NvimCommands` — this config's own keymaps/commands, grouped.
@@ -103,12 +117,18 @@ git clone https://github.com/MichaelWeissDEV/nvim-config.git ~/git/nvim-config
 ## Bootstrap (installing language tooling)
 
 Nothing above installs a single language server, formatter, linter or
-debugger. Install a **profile** for what you actually use:
+debugger. From inside Neovim, the quickest way is per language:
+
+```vim
+:LangInstall python      " or <leader>tl in a Python buffer
+```
+
+From a shell, or for whole groups at once, install a **profile**:
 
 ```bash
 ./scripts/bootstrap.sh core      # lua_ls, stylua, shellcheck, shfmt, bash-language-server, selene, taplo
 ./scripts/bootstrap.sh systems   # clangd, rust-analyzer, gopls, codelldb, delve, zls, asm-lsp, ...
-./scripts/bootstrap.sh python    # basedpyright, ruff, debugpy
+./scripts/bootstrap.sh python    # ty, ruff, basedpyright, debugpy
 ./scripts/bootstrap.sh web       # TS/JS/Vue/Svelte LSPs, eslint, prettier, js-debug-adapter
 ./scripts/bootstrap.sh all       # everything (slow, large download)
 ```
@@ -116,7 +136,7 @@ debugger. Install a **profile** for what you actually use:
 Full profile list and every tool each one installs:
 [docs/_generated/tools.md](docs/_generated/tools.md). This
 is also the only script (besides the equivalent in-editor
-`:ToolsInstall`/`:ToolsUpdate`/`:Mason*`/`:TSInstall`) that touches the
+`:LangInstall`/`:ToolsInstall`/`:ToolsUpdate`/`:Mason*`/`:TSInstall`) that touches the
 network — see [Offline Usage](#offline-usage).
 
 ## Key Bindings — Quick Reference
@@ -126,9 +146,17 @@ network — see [Offline Usage](#offline-usage).
 | `<leader>ff` / `<leader>fg` / `<leader>fb` | Find files / live grep / buffers |
 | `<leader>e` | File explorer sidebar (nvim-tree) |
 | `<leader>o` / `-` | File explorer as a buffer (Oil) |
-| `gd` / `gr` / `K` | LSP definition / references / hover |
+| `<leader>tl` / `<leader>ti` | Install tools for this language / show what's missing |
+| `gd` / `gy` / `gr` / `gi` / `K` | LSP definition / type definition / references / implementations / hover |
 | `<leader>lr` / `<leader>la` | LSP rename / code action |
-| `<leader>lf` | Format buffer |
+| `<leader>ls` / `<leader>lS` | Document / workspace symbols |
+| `<leader>lf` | Format buffer (also on save) |
+| `<leader>cr` | Run current file |
+| `<leader>ct` / `<leader>cT` | pytest: file / test under cursor (Python) |
+| `<leader>co` / `<leader>cF` | Organize imports / fix all (ruff, Python) |
+| `<C-/>` / `<leader>tt` | Toggle terminal |
+| `<C-s>` / `<leader>qq` | Save / quit all |
+| `<leader>um` | Toggle markdown rendering (off by default) |
 | `[d` / `]d` / `<leader>xx` | Prev/next diagnostic / diagnostics list (Trouble) |
 | `<leader>db` / `<leader>dc` | Toggle breakpoint / start-continue debugging |
 | `<leader>gb` / `]h` / `[h` | Git blame line / next-prev hunk |
@@ -148,11 +176,11 @@ or run `:NvimCommands` inside Neovim.
 A normal session — editing, LSP, completion, formatting, linting,
 debugging with whatever's already installed — never touches the network.
 The only things that do, and only when run explicitly, are:
-`./scripts/bootstrap.sh`/`.ps1`, `:ToolsInstall`/`:ToolsUpdate`, `:Mason*`,
-`:TSInstall`/`:TSUpdate`, the `scripts/plugin-*.sh` vendoring scripts, and
-the first run of `./scripts/docs-build.sh` (to fetch Sphinx). Full
-explanation, including a caveat found during real testing (missing
-`tree-sitter-cli`): [docs/offline.md](docs/offline.md).
+`./scripts/bootstrap.sh`/`.ps1`, `:LangInstall`, `:ToolsInstall`/`:ToolsUpdate`,
+`:Mason*`, `:TSInstall`/`:TSUpdate`, the `scripts/plugin-*.sh` vendoring
+scripts, and the first run of `./scripts/docs-build.sh` (to fetch Sphinx).
+Full explanation, including how the `tree-sitter` CLI needed for parsers
+is handled: [docs/offline.md](docs/offline.md).
 
 ## Documentation
 
@@ -173,6 +201,17 @@ This README is the entry point; everything else lives under `docs/`:
   there is exactly one copy of each table. Regenerate with
   `./scripts/docs-build.sh` (which also refreshes the Sphinx site and
   `:help` tags) after changing a language/tool/keymap/command.
+
+## Personal settings
+
+Put machine-specific settings in `lua/config/local.lua`. It is gitignored,
+so `git pull` never conflicts with it. Start from the template, which
+lists every switch (Python type checker, markdown auto-render,
+format-on-save, …):
+
+```bash
+cp lua/config/local.example.lua lua/config/local.lua
+```
 
 ## Plugin Updates
 

@@ -18,9 +18,23 @@ local M = {}
 --- @field context? string when this mapping is active, e.g. "LSP attached", "Global"
 --- @field buffer? integer|boolean pass through to vim.keymap.set opts.buffer
 --- @field remap? boolean
+--- @field silent? boolean defaults to true; false keeps messages such as the search count visible
+--- @field nowait? boolean don't wait for longer mappings sharing this prefix
 
 local entries = {}
 local seen_templates = {}
+
+--- Identity of a mapping for documentation purposes: one row per
+--- mode + lhs + context, however many buffers it is applied to.
+--- @param spec KeymapSpec
+--- @return string
+local function template_key(spec)
+  return table.concat({
+    type(spec.mode) == "table" and table.concat(spec.mode, ",") or spec.mode,
+    spec.lhs,
+    spec.context or "Global",
+  }, "\0")
+end
 
 --- @param spec KeymapSpec
 function M.map(spec)
@@ -37,22 +51,20 @@ function M.map(spec)
   if spec.buffer ~= nil then
     opts.buffer = spec.buffer
   end
+  if spec.nowait then
+    opts.nowait = true
+  end
 
   vim.keymap.set(spec.mode, spec.lhs, spec.rhs, opts)
 
   -- Dedupe buffer-local templates: record "gd -> LSP Definition" once, not
   -- once per buffer the LSP attaches to.
-  local template_key = table.concat({
-    type(spec.mode) == "table" and table.concat(spec.mode, ",") or spec.mode,
-    spec.lhs,
-    spec.context or "Global",
-  }, "\0")
-
   if spec.buffer ~= nil then
-    if seen_templates[template_key] then
+    local key = template_key(spec)
+    if seen_templates[key] then
       return
     end
-    seen_templates[template_key] = true
+    seen_templates[key] = true
   end
 
   table.insert(entries, {
@@ -69,6 +81,10 @@ end
 --- so it can delete/replace the stub on load). Records metadata only.
 --- @param spec KeymapSpec
 function M.document(spec)
+  -- Also counts as the template for a later buffer-local M.map() of the
+  -- same mode/lhs/context (e.g. a mapping that only exists when a server
+  -- supports a feature), so it is listed once, not twice.
+  seen_templates[template_key(spec)] = true
   table.insert(entries, {
     mode = spec.mode,
     lhs = spec.lhs,

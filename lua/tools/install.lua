@@ -65,45 +65,84 @@ end
 --- finish, otherwise a tool installed this session keeps reporting as
 --- "not installed" to LSP/formatter/linter/debugger detection until
 --- Neovim restarts (see docs/troubleshooting.md).
+---
+--- This is the one install path in the config: :ToolsInstall, :ToolsUpdate
+--- and :LangInstall all end up here, so every install fires
+--- NvimConfigToolsChanged exactly once, when everything has finished.
 --- @param mason_packages string[]
---- @param force boolean? when true, reinstall/upgrade even if already installed (used by :ToolsUpdate)
-local function install_packages(mason_packages, force)
+--- @param opts table|nil { force: boolean?, title: string?, on_done: fun(installed: string[], failed: string[])? }
+---   force: reinstall/upgrade even if already installed (used by :ToolsUpdate)
+function M.install_packages(mason_packages, opts)
+  opts = opts or {}
+  local force = opts.force == true
+  local title = "nvim-config: " .. (opts.title or (force and "ToolsUpdate" or "ToolsInstall"))
   if #mason_packages == 0 then
+    if opts.on_done then
+      opts.on_done({}, {})
+    end
     return
   end
+  if not ensure_mason() then
+    vim.notify("mason.nvim failed to load; cannot install tools.", vim.log.levels.ERROR, { title = title })
+    return
+  end
+  vim.notify(
+    (force and "Updating: " or "Installing: ")
+      .. table.concat(mason_packages, ", ")
+      .. "\n(runs in the background; :Mason shows progress)",
+    vim.log.levels.INFO,
+    { title = title }
+  )
   local mr = require("mason-registry")
   mr.refresh(function()
     local pending = #mason_packages
-    local function done_one()
+    local installed, failed = {}, {}
+    local function done_one(name, ok)
+      table.insert(ok and installed or failed, name)
       pending = pending - 1
       if pending == 0 then
         vim.schedule(function()
           -- One signal, one owner: this clears the executable cache and
           -- lets LSP/formatting/linting react. Never reset the cache
           -- directly here -- see lua/tools/refresh.lua.
-          require("tools.refresh").notify_tools_changed({ packages = mason_packages })
+          require("tools.refresh").notify_tools_changed({ packages = installed })
+          local lines = {}
+          if #installed > 0 then
+            table.insert(lines, (force and "Updated: " or "Ready: ") .. table.concat(installed, ", "))
+          end
+          if #failed > 0 then
+            table.insert(lines, "Failed: " .. table.concat(failed, ", ") .. " (see :Mason, then g? for the log)")
+          end
+          table.insert(lines, "Run :LangInfo or :ToolsStatus to confirm.")
           vim.notify(
-            (force and "Tools updated: " or "Tools installed: ")
-              .. table.concat(mason_packages, ", ")
-              .. "\nRun :NvimConfigHealth to confirm.",
-            vim.log.levels.INFO,
-            { title = "nvim-config: " .. (force and "ToolsUpdate" or "ToolsInstall") }
+            table.concat(lines, "\n"),
+            #failed > 0 and vim.log.levels.WARN or vim.log.levels.INFO,
+            { title = title }
           )
+          if opts.on_done then
+            opts.on_done(installed, failed)
+          end
         end)
       end
     end
     for _, name in ipairs(mason_packages) do
       local has, pkg = pcall(mr.get_package, name)
       if not has then
-        done_one()
+        done_one(name .. " (unknown Mason package)", false)
       elseif pkg:is_installed() and not force then
-        done_one()
+        done_one(name, true)
       else
-        pkg:install():once("closed", done_one)
+        pkg:install():once("closed", function()
+          vim.schedule(function()
+            done_one(name, pkg:is_installed())
+          end)
+        end)
       end
     end
   end)
 end
+
+M.report_manual = report_manual
 
 cmdreg.command({
   name = "ToolsInstall",
@@ -131,7 +170,7 @@ cmdreg.command({
       return
     end
     local mason_packages, manual = resolve(profile)
-    install_packages(mason_packages)
+    M.install_packages(mason_packages)
     report_manual(manual)
   end,
 })
@@ -155,7 +194,7 @@ cmdreg.command({
       return
     end
     local mason_packages = resolve(profile)
-    install_packages(mason_packages, true)
+    M.install_packages(mason_packages, { force = true })
   end,
 })
 

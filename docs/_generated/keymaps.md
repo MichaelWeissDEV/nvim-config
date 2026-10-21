@@ -8,8 +8,19 @@
 |---|---|---|---|---|
 | `n` | `<S-h>` | Previous buffer | Buffer | Global |
 | `n` | `<S-l>` | Next buffer | Buffer | Global |
+| `n` | `<leader>ba` | Save all buffers | Buffer | Global |
+| `n` | `<leader>bb` | Switch to alternate buffer | Buffer | Global |
 | `n` | `<leader>bd` | Delete buffer | Buffer | Global |
 | `n` | `<leader>bo` | Close other buffers | Buffer | Global |
+| `n` | `<leader>cA` | pytest: whole project | Code | Python buffer |
+| `n` | `<leader>cF` | Fix all auto-fixable problems (ruff) | Code | Python buffer |
+| `n` | `<leader>cT` | pytest: test under cursor | Code | Python buffer |
+| `n` | `<leader>ci` | Toggle inlay hints (servers that support them) | Code | LSP attached |
+| `n` | `<leader>co` | Organize imports (ruff) | Code | Python buffer |
+| `n` | `<leader>cr` | Run current file | Code | Python buffer |
+| `n` | `<leader>cr` | Run current file | Code | Global |
+| `n` | `<leader>ct` | pytest: current file | Code | Python buffer |
+| `n` | `<leader>cv` | Python: interpreter, venv, language servers | Code | Python buffer |
 | `n` | `<leader>dB` | Conditional breakpoint | Debug | Global |
 | `n` | `<leader>dO` | Step out | Debug | Global |
 | `n` | `<leader>db` | Toggle breakpoint | Debug | Global |
@@ -20,25 +31,46 @@
 | `n` | `<leader>dr` | Toggle REPL | Debug | Global |
 | `n` | `<leader>dt` | Terminate session | Debug | Global |
 | `n` | `<leader>du` | Toggle debug UI | Debug | Global |
+| `n` | `<leader>xQ` | Quickfix list (Trouble) | Diagnostics | Global |
+| `n` | `<leader>xX` | Diagnostics list, this buffer (Trouble) | Diagnostics | Global |
 | `n` | `<leader>xl` | Line diagnostics (float) | Diagnostics | Global |
 | `n` | `<leader>xq` | Diagnostics to quickfix | Diagnostics | Global |
+| `n` | `<leader>xr` | LSP definitions/references (Trouble) | Diagnostics | Global |
+| `n` | `<leader>xs` | Symbols outline (Trouble) | Diagnostics | Global |
 | `n` | `<leader>xt` | Toggle diagnostics in this buffer | Diagnostics | Global |
 | `n` | `<leader>xv` | Toggle inline diagnostic details (virtual_lines, off by default) | Diagnostics | Global |
-| `n` | `<leader>xx` | Toggle diagnostics list (Trouble) | Diagnostics | Global |
+| `n` | `<leader>xx` | Diagnostics list, all buffers (Trouble) | Diagnostics | Global |
 | `n` | `[d` | Previous diagnostic | Diagnostics | Global |
 | `n` | `]d` | Next diagnostic | Diagnostics | Global |
+| `i` | `<A-j>` | Move line down | Edit | Global |
+| `x` | `<A-j>` | Move selection down | Edit | Global |
+| `n` | `<A-j>` | Move line down | Edit | Global |
+| `i` | `<A-k>` | Move line up | Edit | Global |
+| `x` | `<A-k>` | Move selection up | Edit | Global |
+| `n` | `<A-k>` | Move line up | Edit | Global |
+| `n,i,x` | `<C-s>` | Save file | File | Global |
 | `n` | `-` | Open parent directory (Oil) | Find | Global |
+| `n` | `<leader>/` | Search in current buffer | Find | Global |
+| `n` | `<leader><space>` | Find files | Find | Global |
 | `n` | `<leader>e` | Toggle file explorer (nvim-tree) | Find | Global |
+| `n` | `<leader>f:` | Command history | Find | Global |
 | `n` | `<leader>fG` | Git files | Find | Global |
+| `n` | `<leader>fR` | Resume last picker | Find | Global |
+| `n` | `<leader>fS` | Workspace symbols | Find | Global |
 | `n` | `<leader>fb` | Find buffers | Find | Global |
 | `n` | `<leader>fc` | Commands (all of Neovim's) | Find | Global |
 | `n` | `<leader>fd` | Diagnostics | Find | Global |
 | `n` | `<leader>ff` | Find files | Find | Global |
 | `n` | `<leader>fg` | Live grep | Find | Global |
 | `n` | `<leader>fh` | Help tags | Find | Global |
+| `n` | `<leader>fj` | Jumplist | Find | Global |
 | `n` | `<leader>fk` | Keymaps (all of Neovim's) | Find | Global |
+| `n` | `<leader>fm` | Marks | Find | Global |
+| `n` | `<leader>fn` | New empty buffer | Find | Global |
+| `n` | `<leader>fq` | Quickfix list | Find | Global |
 | `n` | `<leader>fr` | Recent files | Find | Global |
 | `n` | `<leader>fs` | Document symbols | Find | Global |
+| `n,v` | `<leader>fw` | Grep word / selection | Find | Global |
 | `n` | `<leader>o` | Open file explorer (Oil) | Find | Global |
 | `n,v` | `<leader>lf` | Format buffer | Format | Global |
 | `v` | `<` | Indent left, keep selection | General | Global |
@@ -48,20 +80,60 @@
 | `n` | `<leader>Y` | Yank line to system clipboard | General | Global |
 | `n,v` | `<leader>y` | Yank to system clipboard | General | Global |
 | `v` | `>` | Indent right, keep selection | General | Global |
+| `n` | `N` | Previous search result, centered | General | Global |
+| `n` | `n` | Next search result, centered | General | Global |
+| `n` | `<leader>gB` | Toggle blame virtual text | Git | Git-tracked buffer |
+| `n` | `<leader>gC` | Git commits (picker) | Git | Global |
 | `n` | `<leader>gP` | Git pull | Git | Global |
+| `n` | `<leader>gb` | Blame line | Git | Git-tracked buffer |
 | `n` | `<leader>gc` | Git commit | Git | Global |
 | `n` | `<leader>gd` | Git diff against index (split) | Git | Global |
+| `n` | `<leader>gf` | Git commits of this file | Git | Global |
 | `n` | `<leader>gg` | Git status (fugitive) | Git | Global |
+| `n` | `<leader>ghp` | Preview hunk | Git | Git-tracked buffer |
+| `n` | `<leader>ghr` | Reset hunk | Git | Git-tracked buffer |
+| `n` | `<leader>ghs` | Stage hunk | Git | Git-tracked buffer |
 | `n` | `<leader>gl` | Git log (graph) | Git | Global |
 | `n` | `<leader>gp` | Git push | Git | Global |
+| `n` | `<leader>gs` | Git status (picker) | Git | Global |
+| `n` | `[h` | Previous git hunk | Git | Git-tracked buffer |
+| `n` | `]h` | Next git hunk | Git | Git-tracked buffer |
 | `n` | `<leader>hc` | List commands | Help | Global |
 | `n` | `<leader>hd` | Open documentation | Help | Global |
 | `n` | `<leader>hh` | Run health check | Help | Global |
 | `n` | `<leader>hk` | List keymaps | Help | Global |
+| `i` | `<C-k>` | Signature help | LSP | LSP attached |
+| `n` | `<leader>lI` | Incoming calls (who calls this) | LSP | LSP attached |
+| `n` | `<leader>lO` | Outgoing calls (what this calls) | LSP | LSP attached |
+| `n` | `<leader>lR` | Restart language server(s) | LSP | LSP attached |
+| `n` | `<leader>lS` | Workspace symbols | LSP | LSP attached |
+| `n,v` | `<leader>la` | Code action | LSP | LSP attached |
+| `n` | `<leader>li` | LSP status | LSP | LSP attached |
+| `n` | `<leader>lr` | Rename symbol | LSP | LSP attached |
+| `n` | `<leader>ls` | Document symbols | LSP | LSP attached |
+| `n` | `K` | Hover documentation | LSP | LSP attached |
+| `n` | `gD` | Go to declaration | LSP | LSP attached |
+| `n` | `gK` | Signature help | LSP | LSP attached |
+| `n` | `gd` | Go to definition | LSP | LSP attached |
+| `n` | `gi` | Go to implementation | LSP | LSP attached |
+| `n` | `gr` | Go to references | LSP | LSP attached |
+| `n` | `gy` | Go to type definition | LSP | LSP attached |
+| `n` | `<leader>qq` | Quit all (asks about unsaved changes) | Quit | Global |
+| `n` | `<leader>qw` | Save all and quit | Quit | Global |
+| `n,t` | `<C-/>` | Toggle terminal | Terminal | Global |
+| `n,t` | `<C-_>` | Toggle terminal (<C-/> as sent by most terminals) | Terminal | Global |
+| `t` | `<Esc><Esc>` | Leave terminal mode | Terminal | Global |
+| `n` | `<leader>tt` | Toggle terminal | Terminal | Global |
+| `n` | `<leader>tL` | LSP status | Tools | Global |
+| `n` | `<leader>ti` | Language info / missing tools | Tools | Global |
+| `n` | `<leader>tl` | Install tools for this language | Tools | Global |
+| `n` | `<leader>tm` | Mason installer UI | Tools | Global |
+| `n` | `<leader>ts` | Status of every tool | Tools | Global |
 | `n` | `<leader>uF` | Toggle format on save (global) | UI | Global |
 | `n` | `<leader>uN` | Toggle line numbers on/off | UI | Global |
 | `n` | `<leader>uf` | Toggle format on save (buffer) | UI | Global |
 | `n` | `<leader>ul` | Toggle whitespace display | UI | Global |
+| `n` | `<leader>um` | Toggle markdown rendering (off by default) | UI | Global |
 | `n` | `<leader>un` | Toggle relative/absolute line numbers | UI | Global |
 | `n` | `<leader>uw` | Toggle line wrap | UI | Global |
 | `n` | `<C-h>` | Go to left window | Window | Global |

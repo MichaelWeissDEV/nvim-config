@@ -44,15 +44,21 @@ lazy-loading," which is why it lives in `pack/vendor/start/` rather than
 `opt/` — but *using* it (beyond the handful of built-in parsers) still
 requires the explicit `:TSInstall` step above.
 
-### `tree-sitter-cli` is a real system requirement
+### The `tree-sitter` CLI is installed through Mason when needed
 
-`:TSInstall`/`:TSUpdate`/`./scripts/bootstrap.sh` compile parsers using the
-external `tree-sitter` CLI (0.26.1+) and a C compiler — both installed
-separately from Neovim, per
+nvim-treesitter (`main`) compiles parsers with the external `tree-sitter`
+CLI (0.26.1+) and a C compiler, per
 [nvim-treesitter's own requirements](https://github.com/nvim-treesitter/nvim-treesitter#requirements).
-Without it, parser installation fails with an `ENOENT: no such file or
-directory (cmd): 'tree-sitter'` error (logged, not fatal — the rest of a
-`bootstrap.sh` run still completes). Install it via:
+Without the CLI, `:TSInstall` fails with `ENOENT: no such file or
+directory (cmd): 'tree-sitter'`.
+
+`:LangInstall` and `./scripts/bootstrap.sh` take care of this. When a
+parser has to be built and `tree-sitter` is not on `PATH`, they install
+Mason's `tree-sitter-cli` package first and build the parsers once it is
+there. Only a C compiler remains your job: Xcode Command Line Tools on
+macOS, `build-essential` on Debian/Ubuntu. A bare `:TSInstall` does not
+do this. Either run `:MasonInstall tree-sitter-cli` once, or install the
+CLI system-wide:
 
 ```bash
 # macOS
@@ -62,12 +68,6 @@ sudo pacman -S tree-sitter-cli
 # Debian/Ubuntu
 sudo apt install tree-sitter-cli   # or: cargo install tree-sitter-cli
 ```
-
-This was caught during real testing on the primary development Mac, which
-did not have `tree-sitter-cli` installed — Mason tool installation still
-succeeded in full; only parser compilation was skipped. See the Known
-Limitations section of the project's final report for the exact
-transcript.
 
 ## What `bootstrap.sh`/`bootstrap.ps1` and Mason commands do
 
@@ -79,6 +79,8 @@ and only when run explicitly:
   own; you type the command.
 - `:ToolsInstall <profile>` / `:ToolsUpdate <profile>` — the in-editor
   equivalent, via `mason.nvim`.
+- `:LangInstall [lang]` (`<leader>tl`) — one language's tools and
+  Tree-sitter parsers, via `mason.nvim` and nvim-treesitter.
 - `:Mason`, `:MasonInstall <pkg>`, `:MasonUpdate` — Mason's own commands,
   documented (but not redefined) in {doc}`mason`.
 - `:TSInstall <lang>`, `:TSUpdate` — Tree-sitter parser installation.

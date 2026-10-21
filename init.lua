@@ -25,6 +25,7 @@ end
 
 require("config.options") -- vim.opt, leader keys -- must come first
 require("config.platform") -- OS-specific vim.opt overrides
+require("config.local_overrides") -- optional, gitignored lua/config/local.lua
 require("config.diagnostics") -- vim.diagnostic.config + nav keymaps
 require("config.keymaps") -- general keymaps
 require("config.autocmds") -- autocommands, incl. large-file handling
@@ -37,3 +38,4 @@ require("debugger") -- DAP core (adapters + UI load lazily on first debug action
 -- "debugger", not "dap", because the vendored nvim-dap plugin itself is require("dap") --
 -- reusing that name would let whichever module loads first shadow the other in package.loaded.
 require("languages") -- FileType-driven per-language activation
+require("ide") -- :LangInstall/:LangInfo, Python commands, run, terminal, editor keymaps

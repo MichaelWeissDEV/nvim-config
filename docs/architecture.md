@@ -11,6 +11,8 @@ earns its place by doing something Neovim itself genuinely can't.
 
 ```text
 init.lua              small, just requires everything below in order
+lua/config/local.lua  optional, gitignored personal overrides (copy
+                      local.example.lua); loaded right after config/options
 lua/
   config/              editor settings, keymaps, autocmds, the two meta-
                        command modules, the lazy-load helper, health check
@@ -26,6 +28,9 @@ lua/
                        colliding with the vendored nvim-dap plugin's own
                        require("dap") (see the note in init.lua)
   plugins/             one file per vendored plugin's setup code
+  ide/                 IDE workflows built on the registries: :LangInstall/
+                       :LangInfo, Python commands (:Pytest, :PythonLsp),
+                       run-current-file, the terminal toggle, editor keymaps
 pack/vendor/
   start/               plugins Neovim loads automatically at startup
   opt/                 plugins loaded on demand via :packadd
@@ -117,15 +122,18 @@ theme, statusline, which-key, Tree-sitter, completion, Git signs, Mason
 
 **`pack/vendor/opt/`** — loaded on first use via one of:
 
-- a `FileType` autocommand (`render-markdown.nvim` on `markdown`, `vimtex`
-  on `tex`/`plaintex`/`bib`, `rainbow_csv` on `csv`/`tsv`),
+- a `FileType` autocommand (`vimtex` on `tex`/`plaintex`/`bib`,
+  `rainbow_csv` on `csv`/`tsv`),
 - the first press of a relevant keymap (`telescope.nvim` on any
   `<leader>f*`, `nvim-tree.lua` on `<leader>e`, `oil.nvim` on `<leader>o`
-  or `-`, `trouble.nvim` on `<leader>xx`, `nvim-dap` on any `<leader>d*`),
+  or `-`, `trouble.nvim` on any `<leader>x` Trouble view, `nvim-dap` on
+  any `<leader>d*`, `render-markdown.nvim` on `<leader>um` — markdown is
+  plain text until you ask for rendering, see {doc}`ui`),
   ({file}`nvim-dap-ui`/{file}`nvim-nio` load even later still -- only once
   a debug session is actually *started*, not merely when a breakpoint is
   set).
-- an explicit command (`:NvimTreeToggle`, `:Oil`, `:Trouble`, `:Telescope`).
+- an explicit command (`:NvimTreeToggle`, `:Oil`, `:Trouble`, `:Telescope`,
+  `:MarkdownRender`).
 
 `nvim .` / `nvim some/project` (a directory as Neovim's sole startup
 argument) `cd`s into it -- same as Neovim's own default behavior -- but

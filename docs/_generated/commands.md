@@ -200,7 +200,59 @@ Open Trouble (diagnostics/quickfix/loclist list)
 :Trouble diagnostics toggle
 ```
 
+## Python
+
+### `:Pytest [file|nearest|all|last] [pytest args...]`
+
+Run pytest in a terminal split with the project's interpreter (.venv aware): file, nearest, all, or last
+
+```vim
+:Pytest nearest -x
+```
+
+### `:PythonInfo`
+
+Show the Python interpreter/venv in use, the type checker choice and the attached servers
+
+```vim
+:PythonInfo
+```
+
+### `:PythonLsp [ty|basedpyright|both]`
+
+Choose the Python type checker for this session: ty (default), basedpyright or both; no arg shows the current choice
+
+```vim
+:PythonLsp basedpyright
+```
+
+## Terminal
+
+### `:TermToggle`
+
+Toggle the persistent terminal split at the bottom of the screen
+
+```vim
+:TermToggle
+```
+
 ## Tools
+
+### `:LangInfo [language]`
+
+Show a language's tools (installed or missing), parsers and attached servers (no arg: current buffer)
+
+```vim
+:LangInfo rust
+```
+
+### `:LangInstall [language]`
+
+Install a language's language server, formatter, linter, debugger and Tree-sitter parsers via Mason (no arg: current buffer's language; ! also installs inactive alternatives; network)
+
+```vim
+:LangInstall python
+```
 
 ### `:Mason`
 
@@ -251,6 +303,14 @@ Update every Mason-installed tool for a profile (or 'all')
 ```
 
 ## UI
+
+### `:MarkdownRender [on|off]`
+
+Toggle in-editor markdown rendering (render-markdown.nvim); 'on'/'off' to set explicitly
+
+```vim
+:MarkdownRender on
+```
 
 ### `:RelativeNumbersToggle`
 

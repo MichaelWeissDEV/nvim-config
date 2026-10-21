@@ -18,6 +18,11 @@ way:
   filtered out entirely; RST linting is left to esbonio's own LSP
   diagnostics instead.
 
+Python deliberately has **no** nvim-lint linter. ruff runs as a language
+server (`ruff server`), which delivers the same diagnostics together with
+quick fixes, "fix all" and organize imports. Running it through nvim-lint
+as well would report every problem twice. See {doc}`python`.
+
 ## Live re-checking, not a startup snapshot
 
 Unlike formatting's `formatters_by_ft` (built once and used as-is),

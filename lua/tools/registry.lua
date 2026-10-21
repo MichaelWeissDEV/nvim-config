@@ -65,23 +65,9 @@ add({
 })
 
 -- Python --------------------------------------------------------------------
-add({
-  id = "basedpyright",
-  name = "basedpyright",
-  category = "lsp",
-  exe = "basedpyright-langserver",
-  mason = "basedpyright",
-  profiles = { "python" },
-})
-add({ id = "ruff", name = "ruff", category = "linter", exe = "ruff", mason = "ruff", profiles = { "python" } })
-add({
-  id = "ruff_format",
-  name = "ruff format",
-  category = "formatter",
-  exe = "ruff",
-  mason = "ruff",
-  profiles = { "python" },
-})
+-- The default Python stack is Astral's: ty (types, navigation, completion)
+-- plus ruff (lint, quick fixes, import sorting, formatting). basedpyright is
+-- the alternative type checker -- see util/python.lua and :PythonLsp.
 add({
   id = "ty",
   name = "ty",
@@ -89,9 +75,36 @@ add({
   exe = "ty",
   mason = "ty",
   profiles = { "python" },
-  note = "Astral's fast Rust-based type checker/LSP; still pre-1.0 and evolving quickly. "
-    .. "Runs alongside basedpyright as a second LSP client for python (see languages/python.lua's "
-    .. "extra_lsp), not as a replacement -- disable it by removing that entry if it's too noisy.",
+  note = "default Python LSP (Astral): types, go-to-definition, references, rename, completion, inlay hints",
+})
+add({
+  id = "basedpyright",
+  name = "basedpyright",
+  category = "lsp",
+  exe = "basedpyright-langserver",
+  mason = "basedpyright",
+  profiles = { "python" },
+  note = "alternative to ty; used when vim.g.nvim_config_python_lsp is 'basedpyright'/'both', "
+    .. "or when ty is not installed",
+})
+add({
+  id = "ruff",
+  name = "ruff (server)",
+  -- `ruff server` is a real language server: lint diagnostics, quick fixes,
+  -- "fix all" and organize-imports code actions. That replaces running
+  -- ruff through nvim-lint, which only ever produced the diagnostics.
+  category = "lsp",
+  exe = "ruff",
+  mason = "ruff",
+  profiles = { "python" },
+})
+add({
+  id = "ruff_format",
+  name = "ruff format",
+  category = "formatter",
+  exe = "ruff",
+  mason = "ruff",
+  profiles = { "python" },
 })
 add({
   id = "debugpy",

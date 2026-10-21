@@ -30,8 +30,8 @@ the update as soon as you leave insert mode.
 `●` (`U+25CF`, plain Unicode — no Nerd Font needed), two columns of
 spacing, and `source = "if_many"`: the producing tool's name is appended
 only when more than one tool reports on that buffer, so a single-linter
-buffer stays uncluttered while a `ruff` + `basedpyright` buffer tells you
-which one is complaining.
+buffer stays uncluttered while a `ruff` + `ty` buffer tells you which one
+is complaining.
 
 **`virtual_lines = false`** — **off by default**, and it is the one setting
 here worth understanding, because it is the only one that changes the
@@ -80,7 +80,11 @@ All registered under the `Diagnostics` group, so `:NvimKeymaps` and the
 | `<leader>xq` | send all diagnostics to the quickfix list and open it |
 | `<leader>xv` | toggle inline detail (`virtual_lines`) — off by default |
 | `<leader>xt` | toggle diagnostics in **this buffer** on/off |
-| `<leader>xx` | toggle the Trouble list (loads trouble.nvim on first press) |
+| `<leader>xx` | toggle the Trouble list, all buffers (loads trouble.nvim on first press) |
+| `<leader>xX` | Trouble list for **this buffer** only |
+| `<leader>xs` | symbols outline (Trouble) |
+| `<leader>xr` | LSP definitions/references for the symbol under the cursor (Trouble, right side) |
+| `<leader>xQ` | the quickfix list in Trouble |
 
 `[d` / `]d` use `vim.diagnostic.jump({ count = ±1, float = true })` — the
 modern API; the old `goto_prev`/`goto_next` functions are deprecated in
@@ -132,10 +136,12 @@ Telescope has its own diagnostics picker on `<leader>fd` when you want to
 
 Three independent producers, each documented on its own page:
 
-- **Language servers** — semantic errors, type errors, unresolved imports.
-  Arrive automatically once a server attaches; see {doc}`lsp`.
+- **Language servers** — semantic errors, type errors, unresolved imports,
+  and for Python also ruff's lint results (ruff runs as a language server,
+  see {doc}`python`). Arrive automatically once a server attaches; see
+  {doc}`lsp`.
 - **Linters** via `nvim-lint` — style and correctness checks a language
-  server does not do (`ruff`, `shellcheck`, `eslint`, …). Re-checked live
+  server does not do (`shellcheck`, `markdownlint`, `yamllint`, …). Re-checked live
   on every trigger, so a linter installed mid-session works without a
   restart; see {doc}`linting`.
 - **Tree-sitter** — syntax errors for languages whose parser is installed;

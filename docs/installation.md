@@ -106,18 +106,48 @@ or manually:
 ## Installing language tooling
 
 Nothing above installs a single language server, formatter, linter or
-debugger — that's entirely opt-in. Once Neovim itself is working, install
-a **tool profile** for the languages you actually use:
+debugger — that's entirely opt-in. The quickest way is **per language,
+from inside Neovim**: open a file and press `<leader>tl`, or run
+
+```vim
+:LangInstall python
+:LangInstall rust
+```
+
+This installs that language's server(s), formatter, linter, debugger and
+Tree-sitter parsers through Mason, in the background. `:LangInfo`
+(`<leader>ti`) shows what a language uses and what is still missing (see
+{doc}`languages`).
+
+To set up whole groups at once, including from a shell on a fresh
+machine, install a **tool profile**:
 
 ```bash
 ./scripts/bootstrap.sh core      # always useful: lua_ls, stylua, shellcheck, ...
 ./scripts/bootstrap.sh systems   # clangd, rust-analyzer, gopls, codelldb, delve, ...
-./scripts/bootstrap.sh python    # basedpyright, ruff, debugpy
+./scripts/bootstrap.sh python    # ty, ruff, basedpyright, debugpy
 ./scripts/bootstrap.sh web       # TS/JS, HTML, CSS, eslint, prettier, ...
 ```
 
 See {doc}`tools` for the full profile list and every tool it installs, and
 {doc}`offline` for exactly what does and doesn't touch the network.
+
+## Personal settings: `lua/config/local.lua`
+
+Machine-specific settings go in `lua/config/local.lua`. The file is
+gitignored, so `git pull` never conflicts with it. Copy the template,
+which lists every supported switch:
+
+```bash
+cp lua/config/local.example.lua lua/config/local.lua
+```
+
+For example, choose basedpyright over ty
+(`vim.g.nvim_config_python_lsp`), render markdown automatically
+(`vim.g.nvim_config_markdown_render`), or turn off format-on-save. The
+file is loaded right after `config/options.lua`, before any plugin or
+language module. If it fails to load, you get a loud error at startup; it
+is never silently ignored.
 
 ## Building the local documentation (optional)
 

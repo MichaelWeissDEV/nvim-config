@@ -10,7 +10,7 @@ Status for your machine: run `:ToolsStatus` or `:NvimConfigHealth` inside Neovim
 |---|---|---|---|
 | ansible-language-server | `ansible-language-server` | devops |  |
 | asm-lsp | `asm-lsp` | systems |  |
-| basedpyright | `basedpyright` | python |  |
+| basedpyright | `basedpyright` | python | alternative to ty; used when vim.g.nvim_config_python_lsp is 'basedpyright'/'both', or when ty is not installed |
 | bash-language-server | `bash-language-server` | core |  |
 | buf (protobuf) | `buf` | systems |  |
 | clangd | `clangd` | systems |  |
@@ -38,13 +38,14 @@ Status for your machine: run `:ToolsStatus` or `:NvimConfigHealth` inside Neovim
 | Perl Navigator | `perlnavigator` | scripting |  |
 | PowerShellEditorServices | `powershell-editor-services` | scripting |  |
 | ruby-lsp | `ruby-lsp` | scripting |  |
+| ruff (server) | `ruff` | python |  |
 | rust-analyzer | `rust-analyzer` | systems |  |
 | sqls | `sqls` | devops |  |
 | svelte-language-server | `svelte-language-server` | web |  |
 | Taplo | `taplo` | core |  |
 | terraform-ls | `terraform-ls` | devops |  |
 | texlab | `texlab` | docs |  |
-| ty | `ty` | python | Astral's fast Rust-based type checker/LSP; still pre-1.0 and evolving quickly. Runs alongside basedpyright as a second LSP client for python (see languages/python.lua's extra_lsp), not as a replacement -- disable it by removing that entry if it's too noisy. |
+| ty | `ty` | python | default Python LSP (Astral): types, go-to-definition, references, rename, completion, inlay hints |
 | vtsls | `vtsls` | web |  |
 | vue-language-server | `vue-language-server` | web |  |
 | yaml-language-server | `yaml-language-server` | devops |  |
@@ -93,7 +94,6 @@ Status for your machine: run `:ToolsStatus` or `:NvimConfigHealth` inside Neovim
 | phpstan | `phpstan` | web | optional |
 | PSScriptAnalyzer | _(manual install)_ | scripting | PowerShell module, not a standalone binary |
 | rubocop (lint) | `rubocop` | scripting |  |
-| ruff | `ruff` | python |  |
 | selene | `selene` | core | optional; lua_ls diagnostics cover most cases |
 | ShellCheck | `shellcheck` | core |  |
 | sqlfluff (lint) | `sqlfluff` | devops |  |

@@ -61,6 +61,11 @@ local function collect()
       )
       return
     end
+    if lsp_spec.enabled and not lsp_spec.enabled() then
+      -- Switched off by configuration (e.g. Python's choice between ty and
+      -- basedpyright, util/python.lua). Re-evaluated on every refresh.
+      return
+    end
     if not detection.installed(tool) then
       -- tool not installed: silently skip. This is the "no error when an
       -- optional dependency is missing" requirement -- visible only via
@@ -183,14 +188,19 @@ local function sorted_ids(by_tool)
   return ids
 end
 
+--- Server names this module has enabled, so a later refresh can disable
+--- the ones that dropped out (switched off via `enabled`, or uninstalled).
+--- @type table<string, boolean>
+local enabled = {}
+
 --- Build vim.lsp.config() tables and vim.lsp.enable() every server whose
---- binary is present.
+--- binary is present and whose `enabled` predicate (if any) allows it;
+--- disable every server enabled by an earlier call that no longer is.
 ---
 --- Idempotent: safe to call again after tools are installed at runtime
 --- (see lua/tools/refresh.lua). vim.lsp.config() replaces a name's config
---- rather than accumulating, and vim.lsp.enable() on an already-enabled
---- name is a no-op, so re-running does not duplicate anything or restart
---- clients that are already attached.
+--- rather than accumulating, and re-enabling an attached server reuses its
+--- client, so re-running does not duplicate anything.
 function M.setup()
   local by_tool, conflicts = collect()
 
@@ -198,14 +208,25 @@ function M.setup()
     require("util.notify").config_error("lsp.registry", message)
   end
 
+  local now_enabled = {}
   for _, tool_id in ipairs(sorted_ids(by_tool)) do
     local ok, err = pcall(vim.lsp.config, tool_id, build_config(by_tool[tool_id]))
     if not ok then
       require("util.notify").config_error("lsp.registry(" .. tool_id .. ")", tostring(err))
     else
       vim.lsp.enable(tool_id)
+      now_enabled[tool_id] = true
     end
   end
+
+  -- vim.lsp.enable(name, false) also stops that server's running clients,
+  -- which is exactly what switching e.g. basedpyright -> ty needs.
+  for tool_id in pairs(enabled) do
+    if not now_enabled[tool_id] then
+      vim.lsp.enable(tool_id, false)
+    end
+  end
+  enabled = now_enabled
 end
 
 --- Re-run setup() after the set of installed tools changed. Separate name

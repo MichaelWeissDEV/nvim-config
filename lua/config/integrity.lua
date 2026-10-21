@@ -192,6 +192,9 @@ function M.check(languages, tools, opts)
         add(problems, scope, "lsp must be a table")
       else
         check_tool_ref(scope, "lsp", lang.lsp.tool)
+        if lang.lsp.enabled ~= nil and type(lang.lsp.enabled) ~= "function" then
+          add(problems, scope, "lsp.enabled must be a function when set")
+        end
       end
     end
     if lang.extra_lsp ~= nil then
@@ -200,6 +203,9 @@ function M.check(languages, tools, opts)
       else
         for i, spec in ipairs(lang.extra_lsp) do
           check_tool_ref(scope, ("extra_lsp[%d]"):format(i), type(spec) == "table" and spec.tool or spec)
+          if type(spec) == "table" and spec.enabled ~= nil and type(spec.enabled) ~= "function" then
+            add(problems, scope, ("extra_lsp[%d].enabled must be a function when set"):format(i))
+          end
         end
       end
     end

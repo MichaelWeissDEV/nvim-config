@@ -20,6 +20,6 @@ require("plugins.telescope")
 require("plugins.tree")
 require("plugins.files")
 require("plugins.diagnostics")
-require("plugins.markdown")
+require("plugins.markdown") -- opt-in rendering; markdown is plain text by default
 require("plugins.latex")
 require("plugins.csv")

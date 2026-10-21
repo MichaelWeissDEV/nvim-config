@@ -16,8 +16,10 @@ the `LanguageSpec` schema documented as a comment at the top of
   extensions    string[]?             file extensions, documentation only
   treesitter    string[]?             nvim-treesitter parser names
   root_markers  string[]?             files/dirs that mark a project root
-  lsp           { tool: string, settings: table?, extra: table? }?
-  extra_lsp     { tool: string, settings: table?, extra: table? }[]?
+  lsp           { tool: string, settings: table?, extra: table?, enabled: fun():boolean? }?
+                `enabled` is re-evaluated on every LSP registry refresh;
+                returning false keeps (or switches) that server off
+  extra_lsp     { tool: string, settings: table?, extra: table?, enabled: fun():boolean? }[]?
                 additional LSP clients attached alongside `lsp` for the same
                 filetypes -- use sparingly, see the schema comment for why
                 (two servers both producing diagnostics/hints for one buffer
@@ -36,10 +38,17 @@ the `LanguageSpec` schema documented as a comment at the top of
 formatter, an intentionally empty `linters` list (with a comment
 explaining clippy runs through `rust-analyzer`'s `checkOnSave` instead),
 and a debugger built from the shared `debugger.adapters.codelldb` module.
-`lua/languages/python.lua` is the example for the other two optional
-fields: `extra_lsp` (a second client, `ty`, attached alongside
-`basedpyright`) and `keymaps` (a buffer-local `<leader>cr` "run this
-file" mapping).
+`lua/languages/python.lua` is the example for the remaining optional
+fields:
+
+- `extra_lsp`: ruff's server runs next to the type checker.
+- `enabled`: chooses between ty and basedpyright at runtime.
+- `extra.on_attach` / `extra.before_init`: per-server hooks, passed
+  straight to `vim.lsp.config()`.
+- `keymaps`: buffer-local run/test/organize-imports keys.
+
+Workflow commands that go beyond data (`:Pytest`, `:PythonLsp`) belong in
+`lua/ide/<id>.lua`, not in the language file.
 
 Steps:
 

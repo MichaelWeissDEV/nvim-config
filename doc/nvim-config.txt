@@ -95,6 +95,24 @@ of what's installed on this machine.
 :Trouble                                                     *nvim-config-cmd-trouble*
     Open Trouble (diagnostics/quickfix/loclist list)
 
+:Pytest [file|nearest|all|last] [pytest args...]                                                      *nvim-config-cmd-pytest*
+    Run pytest in a terminal split with the project's interpreter (.venv aware): file, nearest, all, or last
+
+:PythonInfo                                                  *nvim-config-cmd-pythoninfo*
+    Show the Python interpreter/venv in use, the type checker choice and the attached servers
+
+:PythonLsp [ty|basedpyright|both]                                                   *nvim-config-cmd-pythonlsp*
+    Choose the Python type checker for this session: ty (default), basedpyright or both; no arg shows the current choice
+
+:TermToggle                                                  *nvim-config-cmd-termtoggle*
+    Toggle the persistent terminal split at the bottom of the screen
+
+:LangInfo [language]                                                    *nvim-config-cmd-langinfo*
+    Show a language's tools (installed or missing), parsers and attached servers (no arg: current buffer)
+
+:LangInstall [language]                                                 *nvim-config-cmd-langinstall*
+    Install a language's language server, formatter, linter, debugger and Tree-sitter parsers via Mason (no arg: current buffer's language; ! also installs inactive alternatives; network)
+
 :Mason                                                       *nvim-config-cmd-mason*
     Open the Mason installer UI
 
@@ -113,6 +131,9 @@ of what's installed on this machine.
 :ToolsUpdate <profile>                                                 *nvim-config-cmd-toolsupdate*
     Update every Mason-installed tool for a profile (or 'all')
 
+:MarkdownRender [on|off]                                              *nvim-config-cmd-markdownrender*
+    Toggle in-editor markdown rendering (render-markdown.nvim); 'on'/'off' to set explicitly
+
 :RelativeNumbersToggle                                       *nvim-config-cmd-relativenumberstoggle*
     Toggle relative/absolute line numbers in the current window
 
@@ -123,8 +144,21 @@ Buffer ~
 
     n      <S-h>              Previous buffer
     n      <S-l>              Next buffer
+    n      <leader>ba         Save all buffers
+    n      <leader>bb         Switch to alternate buffer
     n      <leader>bd         Delete buffer
     n      <leader>bo         Close other buffers
+Code ~
+
+    n      <leader>cA         pytest: whole project
+    n      <leader>cF         Fix all auto-fixable problems (ruff)
+    n      <leader>cT         pytest: test under cursor
+    n      <leader>ci         Toggle inlay hints (servers that support them)
+    n      <leader>co         Organize imports (ruff)
+    n      <leader>cr         Run current file
+    n      <leader>cr         Run current file
+    n      <leader>ct         pytest: current file
+    n      <leader>cv         Python: interpreter, venv, language servers
 Debug ~
 
     n      <leader>dB         Conditional breakpoint
@@ -139,27 +173,52 @@ Debug ~
     n      <leader>du         Toggle debug UI
 Diagnostics ~
 
+    n      <leader>xQ         Quickfix list (Trouble)
+    n      <leader>xX         Diagnostics list, this buffer (Trouble)
     n      <leader>xl         Line diagnostics (float)
     n      <leader>xq         Diagnostics to quickfix
+    n      <leader>xr         LSP definitions/references (Trouble)
+    n      <leader>xs         Symbols outline (Trouble)
     n      <leader>xt         Toggle diagnostics in this buffer
     n      <leader>xv         Toggle inline diagnostic details (virtual_lines, off by default)
-    n      <leader>xx         Toggle diagnostics list (Trouble)
+    n      <leader>xx         Diagnostics list, all buffers (Trouble)
     n      [d                 Previous diagnostic
     n      ]d                 Next diagnostic
+Edit ~
+
+    i      <A-j>              Move line down
+    x      <A-j>              Move selection down
+    n      <A-j>              Move line down
+    i      <A-k>              Move line up
+    x      <A-k>              Move selection up
+    n      <A-k>              Move line up
+File ~
+
+    n,i,x  <C-s>              Save file
 Find ~
 
     n      -                  Open parent directory (Oil)
+    n      <leader>/          Search in current buffer
+    n      <leader><space>    Find files
     n      <leader>e          Toggle file explorer (nvim-tree)
+    n      <leader>f:         Command history
     n      <leader>fG         Git files
+    n      <leader>fR         Resume last picker
+    n      <leader>fS         Workspace symbols
     n      <leader>fb         Find buffers
     n      <leader>fc         Commands (all of Neovim's)
     n      <leader>fd         Diagnostics
     n      <leader>ff         Find files
     n      <leader>fg         Live grep
     n      <leader>fh         Help tags
+    n      <leader>fj         Jumplist
     n      <leader>fk         Keymaps (all of Neovim's)
+    n      <leader>fm         Marks
+    n      <leader>fn         New empty buffer
+    n      <leader>fq         Quickfix list
     n      <leader>fr         Recent files
     n      <leader>fs         Document symbols
+    n,v    <leader>fw         Grep word / selection
     n      <leader>o          Open file explorer (Oil)
 Format ~
 
@@ -173,26 +232,74 @@ General ~
     n      <leader>Y          Yank line to system clipboard
     n,v    <leader>y          Yank to system clipboard
     v      >                  Indent right, keep selection
+    n      N                  Previous search result, centered
+    n      n                  Next search result, centered
 Git ~
 
+    n      <leader>gB         Toggle blame virtual text
+    n      <leader>gC         Git commits (picker)
     n      <leader>gP         Git pull
+    n      <leader>gb         Blame line
     n      <leader>gc         Git commit
     n      <leader>gd         Git diff against index (split)
+    n      <leader>gf         Git commits of this file
     n      <leader>gg         Git status (fugitive)
+    n      <leader>ghp        Preview hunk
+    n      <leader>ghr        Reset hunk
+    n      <leader>ghs        Stage hunk
     n      <leader>gl         Git log (graph)
     n      <leader>gp         Git push
+    n      <leader>gs         Git status (picker)
+    n      [h                 Previous git hunk
+    n      ]h                 Next git hunk
 Help ~
 
     n      <leader>hc         List commands
     n      <leader>hd         Open documentation
     n      <leader>hh         Run health check
     n      <leader>hk         List keymaps
+LSP ~
+
+    i      <C-k>              Signature help
+    n      <leader>lI         Incoming calls (who calls this)
+    n      <leader>lO         Outgoing calls (what this calls)
+    n      <leader>lR         Restart language server(s)
+    n      <leader>lS         Workspace symbols
+    n,v    <leader>la         Code action
+    n      <leader>li         LSP status
+    n      <leader>lr         Rename symbol
+    n      <leader>ls         Document symbols
+    n      K                  Hover documentation
+    n      gD                 Go to declaration
+    n      gK                 Signature help
+    n      gd                 Go to definition
+    n      gi                 Go to implementation
+    n      gr                 Go to references
+    n      gy                 Go to type definition
+Quit ~
+
+    n      <leader>qq         Quit all (asks about unsaved changes)
+    n      <leader>qw         Save all and quit
+Terminal ~
+
+    n,t    <C-/>              Toggle terminal
+    n,t    <C-_>              Toggle terminal (<C-/> as sent by most terminals)
+    t      <Esc><Esc>         Leave terminal mode
+    n      <leader>tt         Toggle terminal
+Tools ~
+
+    n      <leader>tL         LSP status
+    n      <leader>ti         Language info / missing tools
+    n      <leader>tl         Install tools for this language
+    n      <leader>tm         Mason installer UI
+    n      <leader>ts         Status of every tool
 UI ~
 
     n      <leader>uF         Toggle format on save (global)
     n      <leader>uN         Toggle line numbers on/off
     n      <leader>uf         Toggle format on save (buffer)
     n      <leader>ul         Toggle whitespace display
+    n      <leader>um         Toggle markdown rendering (off by default)
     n      <leader>un         Toggle relative/absolute line numbers
     n      <leader>uw         Toggle line wrap
 Window ~
@@ -215,7 +322,8 @@ lua                                                        *nvim-config-lang-lua
 
 python                                                     *nvim-config-lang-python*
     Filetypes: python
-    LSP: basedpyright
+    LSP: ty
+    Additional LSP: ruff, basedpyright
 
 ruby                                                       *nvim-config-lang-ruby*
     Filetypes: ruby

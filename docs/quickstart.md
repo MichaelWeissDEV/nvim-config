@@ -14,8 +14,8 @@ on first launch. See {doc}`architecture` for why.
 ## Discover keys as you go
 
 Press `<space>` (the leader key) and hold: which-key pops up a menu of
-groups (`Find`, `Buffer`, `Window`, `Git`, `LSP / Format`, `Debug`, `Tools`,
-`UI`, `Code`, `Diagnostics`, `Help / Docs`). Keep pressing to drill in — you
+groups (`Find`, `Buffer`, `Window`, `Git`, `LSP / Format`, `Debug`,
+`Tools / Terminal`, `UI`, `Code`, `Diagnostics`, `Quit`, `Help / Docs`). Keep pressing to drill in — you
 don't need to memorize anything up front. The full list is
 {doc}`keymaps`; `:NvimKeymaps` shows it from inside Neovim, and
 `<leader>fk` opens Telescope's own (built-in Neovim) keymap picker.
@@ -30,20 +30,42 @@ Neovim's own globbing, and `live_grep` falls back to a single prompted
 `grep_string` search instead of live incremental grep — see
 {doc}`telescope` for the exact fallback behavior.
 
+## Set up a language
+
+Open a file and press `<leader>tl` (`:LangInstall`). This installs the
+language server, formatter, linter, debugger and Tree-sitter parser for
+that language through Mason, in the background. When it finishes, the
+server attaches to the open buffer; no restart is needed.
+`<leader>ti` (`:LangInfo`) shows what the language uses and what is
+missing. Python has its own page: {doc}`python`.
+
 ## Once a language server is attached
 
-Open a file in a language you have tooling for (e.g. `.rs` with
-`rust-analyzer` installed), inside a project with the right root marker
-present (e.g. a `Cargo.toml` above the file). Once the LSP client attaches,
-these become live in that buffer:
+These keys become live in that buffer (the statusline shows which servers
+are attached):
 
-- `gd` — go to definition
+- `gd` / `gy` — go to definition / type definition; `<C-o>` jumps back
+- `gr` / `gi` — references / implementations (picker)
 - `K` — hover documentation
-- `<leader>lf` — format the buffer
+- `<leader>lr` — rename, `<leader>la` — code action
+- `<leader>ls` / `<leader>lS` — document / workspace symbols
+- `<leader>lf` — format the buffer (also runs on save)
+- `]d` / `[d` — next / previous diagnostic, `<leader>xx` — all of them
 
 See {doc}`lsp` for the full keymap table and how server attachment works,
 and {doc}`formatting` for what `<leader>lf` does when no formatter is
 installed.
+
+## Everyday keys
+
+- `<C-s>` — save; `<leader>qq` — quit (asks about unsaved changes)
+- `<C-/>` or `<leader>tt` — toggle a terminal at the bottom
+- `<leader>cr` — run the current file; in Python `<leader>ct` / `<leader>cT`
+  run pytest for the file / the test under the cursor
+- `<leader><space>` — find files, `<leader>/` — search in the buffer,
+  `<leader>fw` — grep the word under the cursor
+- `<leader>um` — render markdown (off by default: markdown is shown as
+  plain text)
 
 ## Check what's there
 

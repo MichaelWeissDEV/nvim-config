@@ -41,6 +41,7 @@ tools
 :caption: Subsystems
 
 lsp
+python
 completion
 formatting
 linting

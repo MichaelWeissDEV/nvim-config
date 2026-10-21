@@ -8,6 +8,8 @@ local notify = require("util.notify")
 local exe = require("util.executable")
 local cmdreg = require("util.command_registry")
 
+local M = {}
+
 local ready = false
 
 local function ensure()
@@ -51,10 +53,18 @@ local function ensure()
   end
 end
 
-local function builtin(name)
+--- Open a Telescope builtin picker, loading Telescope first if needed.
+--- Used by other modules (LSP keymaps) so they share this one loader.
+--- @param name string telescope.builtin picker name
+--- @param opts table|nil picker options
+function M.pick(name, opts)
+  ensure()
+  require("telescope.builtin")[name](opts or {})
+end
+
+local function builtin(name, opts)
   return function()
-    ensure()
-    require("telescope.builtin")[name]()
+    M.pick(name, opts)
   end
 end
 
@@ -92,6 +102,36 @@ km.map_many({
   { mode = "n", lhs = "<leader>fd", rhs = builtin("diagnostics"), desc = "Diagnostics", group = "Find" },
   { mode = "n", lhs = "<leader>fs", rhs = builtin("lsp_document_symbols"), desc = "Document symbols", group = "Find" },
   { mode = "n", lhs = "<leader>fG", rhs = git_files, desc = "Git files", group = "Find" },
+  { mode = "n", lhs = "<leader><space>", rhs = builtin("find_files"), desc = "Find files", group = "Find" },
+  {
+    mode = "n",
+    lhs = "<leader>/",
+    rhs = builtin("current_buffer_fuzzy_find"),
+    desc = "Search in current buffer",
+    group = "Find",
+  },
+  {
+    mode = { "n", "v" },
+    lhs = "<leader>fw",
+    rhs = builtin("grep_string"),
+    desc = "Grep word / selection",
+    group = "Find",
+  },
+  { mode = "n", lhs = "<leader>fR", rhs = builtin("resume"), desc = "Resume last picker", group = "Find" },
+  {
+    mode = "n",
+    lhs = "<leader>fS",
+    rhs = builtin("lsp_dynamic_workspace_symbols"),
+    desc = "Workspace symbols",
+    group = "Find",
+  },
+  { mode = "n", lhs = "<leader>fq", rhs = builtin("quickfix"), desc = "Quickfix list", group = "Find" },
+  { mode = "n", lhs = "<leader>fm", rhs = builtin("marks"), desc = "Marks", group = "Find" },
+  { mode = "n", lhs = "<leader>fj", rhs = builtin("jumplist"), desc = "Jumplist", group = "Find" },
+  { mode = "n", lhs = "<leader>f:", rhs = builtin("command_history"), desc = "Command history", group = "Find" },
+  { mode = "n", lhs = "<leader>gs", rhs = builtin("git_status"), desc = "Git status (picker)", group = "Git" },
+  { mode = "n", lhs = "<leader>gC", rhs = builtin("git_commits"), desc = "Git commits (picker)", group = "Git" },
+  { mode = "n", lhs = "<leader>gf", rhs = builtin("git_bcommits"), desc = "Git commits of this file", group = "Git" },
 })
 
 lazyload.on_command("Telescope", "telescope", ensure)
@@ -102,3 +142,5 @@ cmdreg.external({
   args = "<picker>",
   example = ":Telescope find_files",
 })
+
+return M

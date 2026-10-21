@@ -73,11 +73,11 @@ matching, or something is firing outside the `notify.once`/
 
 ## The tree-sitter-cli caveat
 
-`:TSInstall`/`:TSUpdate`/`bootstrap.sh` need the external `tree-sitter` CLI
-(0.26.1+) and a C compiler, installed separately from Neovim. See
-{doc}`offline` for the exact failure mode
-(`ENOENT: no such file or directory (cmd): 'tree-sitter'`) and install
-commands — not repeated here.
+Parsers are compiled with the external `tree-sitter` CLI (0.26.1+) and a C
+compiler. `:LangInstall` and `bootstrap.sh` install the CLI through Mason
+when it is missing. A bare `:TSInstall` does not, and fails with
+`ENOENT: no such file or directory (cmd): 'tree-sitter'`. See
+{doc}`offline` for the fix.
 
 ## Common `:checkhealth nvim-config` warnings and fixes
 
@@ -95,22 +95,25 @@ Straight from `lua/config/health.lua`'s own advice text:
 - **`:help nvim-config tags missing`** — run `:helptags
   ~/.config/nvim/doc` (or re-run `./scripts/install.sh`).
 - **any tool under Language Servers/Formatters/Linters/Debuggers marked
-  "not installed"** — run `:ToolsInstall <profile>` for the profile shown
-  in the hint (or the manual command in its note, for tools with no Mason
-  package — see {doc}`tools`). `:ToolsInstall`/`:ToolsUpdate` reset
+  "not installed"** — run `:LangInstall <language>` (everything one
+  language needs) or `:ToolsInstall <profile>` for the profile shown in
+  the hint. For tools with no Mason package, use the manual command in
+  the tool's note (see {doc}`tools`). `:ToolsInstall`/`:ToolsUpdate` reset
   `util.executable`'s cache once every package finishes installing (see
   {doc}`linting`), so formatters/linters/debuggers pick up a freshly
   installed tool on their very next trigger, no restart needed. Language
   servers are re-registered too: `lsp/registry.lua` subscribes to the same
   `User NvimConfigToolsChanged` event and re-runs its idempotent
-  `refresh()`. A **buffer that was already open** still needs `:e` (or a
-  restart) before the newly available server attaches to it.
+  `refresh()`. Since Neovim 0.12, `vim.lsp.enable()` also attaches the
+  server to buffers that are already open, so no `:e` is needed
+  (verified by `tests/test_python_stack.lua`, which switches servers at
+  runtime).
 
 ## Diagnosing "a language server won't attach"
 
 In order:
 
-1. `:LspStatus` — check whether the server shows up under "Configured
+1. `:LspStatus` (`<leader>tL`) — check whether the server shows up under "Configured
    servers (binary found on PATH)" at all. If it's missing there, the
    binary genuinely isn't on `PATH`, or the language module's `lsp.tool`
    id doesn't resolve in `tools.registry` (which itself would show as a
@@ -136,7 +139,14 @@ In order:
    table would surface there, from the `pcall(vim.lsp.config, ...)` in
    `lsp/registry.lua`) — that's a real bug, not a missing dependency.
 
-Installing a server mid-session via `:ToolsInstall` re-registers it
-immediately (`lsp/registry.lua` listens for `User NvimConfigToolsChanged`),
-but a buffer that was already open when it arrived needs `:e` to pick it
-up.
+Installing a server mid-session via `:LangInstall`/`:ToolsInstall`
+re-registers it immediately (`lsp/registry.lua` listens for `User
+NvimConfigToolsChanged`), and it attaches to the buffers that are already
+open.
+
+`:LangInfo` (`<leader>ti`) puts most of this on one screen for the
+current language: every tool with its install status, the parsers, and
+the servers attached to the buffer. For Python, `:PythonInfo` adds the
+interpreter, the virtualenv and the type-checker choice (see
+{doc}`python`). A Python server that is installed but not running is
+usually the inactive alternative: check `:PythonLsp`.

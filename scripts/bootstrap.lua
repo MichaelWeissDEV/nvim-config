@@ -33,8 +33,6 @@ for _, s in ipairs(specs) do
   end
 end
 
-print(string.format("==> Profile '%s': %d Mason package(s) to install", profile, #pkgs))
-
 -- Tree-sitter parsers are not Mason packages; install a sane default set
 -- per profile too (still 100% explicit -- only runs inside bootstrap.lua).
 local PROFILE_PARSERS = {
@@ -62,7 +60,23 @@ if profile == "all" then
   PROFILE_PARSERS.all = all_parsers
 end
 local parsers = PROFILE_PARSERS[profile]
-if parsers and #parsers > 0 then
+
+-- nvim-treesitter (main) compiles parsers with the `tree-sitter` CLI. Mason
+-- ships it, so install it alongside the profile's tools instead of making a
+-- fresh machine find it separately -- and build the parsers only after
+-- Mason has finished, since Mason may be what puts it on PATH.
+if parsers and #parsers > 0 and vim.fn.executable("tree-sitter") ~= 1 and not seen["tree-sitter-cli"] then
+  seen["tree-sitter-cli"] = true
+  table.insert(pkgs, "tree-sitter-cli")
+  print("==> tree-sitter CLI not found; adding Mason package tree-sitter-cli (needed to build parsers)")
+end
+
+print(string.format("==> Profile '%s': %d Mason package(s) to install", profile, #pkgs))
+
+local function install_parsers()
+  if not parsers or #parsers == 0 then
+    return
+  end
   print("==> Installing Tree-sitter parsers: " .. table.concat(parsers, ", "))
   local ok, err = pcall(function()
     require("nvim-treesitter").install(parsers):wait(300000)
@@ -82,6 +96,7 @@ local done = false
 local exit_code = 0
 
 local function finish()
+  install_parsers()
   if #manual > 0 then
     print("\n==> Not installable via Mason (install manually):")
     for _, s in ipairs(manual) do
