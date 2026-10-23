@@ -1,3 +1,5 @@
+local c = require("languages.c")
+
 ---@type table
 return {
   filetypes = { "zig" },
@@ -5,5 +7,7 @@ return {
   treesitter = { "zig" },
   root_markers = { "build.zig", ".git" },
   lsp = { tool = "zls" },
-  notes = "zig fmt ships with the zig compiler itself, not a standalone tools.registry entry.",
+  formatters = { "zigfmt" },
+  debugger = c.debugger,
+  notes = "zig fmt ships with the zig compiler itself; shares codelldb debugger config with C.",
 }

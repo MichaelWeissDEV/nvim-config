@@ -33,33 +33,26 @@ for _, s in ipairs(specs) do
   end
 end
 
--- Tree-sitter parsers are not Mason packages; install a sane default set
--- per profile too (still 100% explicit -- only runs inside bootstrap.lua).
-local PROFILE_PARSERS = {
-  core = { "lua", "vim", "vimdoc", "query", "bash", "markdown", "markdown_inline" },
-  systems = { "c", "cpp", "rust", "go", "asm", "cmake" },
-  python = { "python" },
-  scripting = { "ruby", "perl" },
-  web = { "javascript", "typescript", "tsx", "html", "css", "scss", "vue", "svelte", "json", "graphql" },
-  jvm = { "java", "kotlin" },
-  dotnet = { "c_sharp" },
-  functional = { "haskell", "ocaml", "elixir", "erlang" },
-  devops = { "yaml", "toml", "hcl", "terraform", "dockerfile", "nix", "sql" },
-  docs = { "markdown", "markdown_inline", "latex", "rst" },
-}
-if profile == "all" then
-  local all_parsers, seen_p = {}, {}
-  for _, list in pairs(PROFILE_PARSERS) do
-    for _, p in ipairs(list) do
-      if not seen_p[p] then
-        seen_p[p] = true
-        table.insert(all_parsers, p)
-      end
+-- Tree-sitter parsers are not Mason packages; derive the profile's parsers
+-- directly from languages.registry so bootstrap.lua and :LangInstall stay in
+-- lockstep (still 100% explicit -- only runs inside bootstrap.lua).
+local languages = require("languages.registry")
+local pack_langs = languages.by_pack(profile) or {}
+local parsers, seen_p = {}, {}
+if profile == "core" or profile == "all" then
+  for _, p in ipairs({ "lua", "vim", "vimdoc", "query", "bash", "markdown", "markdown_inline" }) do
+    seen_p[p] = true
+    table.insert(parsers, p)
+  end
+end
+for _, lang in ipairs(pack_langs) do
+  for _, p in ipairs(lang.treesitter or {}) do
+    if not seen_p[p] then
+      seen_p[p] = true
+      table.insert(parsers, p)
     end
   end
-  PROFILE_PARSERS.all = all_parsers
 end
-local parsers = PROFILE_PARSERS[profile]
 
 -- nvim-treesitter (main) compiles parsers with the `tree-sitter` CLI. Mason
 -- ships it, so install it alongside the profile's tools instead of making a

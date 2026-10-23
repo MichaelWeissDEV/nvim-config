@@ -5,4 +5,5 @@ return {
   treesitter = { "xml" },
   root_markers = { ".git" },
   lsp = { tool = "lemminx" },
+  formatters = { "xmlformat" },
 }

@@ -18,15 +18,18 @@ language uses. Two commands work from the same registry:
 
 | Command | Key | What it does |
 |---|---|---|
-| `:LangInfo [lang]` | `<leader>ti` | Lists each of the language's tools as installed, missing or inactive alternative, with the Mason package or manual-install note for every gap. Also shows its Tree-sitter parsers and the servers attached to the current buffer. |
-| `:LangInstall [lang]` | `<leader>tl` | Installs everything missing through Mason: language server(s), formatter, linter, debugger. Then builds the Tree-sitter parsers, installing the `tree-sitter` CLI first if it is not there. |
-| `:LangInstall! [lang]` | | Same, but also installs inactive alternatives (e.g. basedpyright next to ty). |
+| `:LangInfo [target ...]` | `<leader>ti` | Lists each of the language's tools as installed, missing or inactive alternative, with the Mason package or manual-install note for every gap. Also shows its Tree-sitter parsers, aliases, packs and the servers attached to the current buffer. Accepts a language id, alias (`ts`, `js`, `py`, ...), pack (`web`, `systems`, ...), or `all`. |
+| `:LangInstall [target ...]` | `<leader>tl` | Installs everything missing through Mason: language server(s), formatter, linter, debugger. Then builds the Tree-sitter parsers, installing the `tree-sitter` CLI first if it is not there. Accepts one or more language ids (`cpp c asm go python java kotlin ruby perl rust html css`), short aliases (`ts`, `js`, `py`, `rs`, `kt`, ...), packs (`web`, `systems`, `jvm`, `dotnet`, `scripting`, `shell`, `functional`, `devops`, `data`, `docs`, `mobile`, `scientific`, `gamedev`, `hardware`, `blockchain`, `core`, `c-family`), or `all`. |
+| `:LangInstall! [target ...]` | `<leader>tA` (`all`) | Same, but also installs inactive alternatives (e.g. basedpyright next to ty). |
+| `:LangInstallLsp [target ...]` | | Installs only the LSP server(s) and Tree-sitter parsers for the given language(s), pack(s), or `all` (equivalent to `:LangInstall --lsp ...`). |
+| `:LangPacks` | `<leader>tp` | Lists every language pack, its member languages, and all short aliases. |
 
-Without an argument, both commands use the current buffer's language, or
-offer a picker. Tab-completion lists every language id. Installs run in
-the background. When they finish, servers attach to the buffers already
-open, with no restart. Tools Mason cannot install (e.g. `ocamllsp` via
-opam) are listed with their install command instead.
+Without an argument, `:LangInstall` and `:LangInfo` use the current buffer's
+language, or offer a picker (including `all`, packs, and individual languages).
+Tab-completion lists `all`, every pack name, every language id, and short
+aliases. Installs run in the background. When they finish, servers attach to
+the buffers already open, with no restart. Tools Mason cannot install (e.g.
+`ocamllsp` via opam) are listed with their install command instead.
 
 Opening a file never installs anything and never nags about missing
 tools. `:LangInstall` is the explicit action, and it is the only one of

@@ -4,5 +4,7 @@ return {
   extensions = { ".fish" },
   treesitter = { "fish" },
   root_markers = { ".git" },
-  notes = "No widely-adopted LSP for fish; relies on Tree-sitter highlighting only.",
+  lsp = { tool = "fish_lsp", extra = { cmd = { "fish-lsp", "start" } } },
+  formatters = { "fish_indent" },
+  linters = { "fish" },
 }

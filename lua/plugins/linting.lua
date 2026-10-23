@@ -14,7 +14,14 @@ local scratch = require("util.scratch")
 -- mfussenegger/nvim-lint's lua/lint/linters/*.lua) that differ from our
 -- tool ids. doc8 has no nvim-lint module at all, so RST linting is left to
 -- esbonio's own LSP diagnostics.
-local ENGINE_ALIAS = { golangci_lint = "golangcilint", clang_tidy = "clangtidy" }
+local ENGINE_ALIAS = {
+  golangci_lint = "golangcilint",
+  clang_tidy = "clangtidy",
+  rubocop_lint = "rubocop",
+  sqlfluff_lint = "sqlfluff",
+  clj_kondo = "clj-kondo",
+  npm_groovy_lint = "npm-groovy-lint",
+}
 local UNSUPPORTED = { doc8 = true }
 
 local linters_by_ft = {}

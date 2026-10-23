@@ -5,4 +5,6 @@ return {
   treesitter = { "cmake" },
   root_markers = { "CMakeLists.txt", ".git" },
   lsp = { tool = "cmake_lsp" },
+  formatters = { "gersemi" },
+  linters = { "cmakelint" },
 }

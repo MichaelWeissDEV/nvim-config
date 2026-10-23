@@ -42,8 +42,8 @@
 | `n` | `<leader>xx` | Diagnostics list, all buffers (Trouble) | Diagnostics | Global |
 | `n` | `[d` | Previous diagnostic | Diagnostics | Global |
 | `n` | `]d` | Next diagnostic | Diagnostics | Global |
-| `i` | `<A-j>` | Move line down | Edit | Global |
 | `x` | `<A-j>` | Move selection down | Edit | Global |
+| `i` | `<A-j>` | Move line down | Edit | Global |
 | `n` | `<A-j>` | Move line down | Edit | Global |
 | `i` | `<A-k>` | Move line up | Edit | Global |
 | `x` | `<A-k>` | Move selection up | Edit | Global |
@@ -124,10 +124,12 @@
 | `n,t` | `<C-_>` | Toggle terminal (<C-/> as sent by most terminals) | Terminal | Global |
 | `t` | `<Esc><Esc>` | Leave terminal mode | Terminal | Global |
 | `n` | `<leader>tt` | Toggle terminal | Terminal | Global |
+| `n` | `<leader>tA` | Install tools for all languages | Tools | Global |
 | `n` | `<leader>tL` | LSP status | Tools | Global |
 | `n` | `<leader>ti` | Language info / missing tools | Tools | Global |
 | `n` | `<leader>tl` | Install tools for this language | Tools | Global |
 | `n` | `<leader>tm` | Mason installer UI | Tools | Global |
+| `n` | `<leader>tp` | Language packs and aliases | Tools | Global |
 | `n` | `<leader>ts` | Status of every tool | Tools | Global |
 | `n` | `<leader>uF` | Toggle format on save (global) | UI | Global |
 | `n` | `<leader>uN` | Toggle line numbers on/off | UI | Global |

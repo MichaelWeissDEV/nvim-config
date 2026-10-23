@@ -5,5 +5,6 @@ return {
   treesitter = { "elixir", "eex", "heex" },
   root_markers = { "mix.exs", ".git" },
   lsp = { tool = "elixir_ls" },
+  formatters = { "mix" },
   linters = { "credo" },
 }

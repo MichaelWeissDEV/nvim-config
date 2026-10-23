@@ -238,20 +238,36 @@ Toggle the persistent terminal split at the bottom of the screen
 
 ## Tools
 
-### `:LangInfo [language]`
+### `:LangInfo [language|pack|all ...]`
 
-Show a language's tools (installed or missing), parsers and attached servers (no arg: current buffer)
+Show tools (installed or missing), parsers and attached servers for a language, alias, pack, or 'all' (no arg: current buffer)
 
 ```vim
 :LangInfo rust
 ```
 
-### `:LangInstall [language]`
+### `:LangInstall [language|pack|all ...]`
 
-Install a language's language server, formatter, linter, debugger and Tree-sitter parsers via Mason (no arg: current buffer's language; ! also installs inactive alternatives; network)
+Install language server(s), formatter, linter, debugger and Tree-sitter parsers via Mason for one or more languages, aliases (ts, js, py, rs, ...), packs (web, systems, jvm, ...), or 'all' (no arg: current buffer's language; --lsp: LSP + parsers only; !: include inactive alternatives; network)
 
 ```vim
-:LangInstall python
+:LangInstall web
+```
+
+### `:LangInstallLsp [language|pack|all ...]`
+
+Install only the LSP server(s) and Tree-sitter parsers for one or more languages, aliases, packs (web, systems, ...), or 'all' (network)
+
+```vim
+:LangInstallLsp all
+```
+
+### `:LangPacks`
+
+List all language packs (web, systems, jvm, ...), their member languages, and short aliases (ts, js, py, ...)
+
+```vim
+:LangPacks
 ```
 
 ### `:Mason`

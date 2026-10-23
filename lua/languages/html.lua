@@ -8,4 +8,5 @@ return {
   -- vscode-langservers-extracted family as css/json below).
   lsp = { tool = "html_lsp", extra = { cmd = { "vscode-html-language-server", "--stdio" } } },
   formatters = { "prettier" },
+  linters = { "htmlhint" },
 }

@@ -5,4 +5,5 @@ return {
   treesitter = { "erlang" },
   root_markers = { "rebar.config", ".git" },
   lsp = { tool = "erlang_ls" },
+  formatters = { "erlfmt" },
 }

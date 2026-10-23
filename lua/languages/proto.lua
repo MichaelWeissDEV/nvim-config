@@ -5,4 +5,6 @@ return {
   treesitter = { "proto" },
   root_markers = { "buf.yaml", "buf.gen.yaml", ".git" },
   lsp = { tool = "buf" },
+  formatters = { "buf" },
+  linters = { "buf_lint" },
 }

@@ -266,6 +266,38 @@ function M.check(languages, tools, opts)
     end
   end
 
+  -- Packs and aliases (optional on synthetic test stubs, present on real registry)
+  if type(languages.packs) == "table" then
+    for pack, members in pairs(languages.packs) do
+      local scope = "languages.packs." .. tostring(pack)
+      if type(members) ~= "table" or #members == 0 then
+        add(problems, scope, "pack must be a non-empty list of language ids")
+      else
+        for _, member in ipairs(members) do
+          if not seen_ids[member] then
+            add(problems, scope, ("pack '%s' references unknown language '%s'"):format(pack, tostring(member)))
+          end
+        end
+      end
+    end
+  end
+
+  if type(languages.aliases) == "table" then
+    local packs = type(languages.packs) == "table" and languages.packs or {}
+    for alias, target in pairs(languages.aliases) do
+      local scope = "languages.aliases." .. tostring(alias)
+      if not seen_ids[target] then
+        add(problems, scope, ("alias '%s' points to unknown language '%s'"):format(alias, tostring(target)))
+      end
+      if seen_ids[alias] then
+        add(problems, scope, ("alias '%s' collides with canonical language id '%s'"):format(alias, alias))
+      end
+      if packs[alias] ~= nil then
+        add(problems, scope, ("alias '%s' collides with pack name '%s'"):format(alias, alias))
+      end
+    end
+  end
+
   -- Deterministic ordering: same registry, same output, every run.
   table.sort(problems, function(a, b)
     if a.scope ~= b.scope then

@@ -10,44 +10,82 @@ Status for your machine: run `:ToolsStatus` or `:NvimConfigHealth` inside Neovim
 |---|---|---|---|
 | ansible-language-server | `ansible-language-server` | devops |  |
 | asm-lsp | `asm-lsp` | systems |  |
+| astro-language-server | `astro-language-server` | web |  |
+| autotools-language-server | `autotools-language-server` | systems |  |
+| awk-language-server | `awk-language-server` | scripting |  |
 | basedpyright | `basedpyright` | python | alternative to ty; used when vim.g.nvim_config_python_lsp is 'basedpyright'/'both', or when ty is not installed |
 | bash-language-server | `bash-language-server` | core |  |
 | buf (protobuf) | `buf` | systems |  |
 | clangd | `clangd` | systems |  |
+| clojure-lsp | `clojure-lsp` | functional |  |
 | cmake-language-server | `cmake-language-server` | systems |  |
+| crystalline | `crystalline` | scripting |  |
 | vscode-css-language-server | `css-lsp` | web |  |
+| cue (LSP + lint) | `cue` | devops |  |
+| dart language-server | _(manual install)_ | web | ships with the Dart / Flutter SDK |
 | dockerfile-language-server | `dockerfile-language-server` | devops |  |
 | ElixirLS | `elixir-ls` | functional |  |
+| elm-language-server | `elm-language-server` | functional, web |  |
 | erlang_ls | `erlang-ls` | functional |  |
 | esbonio | `esbonio` | docs |  |
+| fish-lsp | `fish-lsp` | scripting |  |
+| fortls | `fortls` | systems |  |
 | FsAutoComplete | `fsautocomplete` | dotnet |  |
+| gleam (LSP + format) | _(manual install)_ | functional | ships with the Gleam compiler |
+| glsl_analyzer | `glsl_analyzer` | systems |  |
 | gopls | `gopls` | systems |  |
 | graphql-language-service-cli | `graphql-language-service-cli` | web |  |
+| groovy-language-server | `groovy-language-server` | jvm |  |
 | haskell-language-server | `haskell-language-server` | functional |  |
+| helm-ls | `helm-ls` | devops |  |
 | vscode-html-language-server | `html-lsp` | web |  |
+| hyprls | `hyprls` | devops |  |
 | intelephense | `intelephense` | web |  |
 | jdtls | `jdtls` | jvm |  |
 | vscode-json-language-server | `json-lsp` | web |  |
+| jsonnet-language-server | `jsonnet-language-server` | devops |  |
+| julia-lsp | `julia-lsp` | scripting |  |
+| just-lsp | `just-lsp` | systems, devops |  |
 | kotlin-language-server | `kotlin-language-server` | jvm |  |
 | lemminx | `lemminx` | devops |  |
 | lua-language-server | `lua-language-server` | core |  |
 | marksman | `marksman` | docs |  |
+| mesonlsp | `mesonlsp` | systems |  |
+| Metals (Scala LSP) | _(manual install)_ | jvm | install via Coursier: cs install metals |
+| nimlangserver | `nimlangserver` | systems |  |
 | nixd | _(manual install)_ | devops | install via nix profile install nixpkgs#nixd |
+| nu --lsp | _(manual install)_ | scripting | built into Nushell (nu --lsp) |
 | ocaml-lsp | _(manual install)_ | functional | install via opam: opam install ocaml-lsp-server |
+| ols (Odin LSP) | `ols` | systems |  |
 | OmniSharp | `omnisharp` | dotnet |  |
 | Perl Navigator | `perlnavigator` | scripting |  |
+| pkl-lsp | _(manual install)_ | devops | see https://pkl-lang.org/lsp |
 | PowerShellEditorServices | `powershell-editor-services` | scripting |  |
+| prisma-language-server | `prisma-language-server` | web |  |
+| r-languageserver | `r-languageserver` | scripting |  |
+| racket-langserver | _(manual install)_ | functional | install via: raco pkg install racket-langserver |
+| Regal (Rego LSP + linter) | `regal` | devops |  |
 | ruby-lsp | `ruby-lsp` | scripting |  |
 | ruff (server) | `ruff` | python |  |
 | rust-analyzer | `rust-analyzer` | systems |  |
+| serve-d | `serve-d` | systems |  |
+| nomicfoundation-solidity-language-server | `nomicfoundation-solidity-language-server` | web |  |
+| sourcekit-lsp | _(manual install)_ | systems | ships with the Swift toolchain / Xcode |
 | sqls | `sqls` | devops |  |
 | svelte-language-server | `svelte-language-server` | web |  |
 | Taplo | `taplo` | core |  |
 | terraform-ls | `terraform-ls` | devops |  |
 | texlab | `texlab` | docs |  |
+| tinymist (Typst LSP) | `tinymist` | docs |  |
 | ty | `ty` | python | default Python LSP (Astral): types, go-to-definition, references, rename, completion, inlay hints |
+| v-analyzer | `v-analyzer` | systems |  |
+| vala-language-server | `vala-language-server` | systems |  |
+| verible-verilog-ls | `verible` | systems |  |
+| vhdl_ls (rust_hdl) | `rust_hdl` | systems |  |
+| vim-language-server | `vim-language-server` | core |  |
 | vtsls | `vtsls` | web |  |
 | vue-language-server | `vue-language-server` | web |  |
+| wgsl-analyzer | `wgsl-analyzer` | systems |  |
 | yaml-language-server | `yaml-language-server` | devops |  |
 | zls | `zls` | systems |  |
 
@@ -55,52 +93,104 @@ Status for your machine: run `:ToolsStatus` or `:NvimConfigHealth` inside Neovim
 
 | Tool | Mason package | Profiles | Notes |
 |---|---|---|---|
+| Air (R formatter) | `air` | scripting |  |
+| asmfmt | `asmfmt` | systems |  |
 | clang-format | `clang-format` | systems |  |
+| cljfmt | `cljfmt` | functional |  |
+| crystal tool format | _(manual install)_ | scripting | ships with the Crystal compiler |
+| cue fmt | `cue` | devops |  |
+| dart format | _(manual install)_ | web | ships with the Dart / Flutter SDK |
+| dfmt | _(manual install)_ | systems | install via dub or system package manager |
 | dotnet format | _(manual install)_ | dotnet |  |
+| elm-format | `elm-format` | functional, web |  |
+| erlfmt | _(manual install)_ | functional | optional; rebar3 or escript install |
+| Fantomas | `fantomas` | dotnet, functional |  |
+| fish_indent | _(manual install)_ | scripting | ships with fish |
+| forge fmt | _(manual install)_ | web | ships with Foundry (foundryup) |
 | fourmolu | `fourmolu` | functional |  |
+| fprettify | `fprettify` | systems |  |
+| gawk | _(manual install)_ | scripting | ships with GNU Awk |
+| gdformat | `gdtoolkit` | scripting |  |
+| gersemi | `gersemi` | systems |  |
 | gofumpt | `gofumpt` | systems |  |
 | google-java-format | `google-java-format` | jvm |  |
+| jsonnetfmt | _(manual install)_ | devops | ships with go-jsonnet |
+| just --fmt | _(manual install)_ | systems, devops | ships with just |
+| kdlfmt | `kdlfmt` | devops |  |
 | ktlint | `ktlint` | jvm |  |
 | latexindent | `latexindent` | docs |  |
+| meson format | _(manual install)_ | systems | ships with Meson |
+| mix format | _(manual install)_ | functional | ships with Elixir |
+| nimpretty | _(manual install)_ | systems | ships with the Nim compiler |
 | nixfmt | _(manual install)_ | devops |  |
+| npm-groovy-lint | `npm-groovy-lint` | jvm |  |
+| nufmt | _(manual install)_ | scripting | optional; cargo install nufmt |
 | ocamlformat | _(manual install)_ | functional | install via opam: opam install ocamlformat |
+| odinfmt | `ols` | systems | bundled with ols |
+| opa fmt | _(manual install)_ | devops | ships with Open Policy Agent (opa) |
 | perltidy | _(manual install)_ | scripting |  |
 | php-cs-fixer | `php-cs-fixer` | web |  |
+| pkl format | _(manual install)_ | devops | ships with Pkl CLI |
 | prettier | `prettier` | web |  |
+| raco fmt | _(manual install)_ | functional | install via: raco pkg install fmt |
 | rubocop | `rubocop` | scripting |  |
 | ruff format | `ruff` | python |  |
 | rustfmt | _(manual install)_ | systems | ships with rustup |
+| scalafmt | _(manual install)_ | jvm | install via Coursier: cs install scalafmt |
 | shfmt | `shfmt` | core |  |
 | sqlfluff | `sqlfluff` | devops |  |
 | StyLua | `stylua` | core |  |
+| SwiftFormat | _(manual install)_ | systems | macOS: brew install swiftformat |
+| tclfmt | _(manual install)_ | scripting | optional; part of tclint (pip install tclint) |
+| terraform fmt | _(manual install)_ | devops | ships with Terraform CLI |
+| typstyle | `typstyle` | docs |  |
+| v fmt | _(manual install)_ | systems | ships with the V compiler |
+| verible-verilog-format | `verible` | systems |  |
+| xmlformatter | `xmlformatter` | devops |  |
+| zig fmt | _(manual install)_ | systems | ships with the Zig compiler |
 
 ## Linters
 
 | Tool | Mason package | Profiles | Notes |
 |---|---|---|---|
 | ansible-lint | `ansible-lint` | devops | optional |
+| buf lint | `buf` | systems |  |
+| checkmake | `checkmake` | systems | optional |
 | chktex | _(manual install)_ | docs | optional; ships with TeX Live/MacTeX -- macOS: brew install --cask mactex-no-gui | Debian/Ubuntu: apt install chktex | Arch: pacman -S texlive-binextra |
 | clang-tidy | _(manual install)_ | systems | optional; ships with LLVM -- macOS: brew install llvm | Debian/Ubuntu: apt install clang-tidy | Arch: pacman -S clang |
 | clippy | _(manual install)_ | systems | ships with rustup; run on-demand, not on every keypress |
+| clj-kondo | `clj-kondo` | functional |  |
+| cmakelint | `cmakelint` | systems | optional |
 | credo | _(manual install)_ | functional | optional; mix archive.install hex credo |
 | doc8 | _(manual install)_ | docs | optional; pip install doc8 |
 | dotenv-linter | `dotenv-linter` | devops | optional |
 | eslint | `eslint-lsp` | web |  |
+| fish -n (syntax check) | _(manual install)_ | scripting | ships with fish |
+| gdlint | `gdtoolkit` | scripting |  |
+| glslc | _(manual install)_ | systems | optional; ships with Vulkan SDK / shaderc |
 | golangci-lint | `golangci-lint` | systems | optional |
 | hadolint | `hadolint` | devops |  |
 | hlint | `hlint` | functional | optional |
+| HTMLHint | `htmlhint` | web | optional |
 | markdownlint | `markdownlint-cli2` | docs | optional |
+| Nagelfar (Tcl linter) | _(manual install)_ | scripting | optional |
 | perlcritic | _(manual install)_ | scripting | optional |
 | phpstan | `phpstan` | web | optional |
 | PSScriptAnalyzer | _(manual install)_ | scripting | PowerShell module, not a standalone binary |
 | rubocop (lint) | `rubocop` | scripting |  |
 | selene | `selene` | core | optional; lua_ls diagnostics cover most cases |
 | ShellCheck | `shellcheck` | core |  |
+| solhint | `solhint` | web | optional |
 | sqlfluff (lint) | `sqlfluff` | devops |  |
 | statix | _(manual install)_ | devops | optional |
 | stylelint | `stylelint` | web | optional |
+| SwiftLint | _(manual install)_ | systems | optional; macOS: brew install swiftlint |
 | tflint | `tflint` | devops | optional |
+| Vale | `vale` | docs | optional prose linter |
+| Verilator | _(manual install)_ | systems | optional; install via system package manager |
+| vint | `vint` | core | optional |
 | yamllint | `yamllint` | devops |  |
+| zsh -n (syntax check) | _(manual install)_ | scripting | ships with zsh |
 
 ## Debuggers
 

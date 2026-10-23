@@ -22,6 +22,10 @@ local SAFE_COMMANDS = {
   -- With arguments: the first word is the registered command name.
   "LangInfo python",
   "LangInfo lua",
+  "LangInfo ts",
+  "LangInfo web",
+  "LangInfo all",
+  "LangPacks",
   "PythonInfo",
   "PythonLsp",
   "Pytest last",

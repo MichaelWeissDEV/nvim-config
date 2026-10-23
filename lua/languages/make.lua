@@ -4,5 +4,6 @@ return {
   extensions = { ".mk" },
   treesitter = { "make" },
   root_markers = { "Makefile", ".git" },
-  notes = "No LSP available for Makefiles; relies on Tree-sitter highlighting only.",
+  lsp = { tool = "autotools_ls" },
+  linters = { "checkmake" },
 }

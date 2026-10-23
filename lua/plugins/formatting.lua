@@ -19,6 +19,7 @@ local notify = require("util.notify")
 local CUSTOM_FORMATTERS = {
   google_java_format = { command = "google-java-format", args = { "-" }, stdin = true },
   dotnet_format = { command = "dotnet", args = { "format", "--include", "$FILENAME" }, stdin = false },
+  npm_groovy_lint = require("conform.formatters.npm-groovy-lint"),
 }
 
 -- Which formatters are available depends on which binaries are installed,

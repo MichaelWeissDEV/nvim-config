@@ -44,7 +44,7 @@ local function has_category(tool, category)
   return tool ~= nil and tool.categories ~= nil and tool.categories[category] == true
 end
 
--- Lua ---------------------------------------------------------------------
+-- Lua / Vimscript ---------------------------------------------------------
 add({
   id = "lua_ls",
   name = "lua-language-server",
@@ -62,6 +62,23 @@ add({
   mason = "selene",
   profiles = { "core" },
   note = "optional; lua_ls diagnostics cover most cases",
+})
+add({
+  id = "vimls",
+  name = "vim-language-server",
+  category = "lsp",
+  exe = "vim-language-server",
+  mason = "vim-language-server",
+  profiles = { "core" },
+})
+add({
+  id = "vint",
+  name = "vint",
+  category = "linter",
+  exe = "vint",
+  mason = "vint",
+  profiles = { "core" },
+  note = "optional",
 })
 
 -- Python --------------------------------------------------------------------
@@ -207,7 +224,7 @@ add({
   profiles = { "systems" },
 })
 
--- C / C++ -----------------------------------------------------------------
+-- C / C++ / Objective-C / CUDA / Swift ------------------------------------
 add({ id = "clangd", name = "clangd", category = "lsp", exe = "clangd", mason = "clangd", profiles = { "systems" } })
 add({
   id = "clang_format",
@@ -239,11 +256,46 @@ add({
   profiles = { "systems" },
   note = "fallback debugger if codelldb unavailable",
 })
+add({
+  id = "sourcekit_lsp",
+  name = "sourcekit-lsp",
+  category = "lsp",
+  exe = "sourcekit-lsp",
+  mason = nil,
+  profiles = { "systems" },
+  note = "ships with the Swift toolchain / Xcode",
+})
+add({
+  id = "swiftformat",
+  name = "SwiftFormat",
+  category = "formatter",
+  exe = "swiftformat",
+  mason = nil,
+  profiles = { "systems" },
+  note = "macOS: brew install swiftformat",
+})
+add({
+  id = "swiftlint",
+  name = "SwiftLint",
+  category = "linter",
+  exe = "swiftlint",
+  mason = nil,
+  profiles = { "systems" },
+  note = "optional; macOS: brew install swiftlint",
+})
 
 -- Assembly ------------------------------------------------------------------
 add({ id = "asm_lsp", name = "asm-lsp", category = "lsp", exe = "asm-lsp", mason = "asm-lsp", profiles = { "systems" } })
+add({
+  id = "asmfmt",
+  name = "asmfmt",
+  category = "formatter",
+  exe = "asmfmt",
+  mason = "asmfmt",
+  profiles = { "systems" },
+})
 
--- Java / Kotlin ---------------------------------------------------------
+-- Java / Kotlin / Scala / Groovy --------------------------------------------
 add({ id = "jdtls", name = "jdtls", category = "lsp", exe = "jdtls", mason = "jdtls", profiles = { "jvm" } })
 add({
   id = "google_java_format",
@@ -281,8 +333,43 @@ add({
   mason = "ktlint",
   profiles = { "jvm" },
 })
+add({
+  id = "metals",
+  name = "Metals (Scala LSP)",
+  category = "lsp",
+  exe = "metals",
+  mason = nil,
+  profiles = { "jvm" },
+  note = "install via Coursier: cs install metals",
+})
+add({
+  id = "scalafmt",
+  name = "scalafmt",
+  category = "formatter",
+  exe = "scalafmt",
+  mason = nil,
+  profiles = { "jvm" },
+  note = "install via Coursier: cs install scalafmt",
+})
+add({
+  id = "groovyls",
+  name = "groovy-language-server",
+  category = "lsp",
+  exe = "groovy-language-server",
+  mason = "groovy-language-server",
+  profiles = { "jvm" },
+})
+add({
+  id = "npm_groovy_lint",
+  name = "npm-groovy-lint",
+  category = "formatter",
+  also = { "linter" },
+  exe = "npm-groovy-lint",
+  mason = "npm-groovy-lint",
+  profiles = { "jvm" },
+})
 
--- JS / TS / Web -----------------------------------------------------------
+-- JS / TS / Web / Mobile / Blockchain ---------------------------------------
 add({ id = "vtsls", name = "vtsls", category = "lsp", exe = "vtsls", mason = "vtsls", profiles = { "web" } })
 add({
   id = "prettier",
@@ -308,6 +395,15 @@ add({
   exe = "vscode-html-language-server",
   mason = "html-lsp",
   profiles = { "web" },
+})
+add({
+  id = "htmlhint",
+  name = "HTMLHint",
+  category = "linter",
+  exe = "htmlhint",
+  mason = "htmlhint",
+  profiles = { "web" },
+  note = "optional",
 })
 add({
   id = "css_lsp",
@@ -342,6 +438,66 @@ add({
   mason = "svelte-language-server",
   profiles = { "web" },
 })
+add({
+  id = "astro_ls",
+  name = "astro-language-server",
+  category = "lsp",
+  exe = "astro-ls",
+  mason = "astro-language-server",
+  profiles = { "web" },
+})
+add({
+  id = "prismals",
+  name = "prisma-language-server",
+  category = "lsp",
+  exe = "prisma-language-server",
+  mason = "prisma-language-server",
+  profiles = { "web" },
+})
+add({
+  id = "solidity_ls",
+  name = "nomicfoundation-solidity-language-server",
+  category = "lsp",
+  exe = "nomicfoundation-solidity-language-server",
+  mason = "nomicfoundation-solidity-language-server",
+  profiles = { "web" },
+})
+add({
+  id = "forge_fmt",
+  name = "forge fmt",
+  category = "formatter",
+  exe = "forge",
+  mason = nil,
+  profiles = { "web" },
+  note = "ships with Foundry (foundryup)",
+})
+add({
+  id = "solhint",
+  name = "solhint",
+  category = "linter",
+  exe = "solhint",
+  mason = "solhint",
+  profiles = { "web" },
+  note = "optional",
+})
+add({
+  id = "dartls",
+  name = "dart language-server",
+  category = "lsp",
+  exe = "dart",
+  mason = nil,
+  profiles = { "web" },
+  note = "ships with the Dart / Flutter SDK",
+})
+add({
+  id = "dart_format",
+  name = "dart format",
+  category = "formatter",
+  exe = "dart",
+  mason = nil,
+  profiles = { "web" },
+  note = "ships with the Dart / Flutter SDK",
+})
 
 -- PHP -------------------------------------------------------------------
 add({
@@ -370,7 +526,7 @@ add({
   note = "optional",
 })
 
--- C# / .NET ---------------------------------------------------------------
+-- C# / F# / .NET ----------------------------------------------------------
 add({
   id = "omnisharp",
   name = "OmniSharp",
@@ -395,11 +551,6 @@ add({
   mason = "netcoredbg",
   profiles = { "dotnet" },
 })
-
--- Zig -----------------------------------------------------------------------
-add({ id = "zls", name = "zls", category = "lsp", exe = "zls", mason = "zls", profiles = { "systems" } })
-
--- F# -----------------------------------------------------------------------
 add({
   id = "fsautocomplete",
   name = "FsAutoComplete",
@@ -408,15 +559,179 @@ add({
   mason = "fsautocomplete",
   profiles = { "dotnet" },
 })
-
--- Erlang ---------------------------------------------------------------
 add({
-  id = "erlang_ls",
-  name = "erlang_ls",
+  id = "fantomas",
+  name = "Fantomas",
+  category = "formatter",
+  exe = "fantomas",
+  mason = "fantomas",
+  profiles = { "dotnet", "functional" },
+})
+
+-- Zig / Odin / Nim / D / Fortran / Vala / V ---------------------------------
+add({ id = "zls", name = "zls", category = "lsp", exe = "zls", mason = "zls", profiles = { "systems" } })
+add({
+  id = "zigfmt",
+  name = "zig fmt",
+  category = "formatter",
+  exe = "zig",
+  mason = nil,
+  profiles = { "systems" },
+  note = "ships with the Zig compiler",
+})
+add({ id = "ols", name = "ols (Odin LSP)", category = "lsp", exe = "ols", mason = "ols", profiles = { "systems" } })
+add({
+  id = "odinfmt",
+  name = "odinfmt",
+  category = "formatter",
+  exe = "odinfmt",
+  mason = "ols",
+  profiles = { "systems" },
+  note = "bundled with ols",
+})
+add({
+  id = "nim_langserver",
+  name = "nimlangserver",
   category = "lsp",
-  exe = "erlang_ls",
-  mason = "erlang-ls",
-  profiles = { "functional" },
+  exe = "nimlangserver",
+  mason = "nimlangserver",
+  profiles = { "systems" },
+})
+add({
+  id = "nimpretty",
+  name = "nimpretty",
+  category = "formatter",
+  exe = "nimpretty",
+  mason = nil,
+  profiles = { "systems" },
+  note = "ships with the Nim compiler",
+})
+add({
+  id = "serve_d",
+  name = "serve-d",
+  category = "lsp",
+  exe = "serve-d",
+  mason = "serve-d",
+  profiles = { "systems" },
+})
+add({
+  id = "dfmt",
+  name = "dfmt",
+  category = "formatter",
+  exe = "dfmt",
+  mason = nil,
+  profiles = { "systems" },
+  note = "install via dub or system package manager",
+})
+add({ id = "fortls", name = "fortls", category = "lsp", exe = "fortls", mason = "fortls", profiles = { "systems" } })
+add({
+  id = "fprettify",
+  name = "fprettify",
+  category = "formatter",
+  exe = "fprettify",
+  mason = "fprettify",
+  profiles = { "systems" },
+})
+add({
+  id = "vala_ls",
+  name = "vala-language-server",
+  category = "lsp",
+  exe = "vala-language-server",
+  mason = "vala-language-server",
+  profiles = { "systems" },
+})
+add({
+  id = "v_analyzer",
+  name = "v-analyzer",
+  category = "lsp",
+  exe = "v-analyzer",
+  mason = "v-analyzer",
+  profiles = { "systems" },
+})
+add({
+  id = "v",
+  name = "v fmt",
+  category = "formatter",
+  exe = "v",
+  mason = nil,
+  profiles = { "systems" },
+  note = "ships with the V compiler",
+})
+
+-- Shaders / Hardware / GameDev --------------------------------------------
+add({
+  id = "glsl_analyzer",
+  name = "glsl_analyzer",
+  category = "lsp",
+  exe = "glsl_analyzer",
+  mason = "glsl_analyzer",
+  profiles = { "systems" },
+})
+add({
+  id = "glslc",
+  name = "glslc",
+  category = "linter",
+  exe = "glslc",
+  mason = nil,
+  profiles = { "systems" },
+  note = "optional; ships with Vulkan SDK / shaderc",
+})
+add({
+  id = "wgsl_analyzer",
+  name = "wgsl-analyzer",
+  category = "lsp",
+  exe = "wgsl_analyzer",
+  mason = "wgsl-analyzer",
+  profiles = { "systems" },
+})
+add({
+  id = "verible_ls",
+  name = "verible-verilog-ls",
+  category = "lsp",
+  exe = "verible-verilog-ls",
+  mason = "verible",
+  profiles = { "systems" },
+})
+add({
+  id = "verible",
+  name = "verible-verilog-format",
+  category = "formatter",
+  exe = "verible-verilog-format",
+  mason = "verible",
+  profiles = { "systems" },
+})
+add({
+  id = "verilator",
+  name = "Verilator",
+  category = "linter",
+  exe = "verilator",
+  mason = nil,
+  profiles = { "systems" },
+  note = "optional; install via system package manager",
+})
+add({
+  id = "vhdl_ls",
+  name = "vhdl_ls (rust_hdl)",
+  category = "lsp",
+  exe = "vhdl_ls",
+  mason = "rust_hdl",
+  profiles = { "systems" },
+})
+add({
+  id = "gdformat",
+  name = "gdformat",
+  category = "formatter",
+  exe = "gdformat",
+  mason = "gdtoolkit",
+  profiles = { "scripting" },
+})
+add({
+  id = "gdlint",
+  name = "gdlint",
+  category = "linter",
+  exe = "gdlint",
+  mason = "gdtoolkit",
+  profiles = { "scripting" },
 })
 
 -- Ansible -----------------------------------------------------------------
@@ -438,7 +753,7 @@ add({
   note = "optional",
 })
 
--- CMake / Make ------------------------------------------------------------
+-- CMake / Make / Meson / Just -----------------------------------------------
 add({
   id = "cmake_lsp",
   name = "cmake-language-server",
@@ -446,6 +761,74 @@ add({
   exe = "cmake-language-server",
   mason = "cmake-language-server",
   profiles = { "systems" },
+})
+add({
+  id = "gersemi",
+  name = "gersemi",
+  category = "formatter",
+  exe = "gersemi",
+  mason = "gersemi",
+  profiles = { "systems" },
+})
+add({
+  id = "cmakelint",
+  name = "cmakelint",
+  category = "linter",
+  exe = "cmakelint",
+  mason = "cmakelint",
+  profiles = { "systems" },
+  note = "optional",
+})
+add({
+  id = "autotools_ls",
+  name = "autotools-language-server",
+  category = "lsp",
+  exe = "autotools-language-server",
+  mason = "autotools-language-server",
+  profiles = { "systems" },
+})
+add({
+  id = "checkmake",
+  name = "checkmake",
+  category = "linter",
+  exe = "checkmake",
+  mason = "checkmake",
+  profiles = { "systems" },
+  note = "optional",
+})
+add({
+  id = "mesonlsp",
+  name = "mesonlsp",
+  category = "lsp",
+  exe = "mesonlsp",
+  mason = "mesonlsp",
+  profiles = { "systems" },
+})
+add({
+  id = "meson",
+  name = "meson format",
+  category = "formatter",
+  exe = "meson",
+  mason = nil,
+  profiles = { "systems" },
+  note = "ships with Meson",
+})
+add({
+  id = "just_lsp",
+  name = "just-lsp",
+  category = "lsp",
+  exe = "just-lsp",
+  mason = "just-lsp",
+  profiles = { "systems", "devops" },
+})
+add({
+  id = "just",
+  name = "just --fmt",
+  category = "formatter",
+  exe = "just",
+  mason = nil,
+  profiles = { "systems", "devops" },
+  note = "ships with just",
 })
 
 -- GraphQL / Protobuf --------------------------------------------------------
@@ -457,7 +840,23 @@ add({
   mason = "graphql-language-service-cli",
   profiles = { "web" },
 })
-add({ id = "buf", name = "buf (protobuf)", category = "lsp", exe = "buf", mason = "buf", profiles = { "systems" } })
+add({
+  id = "buf",
+  name = "buf (protobuf)",
+  category = "lsp",
+  also = { "formatter" },
+  exe = "buf",
+  mason = "buf",
+  profiles = { "systems" },
+})
+add({
+  id = "buf_lint",
+  name = "buf lint",
+  category = "linter",
+  exe = "buf",
+  mason = "buf",
+  profiles = { "systems" },
+})
 
 -- Misc linters ---------------------------------------------------------
 add({
@@ -470,7 +869,7 @@ add({
   note = "optional",
 })
 
--- Haskell / OCaml ---------------------------------------------------------
+-- Haskell / OCaml / Clojure / Gleam / Elm / Racket --------------------------
 add({
   id = "haskell_language_server",
   name = "haskell-language-server",
@@ -514,6 +913,74 @@ add({
   profiles = { "functional" },
   note = "install via opam: opam install ocamlformat",
 })
+add({
+  id = "clojure_lsp",
+  name = "clojure-lsp",
+  category = "lsp",
+  exe = "clojure-lsp",
+  mason = "clojure-lsp",
+  profiles = { "functional" },
+})
+add({
+  id = "cljfmt",
+  name = "cljfmt",
+  category = "formatter",
+  exe = "cljfmt",
+  mason = "cljfmt",
+  profiles = { "functional" },
+})
+add({
+  id = "clj_kondo",
+  name = "clj-kondo",
+  category = "linter",
+  exe = "clj-kondo",
+  mason = "clj-kondo",
+  profiles = { "functional" },
+})
+add({
+  id = "gleam",
+  name = "gleam (LSP + format)",
+  category = "lsp",
+  also = { "formatter" },
+  exe = "gleam",
+  mason = nil,
+  profiles = { "functional" },
+  note = "ships with the Gleam compiler",
+})
+add({
+  id = "elmls",
+  name = "elm-language-server",
+  category = "lsp",
+  exe = "elm-language-server",
+  mason = "elm-language-server",
+  profiles = { "functional", "web" },
+})
+add({
+  id = "elm_format",
+  name = "elm-format",
+  category = "formatter",
+  exe = "elm-format",
+  mason = "elm-format",
+  profiles = { "functional", "web" },
+})
+add({
+  id = "racket_langserver",
+  name = "racket-langserver",
+  category = "lsp",
+  exe = "racket",
+  mason = nil,
+  profiles = { "functional" },
+  note = "install via: raco pkg install racket-langserver",
+})
+add({
+  id = "racketfmt",
+  name = "raco fmt",
+  category = "formatter",
+  exe = "raco",
+  mason = nil,
+  profiles = { "functional" },
+  note = "install via: raco pkg install fmt",
+})
 
 -- Elixir / Erlang -----------------------------------------------------------
 add({
@@ -525,6 +992,15 @@ add({
   profiles = { "functional" },
 })
 add({
+  id = "mix",
+  name = "mix format",
+  category = "formatter",
+  exe = "mix",
+  mason = nil,
+  profiles = { "functional" },
+  note = "ships with Elixir",
+})
+add({
   id = "credo",
   name = "credo",
   category = "linter",
@@ -533,8 +1009,25 @@ add({
   profiles = { "functional" },
   note = "optional; mix archive.install hex credo",
 })
+add({
+  id = "erlang_ls",
+  name = "erlang_ls",
+  category = "lsp",
+  exe = "erlang_ls",
+  mason = "erlang-ls",
+  profiles = { "functional" },
+})
+add({
+  id = "erlfmt",
+  name = "erlfmt",
+  category = "formatter",
+  exe = "erlfmt",
+  mason = nil,
+  profiles = { "functional" },
+  note = "optional; rebar3 or escript install",
+})
 
--- Perl ------------------------------------------------------------------
+-- Perl / Crystal / Tcl / R / Julia ------------------------------------------
 add({
   id = "perl_navigator",
   name = "Perl Navigator",
@@ -560,6 +1053,65 @@ add({
   profiles = { "scripting" },
   note = "optional",
 })
+add({
+  id = "crystalline",
+  name = "crystalline",
+  category = "lsp",
+  exe = "crystalline",
+  mason = "crystalline",
+  profiles = { "scripting" },
+})
+add({
+  id = "crystal",
+  name = "crystal tool format",
+  category = "formatter",
+  exe = "crystal",
+  mason = nil,
+  profiles = { "scripting" },
+  note = "ships with the Crystal compiler",
+})
+add({
+  id = "tclfmt",
+  name = "tclfmt",
+  category = "formatter",
+  exe = "tclfmt",
+  mason = nil,
+  profiles = { "scripting" },
+  note = "optional; part of tclint (pip install tclint)",
+})
+add({
+  id = "nagelfar",
+  name = "Nagelfar (Tcl linter)",
+  category = "linter",
+  exe = "nagelfar",
+  mason = nil,
+  profiles = { "scripting" },
+  note = "optional",
+})
+add({
+  id = "r_language_server",
+  name = "r-languageserver",
+  category = "lsp",
+  exe = "r-languageserver",
+  mason = "r-languageserver",
+  profiles = { "scripting" },
+})
+add({
+  id = "air",
+  name = "Air (R formatter)",
+  category = "formatter",
+  exe = "air",
+  mason = "air",
+  profiles = { "scripting" },
+})
+add({
+  id = "julials",
+  name = "julia-lsp",
+  category = "lsp",
+  exe = "julia-lsp",
+  mason = "julia-lsp",
+  profiles = { "scripting" },
+})
 
 -- PowerShell ------------------------------------------------------------
 add({
@@ -580,7 +1132,7 @@ add({
   note = "PowerShell module, not a standalone binary",
 })
 
--- Shell -----------------------------------------------------------------
+-- Shell (Bash / Zsh / Fish / Nushell / Awk) ---------------------------------
 add({
   id = "bashls",
   name = "bash-language-server",
@@ -606,6 +1158,77 @@ add({
   mason = nil,
   profiles = { "core" },
   note = "optional",
+})
+add({
+  id = "zsh",
+  name = "zsh -n (syntax check)",
+  category = "linter",
+  exe = "zsh",
+  mason = nil,
+  profiles = { "scripting" },
+  note = "ships with zsh",
+})
+add({
+  id = "fish_lsp",
+  name = "fish-lsp",
+  category = "lsp",
+  exe = "fish-lsp",
+  mason = "fish-lsp",
+  profiles = { "scripting" },
+})
+add({
+  id = "fish_indent",
+  name = "fish_indent",
+  category = "formatter",
+  exe = "fish_indent",
+  mason = nil,
+  profiles = { "scripting" },
+  note = "ships with fish",
+})
+add({
+  id = "fish",
+  name = "fish -n (syntax check)",
+  category = "linter",
+  exe = "fish",
+  mason = nil,
+  profiles = { "scripting" },
+  note = "ships with fish",
+})
+add({
+  id = "nuls",
+  name = "nu --lsp",
+  category = "lsp",
+  exe = "nu",
+  mason = nil,
+  profiles = { "scripting" },
+  note = "built into Nushell (nu --lsp)",
+})
+add({
+  id = "nufmt",
+  name = "nufmt",
+  category = "formatter",
+  exe = "nufmt",
+  mason = nil,
+  profiles = { "scripting" },
+  note = "optional; cargo install nufmt",
+})
+add({
+  id = "awk_ls",
+  name = "awk-language-server",
+  category = "lsp",
+  exe = "awk-language-server",
+  mason = "awk-language-server",
+  profiles = { "scripting" },
+})
+add({
+  id = "gawk",
+  name = "gawk",
+  category = "formatter",
+  also = { "linter" },
+  exe = "gawk",
+  mason = nil,
+  profiles = { "scripting" },
+  note = "ships with GNU Awk",
 })
 
 -- SQL -------------------------------------------------------------------
@@ -664,6 +1287,48 @@ add({
   profiles = { "core" },
 })
 add({ id = "lemminx", name = "lemminx", category = "lsp", exe = "lemminx", mason = "lemminx", profiles = { "devops" } })
+add({
+  id = "xmlformat",
+  name = "xmlformatter",
+  category = "formatter",
+  exe = "xmlformat",
+  mason = "xmlformatter",
+  profiles = { "devops" },
+})
+add({
+  id = "kdlfmt",
+  name = "kdlfmt",
+  category = "formatter",
+  exe = "kdlfmt",
+  mason = "kdlfmt",
+  profiles = { "devops" },
+})
+add({
+  id = "pkl_lsp",
+  name = "pkl-lsp",
+  category = "lsp",
+  exe = "pkl-lsp",
+  mason = nil,
+  profiles = { "devops" },
+  note = "see https://pkl-lang.org/lsp",
+})
+add({
+  id = "pkl",
+  name = "pkl format",
+  category = "formatter",
+  exe = "pkl",
+  mason = nil,
+  profiles = { "devops" },
+  note = "ships with Pkl CLI",
+})
+add({
+  id = "hyprls",
+  name = "hyprls",
+  category = "lsp",
+  exe = "hyprls",
+  mason = "hyprls",
+  profiles = { "devops" },
+})
 
 -- DevOps / IaC ------------------------------------------------------------
 add({
@@ -675,6 +1340,15 @@ add({
   profiles = { "devops" },
 })
 add({
+  id = "terraform_fmt",
+  name = "terraform fmt",
+  category = "formatter",
+  exe = "terraform",
+  mason = nil,
+  profiles = { "devops" },
+  note = "ships with Terraform CLI",
+})
+add({
   id = "tflint",
   name = "tflint",
   category = "linter",
@@ -682,6 +1356,66 @@ add({
   mason = "tflint",
   profiles = { "devops" },
   note = "optional",
+})
+add({
+  id = "helm_ls",
+  name = "helm-ls",
+  category = "lsp",
+  exe = "helm_ls",
+  mason = "helm-ls",
+  profiles = { "devops" },
+})
+add({
+  id = "jsonnet_ls",
+  name = "jsonnet-language-server",
+  category = "lsp",
+  exe = "jsonnet-language-server",
+  mason = "jsonnet-language-server",
+  profiles = { "devops" },
+})
+add({
+  id = "jsonnetfmt",
+  name = "jsonnetfmt",
+  category = "formatter",
+  exe = "jsonnetfmt",
+  mason = nil,
+  profiles = { "devops" },
+  note = "ships with go-jsonnet",
+})
+add({
+  id = "regal",
+  name = "Regal (Rego LSP + linter)",
+  category = "lsp",
+  also = { "linter" },
+  exe = "regal",
+  mason = "regal",
+  profiles = { "devops" },
+})
+add({
+  id = "opa_fmt",
+  name = "opa fmt",
+  category = "formatter",
+  exe = "opa",
+  mason = nil,
+  profiles = { "devops" },
+  note = "ships with Open Policy Agent (opa)",
+})
+add({
+  id = "cue",
+  name = "cue (LSP + lint)",
+  category = "lsp",
+  also = { "linter" },
+  exe = "cue",
+  mason = "cue",
+  profiles = { "devops" },
+})
+add({
+  id = "cue_fmt",
+  name = "cue fmt",
+  category = "formatter",
+  exe = "cue",
+  mason = "cue",
+  profiles = { "devops" },
 })
 add({
   id = "nixd",
@@ -767,6 +1501,31 @@ add({
   profiles = { "docs" },
   note = "optional; ships with TeX Live/MacTeX -- macOS: brew install --cask mactex-no-gui "
     .. "| Debian/Ubuntu: apt install chktex | Arch: pacman -S texlive-binextra",
+})
+add({
+  id = "tinymist",
+  name = "tinymist (Typst LSP)",
+  category = "lsp",
+  exe = "tinymist",
+  mason = "tinymist",
+  profiles = { "docs" },
+})
+add({
+  id = "typstyle",
+  name = "typstyle",
+  category = "formatter",
+  exe = "typstyle",
+  mason = "typstyle",
+  profiles = { "docs" },
+})
+add({
+  id = "vale",
+  name = "Vale",
+  category = "linter",
+  exe = "vale",
+  mason = "vale",
+  profiles = { "docs" },
+  note = "optional prose linter",
 })
 
 local M = {}

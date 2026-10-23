@@ -107,11 +107,17 @@ of what's installed on this machine.
 :TermToggle                                                  *nvim-config-cmd-termtoggle*
     Toggle the persistent terminal split at the bottom of the screen
 
-:LangInfo [language]                                                    *nvim-config-cmd-langinfo*
-    Show a language's tools (installed or missing), parsers and attached servers (no arg: current buffer)
+:LangInfo [language|pack|all ...]                                                    *nvim-config-cmd-langinfo*
+    Show tools (installed or missing), parsers and attached servers for a language, alias, pack, or 'all' (no arg: current buffer)
 
-:LangInstall [language]                                                 *nvim-config-cmd-langinstall*
-    Install a language's language server, formatter, linter, debugger and Tree-sitter parsers via Mason (no arg: current buffer's language; ! also installs inactive alternatives; network)
+:LangInstall [language|pack|all ...]                                                 *nvim-config-cmd-langinstall*
+    Install language server(s), formatter, linter, debugger and Tree-sitter parsers via Mason for one or more languages, aliases (ts, js, py, rs, ...), packs (web, systems, jvm, ...), or 'all' (no arg: current buffer's language; --lsp: LSP + parsers only; !: include inactive alternatives; network)
+
+:LangInstallLsp [language|pack|all ...]                                              *nvim-config-cmd-langinstalllsp*
+    Install only the LSP server(s) and Tree-sitter parsers for one or more languages, aliases, packs (web, systems, ...), or 'all' (network)
+
+:LangPacks                                                   *nvim-config-cmd-langpacks*
+    List all language packs (web, systems, jvm, ...), their member languages, and short aliases (ts, js, py, ...)
 
 :Mason                                                       *nvim-config-cmd-mason*
     Open the Mason installer UI
@@ -186,8 +192,8 @@ Diagnostics ~
     n      ]d                 Next diagnostic
 Edit ~
 
-    i      <A-j>              Move line down
     x      <A-j>              Move selection down
+    i      <A-j>              Move line down
     n      <A-j>              Move line down
     i      <A-k>              Move line up
     x      <A-k>              Move selection up
@@ -288,10 +294,12 @@ Terminal ~
     n      <leader>tt         Toggle terminal
 Tools ~
 
+    n      <leader>tA         Install tools for all languages
     n      <leader>tL         LSP status
     n      <leader>ti         Language info / missing tools
     n      <leader>tl         Install tools for this language
     n      <leader>tm         Mason installer UI
+    n      <leader>tp         Language packs and aliases
     n      <leader>ts         Status of every tool
 UI ~
 
@@ -320,6 +328,10 @@ lua                                                        *nvim-config-lang-lua
     Filetypes: lua
     LSP: lua_ls
 
+vim                                                        *nvim-config-lang-vim*
+    Filetypes: vim
+    LSP: vimls
+
 python                                                     *nvim-config-lang-python*
     Filetypes: python
     LSP: ty
@@ -329,13 +341,49 @@ ruby                                                       *nvim-config-lang-rub
     Filetypes: ruby
     LSP: ruby_lsp
 
-go                                                         *nvim-config-lang-go*
-    Filetypes: go, gomod, gowork, gosum
-    LSP: gopls
+perl                                                       *nvim-config-lang-perl*
+    Filetypes: perl
+    LSP: perl_navigator
 
-rust                                                       *nvim-config-lang-rust*
-    Filetypes: rust
-    LSP: rust_analyzer
+crystal                                                    *nvim-config-lang-crystal*
+    Filetypes: crystal
+    LSP: crystalline
+
+tcl                                                        *nvim-config-lang-tcl*
+    Filetypes: tcl
+    LSP: none
+
+r                                                          *nvim-config-lang-r*
+    Filetypes: r, rmd
+    LSP: r_language_server
+
+julia                                                      *nvim-config-lang-julia*
+    Filetypes: julia
+    LSP: julials
+
+bash                                                       *nvim-config-lang-bash*
+    Filetypes: bash, sh
+    LSP: bashls
+
+zsh                                                        *nvim-config-lang-zsh*
+    Filetypes: zsh
+    LSP: bashls
+
+fish                                                       *nvim-config-lang-fish*
+    Filetypes: fish
+    LSP: fish_lsp
+
+nu                                                         *nvim-config-lang-nu*
+    Filetypes: nu
+    LSP: nuls
+
+powershell                                                 *nvim-config-lang-powershell*
+    Filetypes: ps1
+    LSP: powershell_es
+
+awk                                                        *nvim-config-lang-awk*
+    Filetypes: awk
+    LSP: awk_ls
 
 c                                                          *nvim-config-lang-c*
     Filetypes: c
@@ -345,6 +393,74 @@ cpp                                                        *nvim-config-lang-cpp
     Filetypes: cpp, objcpp
     LSP: clangd
 
+objc                                                       *nvim-config-lang-objc*
+    Filetypes: objc
+    LSP: clangd
+
+cuda                                                       *nvim-config-lang-cuda*
+    Filetypes: cuda
+    LSP: clangd
+
+asm                                                        *nvim-config-lang-asm*
+    Filetypes: asm, nasm, masm
+    LSP: asm_lsp
+
+rust                                                       *nvim-config-lang-rust*
+    Filetypes: rust
+    LSP: rust_analyzer
+
+go                                                         *nvim-config-lang-go*
+    Filetypes: go, gomod, gowork, gosum
+    LSP: gopls
+
+zig                                                        *nvim-config-lang-zig*
+    Filetypes: zig
+    LSP: zls
+
+odin                                                       *nvim-config-lang-odin*
+    Filetypes: odin
+    LSP: ols
+
+nim                                                        *nvim-config-lang-nim*
+    Filetypes: nim
+    LSP: nim_langserver
+
+d                                                          *nvim-config-lang-d*
+    Filetypes: d
+    LSP: serve_d
+
+fortran                                                    *nvim-config-lang-fortran*
+    Filetypes: fortran
+    LSP: fortls
+
+swift                                                      *nvim-config-lang-swift*
+    Filetypes: swift
+    LSP: sourcekit_lsp
+
+vala                                                       *nvim-config-lang-vala*
+    Filetypes: vala
+    LSP: vala_ls
+
+vlang                                                      *nvim-config-lang-vlang*
+    Filetypes: v
+    LSP: v_analyzer
+
+cmake                                                      *nvim-config-lang-cmake*
+    Filetypes: cmake
+    LSP: cmake_lsp
+
+make                                                       *nvim-config-lang-make*
+    Filetypes: make
+    LSP: autotools_ls
+
+meson                                                      *nvim-config-lang-meson*
+    Filetypes: meson
+    LSP: mesonlsp
+
+just                                                       *nvim-config-lang-just*
+    Filetypes: just
+    LSP: just_lsp
+
 java                                                       *nvim-config-lang-java*
     Filetypes: java
     LSP: jdtls
@@ -353,109 +469,13 @@ kotlin                                                     *nvim-config-lang-kot
     Filetypes: kotlin
     LSP: kotlin_language_server
 
-bash                                                       *nvim-config-lang-bash*
-    Filetypes: bash, sh
-    LSP: bashls
+scala                                                      *nvim-config-lang-scala*
+    Filetypes: scala, sbt
+    LSP: metals
 
-fish                                                       *nvim-config-lang-fish*
-    Filetypes: fish
-    LSP: none
-
-powershell                                                 *nvim-config-lang-powershell*
-    Filetypes: ps1
-    LSP: powershell_es
-
-asm                                                        *nvim-config-lang-asm*
-    Filetypes: asm, nasm, masm
-    LSP: asm_lsp
-
-javascript                                                 *nvim-config-lang-javascript*
-    Filetypes: javascript, javascriptreact
-    LSP: vtsls
-
-typescript                                                 *nvim-config-lang-typescript*
-    Filetypes: typescript, typescriptreact
-    LSP: vtsls
-
-html                                                       *nvim-config-lang-html*
-    Filetypes: html
-    LSP: html_lsp
-
-css                                                        *nvim-config-lang-css*
-    Filetypes: css, scss, sass, less
-    LSP: css_lsp
-
-vue                                                        *nvim-config-lang-vue*
-    Filetypes: vue
-    LSP: vue_ls
-
-svelte                                                     *nvim-config-lang-svelte*
-    Filetypes: svelte
-    LSP: svelte_ls
-
-json                                                       *nvim-config-lang-json*
-    Filetypes: json, jsonc
-    LSP: jsonls
-
-yaml                                                       *nvim-config-lang-yaml*
-    Filetypes: yaml
-    LSP: yamlls
-
-toml                                                       *nvim-config-lang-toml*
-    Filetypes: toml
-    LSP: taplo
-
-xml                                                        *nvim-config-lang-xml*
-    Filetypes: xml
-    LSP: lemminx
-
-sql                                                        *nvim-config-lang-sql*
-    Filetypes: sql
-    LSP: sqls
-
-csv                                                        *nvim-config-lang-csv*
-    Filetypes: csv, tsv
-    LSP: none
-
-dotenv                                                     *nvim-config-lang-dotenv*
-    Filetypes: dotenv
-    LSP: none
-
-ini                                                        *nvim-config-lang-ini*
-    Filetypes: dosini
-    LSP: none
-
-dockerfile                                                 *nvim-config-lang-dockerfile*
-    Filetypes: dockerfile
-    LSP: dockerls
-
-terraform                                                  *nvim-config-lang-terraform*
-    Filetypes: terraform, terraform-vars
-    LSP: terraformls
-
-nix                                                        *nvim-config-lang-nix*
-    Filetypes: nix
-    LSP: nixd
-
-ansible                                                    *nvim-config-lang-ansible*
-    Filetypes: yaml.ansible
-    LSP: ansible_ls
-
-markdown                                                   *nvim-config-lang-markdown*
-    Filetypes: markdown
-    LSP: marksman
-
-rst                                                        *nvim-config-lang-rst*
-    Filetypes: rst
-    LSP: esbonio
-
-latex                                                      *nvim-config-lang-latex*
-    Filetypes: tex, plaintex, bib
-    LSP: texlab
-
-asciidoc                                                   *nvim-config-lang-asciidoc*
-    Filetypes: asciidoc
-    LSP: none
+groovy                                                     *nvim-config-lang-groovy*
+    Filetypes: groovy
+    LSP: groovyls
 
 csharp                                                     *nvim-config-lang-csharp*
     Filetypes: cs
@@ -481,33 +501,189 @@ erlang                                                     *nvim-config-lang-erl
     Filetypes: erlang
     LSP: erlang_ls
 
+clojure                                                    *nvim-config-lang-clojure*
+    Filetypes: clojure, edn
+    LSP: clojure_lsp
+
+gleam                                                      *nvim-config-lang-gleam*
+    Filetypes: gleam
+    LSP: gleam
+
+elm                                                        *nvim-config-lang-elm*
+    Filetypes: elm
+    LSP: elmls
+
+racket                                                     *nvim-config-lang-racket*
+    Filetypes: racket, scheme
+    LSP: racket_langserver
+
+javascript                                                 *nvim-config-lang-javascript*
+    Filetypes: javascript, javascriptreact
+    LSP: vtsls
+
+typescript                                                 *nvim-config-lang-typescript*
+    Filetypes: typescript, typescriptreact
+    LSP: vtsls
+
+html                                                       *nvim-config-lang-html*
+    Filetypes: html
+    LSP: html_lsp
+
+css                                                        *nvim-config-lang-css*
+    Filetypes: css, scss, sass, less
+    LSP: css_lsp
+
+vue                                                        *nvim-config-lang-vue*
+    Filetypes: vue
+    LSP: vue_ls
+
+svelte                                                     *nvim-config-lang-svelte*
+    Filetypes: svelte
+    LSP: svelte_ls
+
+astro                                                      *nvim-config-lang-astro*
+    Filetypes: astro
+    LSP: astro_ls
+
 php                                                        *nvim-config-lang-php*
     Filetypes: php
     LSP: intelephense
 
-perl                                                       *nvim-config-lang-perl*
-    Filetypes: perl
-    LSP: perl_navigator
-
-zig                                                        *nvim-config-lang-zig*
-    Filetypes: zig
-    LSP: zls
-
-cmake                                                      *nvim-config-lang-cmake*
-    Filetypes: cmake
-    LSP: cmake_lsp
-
-make                                                       *nvim-config-lang-make*
-    Filetypes: make
-    LSP: none
+dart                                                       *nvim-config-lang-dart*
+    Filetypes: dart
+    LSP: dartls
 
 graphql                                                    *nvim-config-lang-graphql*
     Filetypes: graphql
     LSP: graphql_lsp
 
+prisma                                                     *nvim-config-lang-prisma*
+    Filetypes: prisma
+    LSP: prismals
+
+solidity                                                   *nvim-config-lang-solidity*
+    Filetypes: solidity
+    LSP: solidity_ls
+
+json                                                       *nvim-config-lang-json*
+    Filetypes: json, jsonc
+    LSP: jsonls
+
+yaml                                                       *nvim-config-lang-yaml*
+    Filetypes: yaml
+    LSP: yamlls
+
+toml                                                       *nvim-config-lang-toml*
+    Filetypes: toml
+    LSP: taplo
+
+xml                                                        *nvim-config-lang-xml*
+    Filetypes: xml
+    LSP: lemminx
+
+kdl                                                        *nvim-config-lang-kdl*
+    Filetypes: kdl
+    LSP: none
+
+pkl                                                        *nvim-config-lang-pkl*
+    Filetypes: pkl
+    LSP: pkl_lsp
+
+sql                                                        *nvim-config-lang-sql*
+    Filetypes: sql
+    LSP: sqls
+
+csv                                                        *nvim-config-lang-csv*
+    Filetypes: csv, tsv
+    LSP: none
+
+dotenv                                                     *nvim-config-lang-dotenv*
+    Filetypes: dotenv
+    LSP: none
+
+ini                                                        *nvim-config-lang-ini*
+    Filetypes: dosini
+    LSP: none
+
 proto                                                      *nvim-config-lang-proto*
     Filetypes: proto
     LSP: buf
+
+dockerfile                                                 *nvim-config-lang-dockerfile*
+    Filetypes: dockerfile
+    LSP: dockerls
+
+terraform                                                  *nvim-config-lang-terraform*
+    Filetypes: terraform, terraform-vars
+    LSP: terraformls
+
+nix                                                        *nvim-config-lang-nix*
+    Filetypes: nix
+    LSP: nixd
+
+ansible                                                    *nvim-config-lang-ansible*
+    Filetypes: yaml.ansible
+    LSP: ansible_ls
+
+helm                                                       *nvim-config-lang-helm*
+    Filetypes: helm
+    LSP: helm_ls
+
+jsonnet                                                    *nvim-config-lang-jsonnet*
+    Filetypes: jsonnet
+    LSP: jsonnet_ls
+
+rego                                                       *nvim-config-lang-rego*
+    Filetypes: rego
+    LSP: regal
+
+cue                                                        *nvim-config-lang-cue*
+    Filetypes: cue
+    LSP: cue
+
+hyprlang                                                   *nvim-config-lang-hyprlang*
+    Filetypes: hyprlang
+    LSP: hyprls
+
+gdscript                                                   *nvim-config-lang-gdscript*
+    Filetypes: gdscript
+    LSP: none
+
+glsl                                                       *nvim-config-lang-glsl*
+    Filetypes: glsl
+    LSP: glsl_analyzer
+
+wgsl                                                       *nvim-config-lang-wgsl*
+    Filetypes: wgsl
+    LSP: wgsl_analyzer
+
+verilog                                                    *nvim-config-lang-verilog*
+    Filetypes: verilog, systemverilog
+    LSP: verible_ls
+
+vhdl                                                       *nvim-config-lang-vhdl*
+    Filetypes: vhdl
+    LSP: vhdl_ls
+
+markdown                                                   *nvim-config-lang-markdown*
+    Filetypes: markdown
+    LSP: marksman
+
+rst                                                        *nvim-config-lang-rst*
+    Filetypes: rst
+    LSP: esbonio
+
+latex                                                      *nvim-config-lang-latex*
+    Filetypes: tex, plaintex, bib
+    LSP: texlab
+
+typst                                                      *nvim-config-lang-typst*
+    Filetypes: typst
+    LSP: tinymist
+
+asciidoc                                                   *nvim-config-lang-asciidoc*
+    Filetypes: asciidoc
+    LSP: none
 
 ==============================================================================
 5. TOOLS                                                           *nvim-config-tools*

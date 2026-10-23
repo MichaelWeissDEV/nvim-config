@@ -14,6 +14,17 @@
 - **Debugger:** _none_
 - **Notes:** A Lua debugger is intentionally not wired up: no local-lua-debugger integration was stable enough across platforms to include by default.
 
+## vim
+
+- **Filetypes:** vim
+- **Extensions:** .vim
+- **Tree-sitter:** vim, vimdoc
+- **Project root markers:** .git
+- **LSP:** vim-language-server
+- **Formatters:** _none_
+- **Linters:** vint
+- **Debugger:** _none_
+
 ## python
 
 - **Filetypes:** python
@@ -39,27 +50,129 @@
 - **Debugger:** debug.gem / rdbg
 - **Notes:** rdbg wiring is best-effort; debug.gem's launch protocol has shifted across versions.
 
-## go
+## perl
 
-- **Filetypes:** go, gomod, gowork, gosum
-- **Extensions:** .go
-- **Tree-sitter:** go, gomod, gowork, gosum
-- **Project root markers:** go.mod, go.work, .git
-- **LSP:** gopls
-- **Formatters:** gofumpt
-- **Linters:** golangci-lint
-- **Debugger:** delve
+- **Filetypes:** perl
+- **Extensions:** .pl, .pm
+- **Tree-sitter:** perl
+- **Project root markers:** .git
+- **LSP:** Perl Navigator
+- **Formatters:** perltidy
+- **Linters:** perlcritic
+- **Debugger:** _none_
 
-## rust
+## crystal
 
-- **Filetypes:** rust
-- **Extensions:** .rs
-- **Tree-sitter:** rust
-- **Project root markers:** Cargo.toml, .git
-- **LSP:** rust-analyzer
-- **Formatters:** rustfmt
+- **Filetypes:** crystal
+- **Extensions:** .cr
+- **Project root markers:** shard.yml, .git
+- **LSP:** crystalline
+- **Formatters:** crystal tool format
 - **Linters:** _none_
-- **Debugger:** CodeLLDB
+- **Debugger:** _none_
+
+## tcl
+
+- **Filetypes:** tcl
+- **Extensions:** .tcl, .tk
+- **Tree-sitter:** tcl
+- **Project root markers:** .git
+- **LSP:** _none_
+- **Formatters:** tclfmt
+- **Linters:** Nagelfar (Tcl linter)
+- **Debugger:** _none_
+
+## r
+
+- **Filetypes:** r, rmd
+- **Extensions:** .R, .r, .Rmd, .rmd
+- **Tree-sitter:** r
+- **Project root markers:** DESCRIPTION, .Rproj, .git
+- **LSP:** r-languageserver
+- **Formatters:** Air (R formatter)
+- **Linters:** _none_
+- **Debugger:** _none_
+
+## julia
+
+- **Filetypes:** julia
+- **Extensions:** .jl
+- **Tree-sitter:** julia
+- **Project root markers:** Project.toml, JuliaProject.toml, .git
+- **LSP:** julia-lsp
+- **Formatters:** _none_
+- **Linters:** _none_
+- **Debugger:** _none_
+
+## bash
+
+- **Filetypes:** bash, sh
+- **Extensions:** .sh, .bash
+- **Tree-sitter:** bash
+- **Project root markers:** .git
+- **LSP:** bash-language-server
+- **Formatters:** shfmt
+- **Linters:** ShellCheck
+- **Debugger:** bashdb
+- **Notes:** bashdb wiring is best-effort and optional.
+
+## zsh
+
+- **Filetypes:** zsh
+- **Extensions:** .zsh, .zshrc, .zshenv
+- **Tree-sitter:** zsh
+- **Project root markers:** .git
+- **LSP:** bash-language-server
+- **Formatters:** shfmt
+- **Linters:** zsh -n (syntax check)
+- **Debugger:** _none_
+- **Notes:** Shares bash-language-server and shfmt with bash; syntax-checked via `zsh -n`.
+
+## fish
+
+- **Filetypes:** fish
+- **Extensions:** .fish
+- **Tree-sitter:** fish
+- **Project root markers:** .git
+- **LSP:** fish-lsp
+- **Formatters:** fish_indent
+- **Linters:** fish -n (syntax check)
+- **Debugger:** _none_
+
+## nu
+
+- **Filetypes:** nu
+- **Extensions:** .nu
+- **Tree-sitter:** nu
+- **Project root markers:** .git
+- **LSP:** nu --lsp
+- **Formatters:** nufmt
+- **Linters:** _none_
+- **Debugger:** _none_
+- **Notes:** `nu --lsp` is built into the Nushell binary.
+
+## powershell
+
+- **Filetypes:** ps1
+- **Extensions:** .ps1, .psm1, .psd1
+- **Tree-sitter:** powershell
+- **Project root markers:** .git
+- **LSP:** PowerShellEditorServices
+- **Formatters:** _none_
+- **Linters:** _none_
+- **Debugger:** _none_
+- **Notes:** PSScriptAnalyzer runs through the LSP's own diagnostics, not nvim-lint; the launch cmd is best-effort and may need adjusting to Mason's bundled bootstrap script path.
+
+## awk
+
+- **Filetypes:** awk
+- **Extensions:** .awk
+- **Tree-sitter:** awk
+- **Project root markers:** .git
+- **LSP:** awk-language-server
+- **Formatters:** gawk
+- **Linters:** gawk
+- **Debugger:** _none_
 
 ## c
 
@@ -85,6 +198,202 @@
 - **Debugger:** CodeLLDB
 - **Notes:** Shares clangd/clang-format/clang-tidy/codelldb config with C; see languages/c.lua.
 
+## objc
+
+- **Filetypes:** objc
+- **Extensions:** .m
+- **Tree-sitter:** objc
+- **Project root markers:** compile_commands.json, compile_flags.txt, CMakeLists.txt, Makefile, .git
+- **LSP:** clangd
+- **Formatters:** clang-format
+- **Linters:** clang-tidy
+- **Debugger:** CodeLLDB
+- **Notes:** Shares clangd/clang-format/clang-tidy/codelldb config with C; see languages/c.lua.
+
+## cuda
+
+- **Filetypes:** cuda
+- **Extensions:** .cu, .cuh
+- **Tree-sitter:** cuda
+- **Project root markers:** compile_commands.json, compile_flags.txt, CMakeLists.txt, Makefile, .git
+- **LSP:** clangd
+- **Formatters:** clang-format
+- **Linters:** _none_
+- **Debugger:** CodeLLDB
+- **Notes:** Shares clangd/clang-format/codelldb config with C; see languages/c.lua.
+
+## asm
+
+- **Filetypes:** asm, nasm, masm
+- **Extensions:** .asm, .s, .S
+- **Tree-sitter:** asm, nasm
+- **Project root markers:** .git
+- **LSP:** asm-lsp
+- **Formatters:** asmfmt
+- **Linters:** _none_
+- **Debugger:** CodeLLDB
+- **Notes:** Shares codelldb/gdb debugger config with C; see languages/c.lua.
+
+## rust
+
+- **Filetypes:** rust
+- **Extensions:** .rs
+- **Tree-sitter:** rust
+- **Project root markers:** Cargo.toml, .git
+- **LSP:** rust-analyzer
+- **Formatters:** rustfmt
+- **Linters:** _none_
+- **Debugger:** CodeLLDB
+
+## go
+
+- **Filetypes:** go, gomod, gowork, gosum
+- **Extensions:** .go
+- **Tree-sitter:** go, gomod, gowork, gosum
+- **Project root markers:** go.mod, go.work, .git
+- **LSP:** gopls
+- **Formatters:** gofumpt
+- **Linters:** golangci-lint
+- **Debugger:** delve
+
+## zig
+
+- **Filetypes:** zig
+- **Extensions:** .zig
+- **Tree-sitter:** zig
+- **Project root markers:** build.zig, .git
+- **LSP:** zls
+- **Formatters:** zig fmt
+- **Linters:** _none_
+- **Debugger:** CodeLLDB
+- **Notes:** zig fmt ships with the zig compiler itself; shares codelldb debugger config with C.
+
+## odin
+
+- **Filetypes:** odin
+- **Extensions:** .odin
+- **Tree-sitter:** odin
+- **Project root markers:** ols.json, .git
+- **LSP:** ols (Odin LSP)
+- **Formatters:** odinfmt
+- **Linters:** _none_
+- **Debugger:** CodeLLDB
+- **Notes:** Shares codelldb debugger config with C; see languages/c.lua.
+
+## nim
+
+- **Filetypes:** nim
+- **Extensions:** .nim, .nims, .nimble
+- **Tree-sitter:** nim
+- **Project root markers:** nim.cfg, .git
+- **LSP:** nimlangserver
+- **Formatters:** nimpretty
+- **Linters:** _none_
+- **Debugger:** CodeLLDB
+- **Notes:** Shares codelldb debugger config with C; see languages/c.lua.
+
+## d
+
+- **Filetypes:** d
+- **Extensions:** .d, .di
+- **Tree-sitter:** d
+- **Project root markers:** dub.json, dub.sdl, .git
+- **LSP:** serve-d
+- **Formatters:** dfmt
+- **Linters:** _none_
+- **Debugger:** CodeLLDB
+- **Notes:** Shares codelldb debugger config with C; see languages/c.lua.
+
+## fortran
+
+- **Filetypes:** fortran
+- **Extensions:** .f90, .f95, .f03, .f08, .f, .for
+- **Tree-sitter:** fortran
+- **Project root markers:** fpm.toml, CMakeLists.txt, Makefile, .git
+- **LSP:** fortls
+- **Formatters:** fprettify
+- **Linters:** _none_
+- **Debugger:** CodeLLDB
+- **Notes:** Shares codelldb debugger config with C; see languages/c.lua.
+
+## swift
+
+- **Filetypes:** swift
+- **Extensions:** .swift
+- **Tree-sitter:** swift
+- **Project root markers:** Package.swift, Podfile, .git
+- **LSP:** sourcekit-lsp
+- **Formatters:** SwiftFormat
+- **Linters:** SwiftLint
+- **Debugger:** CodeLLDB
+- **Notes:** sourcekit-lsp ships with the Swift toolchain / Xcode; shares codelldb debugger config with C.
+
+## vala
+
+- **Filetypes:** vala
+- **Extensions:** .vala, .vapi
+- **Tree-sitter:** vala
+- **Project root markers:** meson.build, CMakeLists.txt, .git
+- **LSP:** vala-language-server
+- **Formatters:** _none_
+- **Linters:** _none_
+- **Debugger:** CodeLLDB
+
+## vlang
+
+- **Filetypes:** v
+- **Extensions:** .v, .vsh
+- **Tree-sitter:** v
+- **Project root markers:** v.mod, .git
+- **LSP:** v-analyzer
+- **Formatters:** v fmt
+- **Linters:** _none_
+- **Debugger:** CodeLLDB
+
+## cmake
+
+- **Filetypes:** cmake
+- **Extensions:** .cmake
+- **Tree-sitter:** cmake
+- **Project root markers:** CMakeLists.txt, .git
+- **LSP:** cmake-language-server
+- **Formatters:** gersemi
+- **Linters:** cmakelint
+- **Debugger:** _none_
+
+## make
+
+- **Filetypes:** make
+- **Extensions:** .mk
+- **Tree-sitter:** make
+- **Project root markers:** Makefile, .git
+- **LSP:** autotools-language-server
+- **Formatters:** _none_
+- **Linters:** checkmake
+- **Debugger:** _none_
+
+## meson
+
+- **Filetypes:** meson
+- **Extensions:** meson.build, meson_options.txt
+- **Tree-sitter:** meson
+- **Project root markers:** meson.build, .git
+- **LSP:** mesonlsp
+- **Formatters:** meson format
+- **Linters:** _none_
+- **Debugger:** _none_
+
+## just
+
+- **Filetypes:** just
+- **Extensions:** .just, justfile
+- **Tree-sitter:** just
+- **Project root markers:** justfile, Justfile, .git
+- **LSP:** just-lsp
+- **Formatters:** just --fmt
+- **Linters:** _none_
+- **Debugger:** _none_
+
 ## java
 
 - **Filetypes:** java
@@ -109,53 +418,142 @@
 - **Debugger:** _none_
 - **Notes:** ktlint is registered in tools.registry with category = "formatter" only; it's reused here as a linter too since it's the same binary in --check mode, and consumers key off lang.formatters/lang.linters, not the tool's category.
 
-## bash
+## scala
 
-- **Filetypes:** bash, sh
-- **Extensions:** .sh, .bash
-- **Tree-sitter:** bash
-- **Project root markers:** .git
-- **LSP:** bash-language-server
-- **Formatters:** shfmt
-- **Linters:** ShellCheck
-- **Debugger:** bashdb
-- **Notes:** bashdb wiring is best-effort and optional.
-
-## fish
-
-- **Filetypes:** fish
-- **Extensions:** .fish
-- **Tree-sitter:** fish
-- **Project root markers:** .git
-- **LSP:** _none_
-- **Formatters:** _none_
+- **Filetypes:** scala, sbt
+- **Extensions:** .scala, .sc, .sbt
+- **Tree-sitter:** scala
+- **Project root markers:** build.sbt, build.sc, pom.xml, build.gradle, build.gradle.kts, .git
+- **LSP:** Metals (Scala LSP)
+- **Formatters:** scalafmt
 - **Linters:** _none_
 - **Debugger:** _none_
-- **Notes:** No widely-adopted LSP for fish; relies on Tree-sitter highlighting only.
+- **Notes:** Metals and scalafmt are typically installed via Coursier (`cs install metals scalafmt`).
 
-## powershell
+## groovy
 
-- **Filetypes:** ps1
-- **Extensions:** .ps1, .psm1, .psd1
-- **Tree-sitter:** powershell
-- **Project root markers:** .git
-- **LSP:** PowerShellEditorServices
-- **Formatters:** _none_
+- **Filetypes:** groovy
+- **Extensions:** .groovy, .gradle
+- **Tree-sitter:** groovy
+- **Project root markers:** build.gradle, settings.gradle, Jenkinsfile, .git
+- **LSP:** groovy-language-server
+- **Formatters:** npm-groovy-lint
+- **Linters:** npm-groovy-lint
+- **Debugger:** _none_
+
+## csharp
+
+- **Filetypes:** cs
+- **Extensions:** .cs
+- **Tree-sitter:** c_sharp
+- **Project root markers:** .sln, .csproj, .git
+- **LSP:** OmniSharp
+- **Formatters:** dotnet format
+- **Linters:** _none_
+- **Debugger:** netcoredbg
+- **Notes:** root_markers here are literal names, not globs (`.sln`/`.csproj` match a file with exactly that name); vim.fs.find has no glob support, so project-root detection is approximate until a glob-aware root_markers mechanism exists.
+
+## fsharp
+
+- **Filetypes:** fsharp
+- **Extensions:** .fs, .fsx, .fsi
+- **Tree-sitter:** fsharp
+- **Project root markers:** .fsproj, .git
+- **LSP:** FsAutoComplete
+- **Formatters:** Fantomas, dotnet format
 - **Linters:** _none_
 - **Debugger:** _none_
-- **Notes:** PSScriptAnalyzer runs through the LSP's own diagnostics, not nvim-lint; the launch cmd is best-effort and may need adjusting to Mason's bundled bootstrap script path.
+- **Notes:** root_markers here are literal names, not globs; vim.fs.find has no glob support, so F# project-root detection is approximate until a glob-aware root_markers mechanism exists.
 
-## asm
+## haskell
 
-- **Filetypes:** asm, nasm, masm
-- **Extensions:** .asm, .s, .S
-- **Tree-sitter:** asm
-- **Project root markers:** .git
-- **LSP:** asm-lsp
-- **Formatters:** _none_
+- **Filetypes:** haskell
+- **Extensions:** .hs
+- **Tree-sitter:** haskell
+- **Project root markers:** stack.yaml, cabal.project, .git
+- **LSP:** haskell-language-server
+- **Formatters:** fourmolu
+- **Linters:** hlint
+- **Debugger:** _none_
+- **Notes:** `*.cabal` files also mark a root but vim.fs.find has no glob support; stack.yaml/cabal.project/.git cover the common cases.
+
+## ocaml
+
+- **Filetypes:** ocaml
+- **Extensions:** .ml, .mli
+- **Tree-sitter:** ocaml, ocaml_interface
+- **Project root markers:** dune-project, .git
+- **LSP:** ocaml-lsp
+- **Formatters:** ocamlformat
 - **Linters:** _none_
-- **Debugger:** CodeLLDB
-- **Notes:** Shares codelldb/gdb debugger config with C; see languages/c.lua.
+- **Debugger:** _none_
+
+## elixir
+
+- **Filetypes:** elixir, eex, heex
+- **Extensions:** .ex, .exs, .eex, .heex
+- **Tree-sitter:** elixir, eex, heex
+- **Project root markers:** mix.exs, .git
+- **LSP:** ElixirLS
+- **Formatters:** mix format
+- **Linters:** credo
+- **Debugger:** _none_
+
+## erlang
+
+- **Filetypes:** erlang
+- **Extensions:** .erl, .hrl
+- **Tree-sitter:** erlang
+- **Project root markers:** rebar.config, .git
+- **LSP:** erlang_ls
+- **Formatters:** erlfmt
+- **Linters:** _none_
+- **Debugger:** _none_
+
+## clojure
+
+- **Filetypes:** clojure, edn
+- **Extensions:** .clj, .cljs, .cljc, .edn
+- **Tree-sitter:** clojure
+- **Project root markers:** deps.edn, project.clj, shadow-cljs.edn, bb.edn, .git
+- **LSP:** clojure-lsp
+- **Formatters:** cljfmt
+- **Linters:** clj-kondo
+- **Debugger:** _none_
+
+## gleam
+
+- **Filetypes:** gleam
+- **Extensions:** .gleam
+- **Tree-sitter:** gleam
+- **Project root markers:** gleam.toml, .git
+- **LSP:** gleam (LSP + format)
+- **Formatters:** gleam (LSP + format)
+- **Linters:** _none_
+- **Debugger:** _none_
+- **Notes:** `gleam lsp` and `gleam format` ship with the Gleam compiler binary.
+
+## elm
+
+- **Filetypes:** elm
+- **Extensions:** .elm
+- **Tree-sitter:** elm
+- **Project root markers:** elm.json, .git
+- **LSP:** elm-language-server
+- **Formatters:** elm-format
+- **Linters:** _none_
+- **Debugger:** _none_
+
+## racket
+
+- **Filetypes:** racket, scheme
+- **Extensions:** .rkt, .scm, .ss
+- **Tree-sitter:** racket, scheme
+- **Project root markers:** info.rkt, .git
+- **LSP:** racket-langserver
+- **Formatters:** raco fmt
+- **Linters:** _none_
+- **Debugger:** _none_
 
 ## javascript
 
@@ -189,7 +587,7 @@
 - **Project root markers:** index.html, .git
 - **LSP:** vscode-html-language-server
 - **Formatters:** prettier
-- **Linters:** _none_
+- **Linters:** HTMLHint
 - **Debugger:** _none_
 
 ## css
@@ -226,11 +624,78 @@
 - **Linters:** eslint
 - **Debugger:** _none_
 
+## astro
+
+- **Filetypes:** astro
+- **Extensions:** .astro
+- **Tree-sitter:** astro
+- **Project root markers:** astro.config.mjs, astro.config.ts, package.json, .git
+- **LSP:** astro-language-server
+- **Formatters:** prettier
+- **Linters:** _none_
+- **Debugger:** _none_
+
+## php
+
+- **Filetypes:** php
+- **Extensions:** .php
+- **Tree-sitter:** php
+- **Project root markers:** composer.json, .git
+- **LSP:** intelephense
+- **Formatters:** php-cs-fixer
+- **Linters:** phpstan
+- **Debugger:** _none_
+
+## dart
+
+- **Filetypes:** dart
+- **Extensions:** .dart
+- **Tree-sitter:** dart
+- **Project root markers:** pubspec.yaml, .git
+- **LSP:** dart language-server
+- **Formatters:** dart format
+- **Linters:** _none_
+- **Debugger:** _none_
+- **Notes:** `dart language-server` and `dart format` ship with the Dart / Flutter SDK.
+
+## graphql
+
+- **Filetypes:** graphql
+- **Extensions:** .graphql, .gql
+- **Tree-sitter:** graphql
+- **Project root markers:** .graphqlrc, .git
+- **LSP:** graphql-language-service-cli
+- **Formatters:** prettier
+- **Linters:** _none_
+- **Debugger:** _none_
+
+## prisma
+
+- **Filetypes:** prisma
+- **Extensions:** .prisma
+- **Tree-sitter:** prisma
+- **Project root markers:** schema.prisma, package.json, .git
+- **LSP:** prisma-language-server
+- **Formatters:** _none_
+- **Linters:** _none_
+- **Debugger:** _none_
+
+## solidity
+
+- **Filetypes:** solidity
+- **Extensions:** .sol
+- **Tree-sitter:** solidity
+- **Project root markers:** foundry.toml, hardhat.config.js, hardhat.config.ts, truffle-config.js, package.json, .git
+- **LSP:** nomicfoundation-solidity-language-server
+- **Formatters:** forge fmt
+- **Linters:** solhint
+- **Debugger:** _none_
+
 ## json
 
 - **Filetypes:** json, jsonc
 - **Extensions:** .json, .jsonc
-- **Tree-sitter:** json, jsonc
+- **Tree-sitter:** json, json5
 - **Project root markers:** .git
 - **LSP:** vscode-json-language-server
 - **Formatters:** prettier
@@ -267,7 +732,29 @@
 - **Tree-sitter:** xml
 - **Project root markers:** .git
 - **LSP:** lemminx
-- **Formatters:** _none_
+- **Formatters:** xmlformatter
+- **Linters:** _none_
+- **Debugger:** _none_
+
+## kdl
+
+- **Filetypes:** kdl
+- **Extensions:** .kdl
+- **Tree-sitter:** kdl
+- **Project root markers:** .git
+- **LSP:** _none_
+- **Formatters:** kdlfmt
+- **Linters:** _none_
+- **Debugger:** _none_
+
+## pkl
+
+- **Filetypes:** pkl
+- **Extensions:** .pkl
+- **Tree-sitter:** pkl
+- **Project root markers:** PklProject, .git
+- **LSP:** pkl-lsp
+- **Formatters:** pkl format
 - **Linters:** _none_
 - **Debugger:** _none_
 
@@ -309,10 +796,22 @@
 
 - **Filetypes:** dosini
 - **Extensions:** .ini, .cfg
+- **Tree-sitter:** ini
 - **Project root markers:** .git
 - **LSP:** _none_
 - **Formatters:** _none_
 - **Linters:** _none_
+- **Debugger:** _none_
+
+## proto
+
+- **Filetypes:** proto
+- **Extensions:** .proto
+- **Tree-sitter:** proto
+- **Project root markers:** buf.yaml, buf.gen.yaml, .git
+- **LSP:** buf (protobuf)
+- **Formatters:** buf (protobuf)
+- **Linters:** buf lint
 - **Debugger:** _none_
 
 ## dockerfile
@@ -330,13 +829,13 @@
 
 - **Filetypes:** terraform, terraform-vars
 - **Extensions:** .tf, .tfvars
-- **Tree-sitter:** terraform
+- **Tree-sitter:** terraform, hcl
 - **Project root markers:** .git
 - **LSP:** terraform-ls
-- **Formatters:** _none_
+- **Formatters:** terraform fmt
 - **Linters:** tflint
 - **Debugger:** _none_
-- **Notes:** terraform fmt is invoked as a formatter only if the `terraform` CLI itself is present; not modeled as a separate tools.registry entry since it ships with the terraform binary, not standalone.
+- **Notes:** terraform fmt ships with the `terraform` CLI binary.
 
 ## nix
 
@@ -360,6 +859,117 @@
 - **Linters:** ansible-lint
 - **Debugger:** _none_
 - **Notes:** Ansible detection is heuristic (see the vim.filetype.add() call in config/autocmds.lua): roles/*/tasks|handlers|meta paths, playbooks/ directories, and top-level site.yml/playbook.yml match; a lone task file with no such path context falls through to plain `yaml` (languages/yaml.lua) instead -- there's no way to detect "this YAML is Ansible" from content alone in general.
+
+## helm
+
+- **Filetypes:** helm
+- **Extensions:** .tpl
+- **Tree-sitter:** helm
+- **Project root markers:** Chart.yaml, .git
+- **LSP:** helm-ls
+- **Formatters:** _none_
+- **Linters:** _none_
+- **Debugger:** _none_
+
+## jsonnet
+
+- **Filetypes:** jsonnet
+- **Extensions:** .jsonnet, .libsonnet
+- **Tree-sitter:** jsonnet
+- **Project root markers:** jsonnetfile.json, .git
+- **LSP:** jsonnet-language-server
+- **Formatters:** jsonnetfmt
+- **Linters:** _none_
+- **Debugger:** _none_
+
+## rego
+
+- **Filetypes:** rego
+- **Extensions:** .rego
+- **Tree-sitter:** rego
+- **Project root markers:** .regal, .git
+- **LSP:** Regal (Rego LSP + linter)
+- **Formatters:** opa fmt
+- **Linters:** Regal (Rego LSP + linter)
+- **Debugger:** _none_
+
+## cue
+
+- **Filetypes:** cue
+- **Extensions:** .cue
+- **Tree-sitter:** cue
+- **Project root markers:** cue.mod, .git
+- **LSP:** cue (LSP + lint)
+- **Formatters:** cue fmt
+- **Linters:** cue (LSP + lint)
+- **Debugger:** _none_
+
+## hyprlang
+
+- **Filetypes:** hyprlang
+- **Extensions:** .conf
+- **Tree-sitter:** hyprlang
+- **Project root markers:** hyprland.conf, .git
+- **LSP:** hyprls
+- **Formatters:** _none_
+- **Linters:** _none_
+- **Debugger:** _none_
+
+## gdscript
+
+- **Filetypes:** gdscript
+- **Extensions:** .gd
+- **Tree-sitter:** gdscript, godot_resource, gdshader
+- **Project root markers:** project.godot, .git
+- **LSP:** _none_
+- **Formatters:** gdformat
+- **Linters:** gdlint
+- **Debugger:** _none_
+- **Notes:** Godot's built-in LSP runs inside the running Godot editor over TCP (port 6005); formatting and linting work standalone via gdtoolkit.
+
+## glsl
+
+- **Filetypes:** glsl
+- **Extensions:** .glsl, .vert, .frag, .geom, .comp, .tesc, .tese
+- **Tree-sitter:** glsl
+- **Project root markers:** .git
+- **LSP:** glsl_analyzer
+- **Formatters:** clang-format
+- **Linters:** glslc
+- **Debugger:** _none_
+
+## wgsl
+
+- **Filetypes:** wgsl
+- **Extensions:** .wgsl
+- **Tree-sitter:** wgsl
+- **Project root markers:** .git
+- **LSP:** wgsl-analyzer
+- **Formatters:** _none_
+- **Linters:** _none_
+- **Debugger:** _none_
+
+## verilog
+
+- **Filetypes:** verilog, systemverilog
+- **Extensions:** .v, .sv, .svh, .vh
+- **Tree-sitter:** systemverilog
+- **Project root markers:** .git
+- **LSP:** verible-verilog-ls
+- **Formatters:** verible-verilog-format
+- **Linters:** Verilator
+- **Debugger:** _none_
+
+## vhdl
+
+- **Filetypes:** vhdl
+- **Extensions:** .vhd, .vhdl
+- **Tree-sitter:** vhdl
+- **Project root markers:** vhdl_ls.toml, .git
+- **LSP:** vhdl_ls (rust_hdl)
+- **Formatters:** _none_
+- **Linters:** _none_
+- **Debugger:** _none_
 
 ## markdown
 
@@ -395,6 +1005,17 @@
 - **Debugger:** _none_
 - **Notes:** Editor integration (folding, TOC, forward/inverse search) is provided by the lazy-loaded vimtex plugin, triggered on filetype tex/plaintex -- see plugins/latex.lua.
 
+## typst
+
+- **Filetypes:** typst
+- **Extensions:** .typ
+- **Tree-sitter:** typst
+- **Project root markers:** typst.toml, .git
+- **LSP:** tinymist (Typst LSP)
+- **Formatters:** typstyle
+- **Linters:** _none_
+- **Debugger:** _none_
+
 ## asciidoc
 
 - **Filetypes:** asciidoc
@@ -402,155 +1023,7 @@
 - **Project root markers:** .git
 - **LSP:** _none_
 - **Formatters:** _none_
-- **Linters:** _none_
+- **Linters:** Vale
 - **Debugger:** _none_
-- **Notes:** No LSP, formatter, or linter tool is currently wired up for AsciiDoc.
-
-## csharp
-
-- **Filetypes:** cs
-- **Extensions:** .cs
-- **Tree-sitter:** c_sharp
-- **Project root markers:** .sln, .csproj, .git
-- **LSP:** OmniSharp
-- **Formatters:** dotnet format
-- **Linters:** _none_
-- **Debugger:** netcoredbg
-- **Notes:** root_markers here are literal names, not globs (`.sln`/`.csproj` match a file with exactly that name); vim.fs.find has no glob support, so project-root detection is approximate until a glob-aware root_markers mechanism exists.
-
-## fsharp
-
-- **Filetypes:** fsharp
-- **Extensions:** .fs, .fsx, .fsi
-- **Tree-sitter:** fsharp
-- **Project root markers:** .fsproj, .git
-- **LSP:** FsAutoComplete
-- **Formatters:** dotnet format
-- **Linters:** _none_
-- **Debugger:** _none_
-- **Notes:** root_markers here are literal names, not globs; vim.fs.find has no glob support, so F# project-root detection is approximate until a glob-aware root_markers mechanism exists.
-
-## haskell
-
-- **Filetypes:** haskell
-- **Extensions:** .hs
-- **Tree-sitter:** haskell
-- **Project root markers:** stack.yaml, cabal.project, .git
-- **LSP:** haskell-language-server
-- **Formatters:** fourmolu
-- **Linters:** hlint
-- **Debugger:** _none_
-- **Notes:** `*.cabal` files also mark a root but vim.fs.find has no glob support; stack.yaml/cabal.project/.git cover the common cases.
-
-## ocaml
-
-- **Filetypes:** ocaml
-- **Extensions:** .ml, .mli
-- **Tree-sitter:** ocaml, ocaml_interface
-- **Project root markers:** dune-project, .git
-- **LSP:** ocaml-lsp
-- **Formatters:** ocamlformat
-- **Linters:** _none_
-- **Debugger:** _none_
-
-## elixir
-
-- **Filetypes:** elixir, eex, heex
-- **Extensions:** .ex, .exs, .eex, .heex
-- **Tree-sitter:** elixir, eex, heex
-- **Project root markers:** mix.exs, .git
-- **LSP:** ElixirLS
-- **Formatters:** _none_
-- **Linters:** credo
-- **Debugger:** _none_
-
-## erlang
-
-- **Filetypes:** erlang
-- **Extensions:** .erl, .hrl
-- **Tree-sitter:** erlang
-- **Project root markers:** rebar.config, .git
-- **LSP:** erlang_ls
-- **Formatters:** _none_
-- **Linters:** _none_
-- **Debugger:** _none_
-
-## php
-
-- **Filetypes:** php
-- **Extensions:** .php
-- **Tree-sitter:** php
-- **Project root markers:** composer.json, .git
-- **LSP:** intelephense
-- **Formatters:** php-cs-fixer
-- **Linters:** phpstan
-- **Debugger:** _none_
-
-## perl
-
-- **Filetypes:** perl
-- **Extensions:** .pl, .pm
-- **Tree-sitter:** perl
-- **Project root markers:** .git
-- **LSP:** Perl Navigator
-- **Formatters:** perltidy
-- **Linters:** perlcritic
-- **Debugger:** _none_
-
-## zig
-
-- **Filetypes:** zig
-- **Extensions:** .zig
-- **Tree-sitter:** zig
-- **Project root markers:** build.zig, .git
-- **LSP:** zls
-- **Formatters:** _none_
-- **Linters:** _none_
-- **Debugger:** _none_
-- **Notes:** zig fmt ships with the zig compiler itself, not a standalone tools.registry entry.
-
-## cmake
-
-- **Filetypes:** cmake
-- **Extensions:** .cmake
-- **Tree-sitter:** cmake
-- **Project root markers:** CMakeLists.txt, .git
-- **LSP:** cmake-language-server
-- **Formatters:** _none_
-- **Linters:** _none_
-- **Debugger:** _none_
-
-## make
-
-- **Filetypes:** make
-- **Extensions:** .mk
-- **Tree-sitter:** make
-- **Project root markers:** Makefile, .git
-- **LSP:** _none_
-- **Formatters:** _none_
-- **Linters:** _none_
-- **Debugger:** _none_
-- **Notes:** No LSP available for Makefiles; relies on Tree-sitter highlighting only.
-
-## graphql
-
-- **Filetypes:** graphql
-- **Extensions:** .graphql, .gql
-- **Tree-sitter:** graphql
-- **Project root markers:** .graphqlrc, .git
-- **LSP:** graphql-language-service-cli
-- **Formatters:** prettier
-- **Linters:** _none_
-- **Debugger:** _none_
-
-## proto
-
-- **Filetypes:** proto
-- **Extensions:** .proto
-- **Tree-sitter:** proto
-- **Project root markers:** buf.yaml, buf.gen.yaml, .git
-- **LSP:** buf (protobuf)
-- **Formatters:** _none_
-- **Linters:** _none_
-- **Debugger:** _none_
+- **Notes:** Uses Vale for prose linting when installed.
 
