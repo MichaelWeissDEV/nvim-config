@@ -14,6 +14,7 @@ build:
 
 sphinx:
   configuration: docs/conf.py
+  builder: dirhtml
   # Same strictness as the local build and CI: any Sphinx warning
   # (broken cross-reference, page missing from a toctree, ...) fails.
   fail_on_warning: true
