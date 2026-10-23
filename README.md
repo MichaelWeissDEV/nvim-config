@@ -1,14 +1,26 @@
+<div align="center">
+
 # nvim-config
 
+**A reproducible, offline-capable, fully documented Neovim development environment.**
+
+Native Neovim 0.12+ · Zero Distribution · Vendored Plugins · Arch Linux · Linux · macOS · Windows
+
 [![CI](https://github.com/MichaelWeissDEV/nvim-config/actions/workflows/ci.yml/badge.svg)](https://github.com/MichaelWeissDEV/nvim-config/actions/workflows/ci.yml)
-[![Docs](https://app.readthedocs.org/projects/nvim-config/badge/?version=latest)](https://nvim-config.readthedocs.io/en/latest/)
+[![Docs](https://readthedocs.org/projects/nvim-config/badge/?version=latest)](https://nvim-config.readthedocs.io/en/latest/)
+[![Dotfiles Hub](https://img.shields.io/badge/ecosystem-arch--dotfiles-1793D1?logo=arch-linux&logoColor=white)](https://arch-dotfiles.readthedocs.io/en/latest/)
+[![Neovim 0.12+](https://img.shields.io/badge/Neovim-0.12%2B-57A143?logo=neovim&logoColor=white)](https://neovim.io/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-<!-- The Docs badge stays "unknown" until the project is imported on
-     readthedocs.org. The repo is already RTD-ready (.readthedocs.yaml +
-     docs/requirements.txt); see CONTRIBUTING.md for the one-time import.
-     If you pick a project slug other than "nvim-config", update both the
-     badge and its link above to match. -->
+[**Documentation**](https://nvim-config.readthedocs.io/en/latest/) ·
+[Installation](https://nvim-config.readthedocs.io/en/latest/installation/) ·
+[Keymaps](https://nvim-config.readthedocs.io/en/latest/keymaps/) ·
+[Commands](https://nvim-config.readthedocs.io/en/latest/commands/) ·
+[Arch Dotfiles Hub](https://arch-dotfiles.readthedocs.io/en/latest/)
+
+</div>
+
+---
 
 A reproducible, offline-capable, fully documented Neovim development
 environment built directly on native Neovim mechanisms. Behaves like a
@@ -257,3 +269,20 @@ Start with `:NvimConfigHealth`. Common issues and their fixes:
 Adding a language, tool, keymap or command; code style; how the
 registries fit together: [docs/development.md](docs/development.md) and
 [docs/architecture.md](docs/architecture.md).
+
+---
+
+## Connected Dotfiles Ecosystem
+
+This configuration is part of the modular **Arch Linux Dotfiles** ecosystem, designed so anyone can install it out-of-the-box on Arch Linux or run it standalone on any Linux distribution, macOS, or Windows:
+
+| Component | Repository | Documentation |
+| :--- | :--- | :--- |
+| **Arch Dotfiles Hub** *(Main System)* | [`MichaelWeissDEV/dotfiles`](https://github.com/MichaelWeissDEV/dotfiles) | [arch-dotfiles.readthedocs.io](https://arch-dotfiles.readthedocs.io/en/latest/) |
+| **Neovim (`nvim-config`)** | [`MichaelWeissDEV/nvim-config`](https://github.com/MichaelWeissDEV/nvim-config) | [nvim-config.readthedocs.io](https://nvim-config.readthedocs.io/en/latest/) |
+| **tmux (`tmux-config`)** | [`MichaelWeissDEV/tmux-config`](https://github.com/MichaelWeissDEV/tmux-config) | [tmux-config.readthedocs.io](https://tmux-config.readthedocs.io/en/latest/) |
+| **Ghostty (`ghostty-config`)** | [`MichaelWeissDEV/ghostty-config`](https://github.com/MichaelWeissDEV/ghostty-config) | [ghostty-config.readthedocs.io](https://ghostty-config.readthedocs.io/en/latest/) |
+| **Kitty (`kitty-config`)** | [`MichaelWeissDEV/kittiy-config`](https://github.com/MichaelWeissDEV/kittiy-config) | [kitty-config.readthedocs.io](https://kitty-config.readthedocs.io/en/latest/) |
+| **Vim (`vim-config`)** | [`MichaelWeissDEV/vim-config`](https://github.com/MichaelWeissDEV/vim-config) | [vim-config.readthedocs.io](https://vim-config.readthedocs.io/en/latest/) |
+
+Inside `~/git/dotfiles`, update this subtree or the entire ecosystem via `adot update nvim` or `adot update` (also linked as `arch-dot` / `arch-dotfiles`).
