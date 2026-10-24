@@ -9,11 +9,13 @@ Native Neovim 0.12+ · Zero Distribution · Vendored Plugins · Arch Linux · Li
 [![CI](https://github.com/MichaelWeissDEV/nvim-config/actions/workflows/ci.yml/badge.svg)](https://github.com/MichaelWeissDEV/nvim-config/actions/workflows/ci.yml)
 [![Docs](https://readthedocs.org/projects/nvim-config/badge/?version=latest)](https://nvim-config.readthedocs.io/en/latest/)
 [![Dotfiles Hub](https://img.shields.io/badge/ecosystem-arch--dotfiles-1793D1?logo=arch-linux&logoColor=white)](https://arch-dotfiles.readthedocs.io/en/latest/)
+[![Theme: Catppuccin Mocha](https://img.shields.io/badge/theme-Catppuccin%20Mocha-cba6f7)](https://github.com/catppuccin/catppuccin)
 [![Neovim 0.12+](https://img.shields.io/badge/Neovim-0.12%2B-57A143?logo=neovim&logoColor=white)](https://neovim.io/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 [**Documentation**](https://nvim-config.readthedocs.io/en/latest/) ·
 [Installation](https://nvim-config.readthedocs.io/en/latest/installation/) ·
+[Configuration (`init.lua`)](init.lua) ·
 [Keymaps](https://nvim-config.readthedocs.io/en/latest/keymaps/) ·
 [Commands](https://nvim-config.readthedocs.io/en/latest/commands/) ·
 [Arch Dotfiles Hub](https://arch-dotfiles.readthedocs.io/en/latest/)
@@ -111,6 +113,20 @@ git clone https://github.com/MichaelWeissDEV/nvim-config.git ~/git/nvim-config
 ```
 
 (`scripts/install.ps1` on Windows.) Full details: [docs/installation.md](docs/installation.md).
+
+## Configuration Structure
+
+The configuration entrypoint is [`init.lua`](init.lua). Everything is organized into dedicated modules under `lua/`:
+
+| Directory / File | Role |
+| :--- | :--- |
+| **[`init.lua`](init.lua)** | Main entrypoint; initializes core facts, options, lazy-loader, and keymaps |
+| **[`lua/config/`](lua/config/)** | Core editor options ([`options.lua`](lua/config/options.lua)), platform settings, autocommands, and health |
+| **[`lua/languages/`](lua/languages/)** | Central language registry ([`registry.lua`](lua/languages/registry.lua)) and per-language configs |
+| **[`lua/tools/`](lua/tools/)** | Unified tool registry ([`registry.lua`](lua/tools/registry.lua)) for LSP servers, formatters, and linters |
+| **[`lua/plugins/`](lua/plugins/)** | Plugin configurations (Telescope, nvim-tree, Oil, conform, nvim-lint, which-key, etc.) |
+| **[`lua/ide/`](lua/ide/)** | Runner, language lifecycle, and execution helpers |
+| **[`lua/util/`](lua/util/)** | Cross-platform facts, process runners, and UI helpers |
 
 ## Quick Start
 
