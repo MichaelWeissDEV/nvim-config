@@ -35,7 +35,7 @@ cleanly, it would fail confusingly.
 
 Your terminal is not using a [Nerd Font](https://www.nerdfonts.com/).
 Neovim only prints codepoints; the font is a terminal setting. Install e.g.
-JetBrainsMono Nerd Font and select it in your terminal profile. Nothing is
+JetBrainsMonoNL Nerd Font and select it in your terminal profile. Nothing is
 broken in the meantime — see {doc}`ui`.
 
 ## Daily use

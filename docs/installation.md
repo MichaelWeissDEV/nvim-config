@@ -12,7 +12,7 @@
   scripts.
 - Optional, but recommended: **ripgrep** (`rg`) and **fd** for faster
   Telescope search; a [Nerd Font](https://www.nerdfonts.com/) (e.g.
-  JetBrainsMono Nerd Font) for icons in the statusline/file explorer/which-key.
+  JetBrainsMonoNL Nerd Font) for icons in the statusline/file explorer/which-key.
 
 Nothing else is required to get a working editor. Language servers,
 formatters, linters and debuggers are all optional and installed later,
