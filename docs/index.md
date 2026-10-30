@@ -21,6 +21,7 @@ or run it standalone on any Linux distribution, macOS, or Windows.
 Start here if you're new:
 
 - {doc}`installation` — clone, first launch, what to expect
+- {doc}`packages` — signed Arch installation, safe updates and migration
 - {doc}`quickstart` — the first five minutes
 - {doc}`architecture` — how the pieces fit together and why
 
@@ -31,6 +32,7 @@ Then dig into whichever part you need:
 :caption: Getting started
 
 installation
+packages
 quickstart
 architecture
 platform
@@ -108,7 +110,7 @@ what's missing.
 
 This Neovim setup is built to integrate seamlessly with the sibling configurations:
 
-- **[Arch Dotfiles Hub (`arch-dotfiles`)](https://arch-dotfiles.readthedocs.io/en/latest/)**: Central repository uniting the Arch Linux + Hyprland desktop, window manager, and shell environments (managed via `adot update`, `adot update nvim`, `adot status`).
+- **[Arch Dotfiles Hub (`arch-dotfiles`)](https://arch-dotfiles.readthedocs.io/en/latest/)**: Installer and signed Pacman registry for independent configuration repositories; update with `pacman -Syu` or `adot update`.
 - **[tmux-config](https://tmux-config.readthedocs.io/en/latest/)**: Navigates panes seamlessly with Neovim splits using `Ctrl+h/j/k/l`.
 - **[ghostty-config](https://ghostty-config.readthedocs.io/en/latest/)** & **[kitty-config](https://kitty-config.readthedocs.io/en/latest/)**: Fast GPU terminals matching the Catppuccin Mocha theme.
 - **[vim-config](https://vim-config.readthedocs.io/en/latest/)**: Zero-dependency standalone Vim configuration mirroring Neovim's leader keys and navigation.

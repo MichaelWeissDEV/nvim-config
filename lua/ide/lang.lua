@@ -138,8 +138,7 @@ function M.resolve_targets(target)
       else
         local lang = languages.resolve(raw)
         if not lang then
-          return nil,
-            ("Unknown language or pack '%s'. See :LangInstall <Tab> or :LangPacks."):format(raw)
+          return nil, ("Unknown language or pack '%s'. See :LangInstall <Tab> or :LangPacks."):format(raw)
         end
         push(lang)
         table.insert(labels, lang.id)

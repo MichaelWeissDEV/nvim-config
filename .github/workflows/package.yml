@@ -1,0 +1,7 @@
+name: Package safety
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  package:
+    uses: MichaelWeissDEV/dotfiles/.github/workflows/component.yml@main

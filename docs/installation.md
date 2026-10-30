@@ -1,5 +1,8 @@
 # Installation
 
+For a managed Arch Linux package, see {doc}`packages`. The following instructions
+describe a separate standalone Git installation; do not mix both workflows.
+
 ## Requirements
 
 - **Neovim 0.12.0 or newer.** Check with `nvim --version`. This is a hard
