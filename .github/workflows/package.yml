@@ -5,3 +5,5 @@ permissions:
 jobs:
   package:
     uses: MichaelWeissDEV/dotfiles/.github/workflows/component.yml@main
+    secrets:
+      DOTFILES_DISPATCH_TOKEN: ${{ secrets.DOTFILES_DISPATCH_TOKEN }}
