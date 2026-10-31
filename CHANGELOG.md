@@ -18,6 +18,15 @@ are not listed individually — see `git log -- pack/vendor/` for those.
 
 ## [Unreleased]
 
+### Fixed
+
+- Removed three stale `gitlink` entries under `pack/vendor/start/LuaSnip/deps/`
+  (`jsregexp`, `jsregexp005`, `jsregexp006`). They pointed at an optional,
+  never-built native module and made every `git submodule` invocation --
+  including CI checkout cleanup -- fail with "No url found for submodule
+  path". Nothing changes at runtime: the config never shipped or loaded
+  `jsregexp`, and LuaSnip keeps its built-in Lua fallback.
+
 ### Added
 
 - **`:LangInstall [lang]` / `:LangInfo [lang]`** (`<leader>tl` /
